@@ -3,7 +3,6 @@ package com.dev334.blood.UI.Login;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -16,26 +15,33 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dev334.blood.Database.TinyDB;
+import com.dev334.blood.Model.User;
 import com.dev334.blood.R;
-import com.dev334.blood.UI.Login.LoginActivity;
-import com.google.android.material.snackbar.Snackbar;
+import com.dev334.blood.Retrofit.RetrofitAPI;
+import com.dev334.blood.UI.HomeActivity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class signUpFragment extends Fragment {
 
     private View view;
     private Button SignUp, GoogleSignUp;
-    private TextView EditEmail, EditPassword, Login;
-    private String Email,Password;
+    private TextView EditEmail, EditPassword, Login,EditName;
+    private String Email,Password,Name;
     private int RC_SIGN_IN=101;
     private ProgressBar loading;
     private ConstraintLayout parentLayout;
     private ArrayList<String> interest;
-
+    public RetrofitAPI retrofitAPI;
+    private String TAG="signUpFragment";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +59,15 @@ public class signUpFragment extends Fragment {
         EditPassword=view.findViewById(R.id.editPasswordSignUp);
         loading=view.findViewById(R.id.SignUpLoading);
         Login=view.findViewById(R.id.LoginTextSignup);
+        EditName=view.findViewById(R.id.editUserName);
 
+        Gson gson=new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(getString(R.string.BaseURL))
+                                .addConverterFactory(GsonConverterFactory.create(gson))
+                                .build();
+
+        retrofitAPI = retrofit.create(RetrofitAPI.class);
         Login.setOnClickListener(v->{
             ((LoginActivity)getActivity()).openLogin();
         });
@@ -70,9 +84,11 @@ public class signUpFragment extends Fragment {
             public void onClick(View v) {
                 loading.setVisibility(View.VISIBLE);
                 Email=EditEmail.getText().toString();
+                Name=EditName.getText().toString();
                 Password=EditPassword.getText().toString();
-                if(check(Email,Password)){
 
+                if(check(Name,Email,Password)){
+                   registerUser();
                 }
             }
         });
@@ -88,7 +104,33 @@ public class signUpFragment extends Fragment {
         return view;
     }
 
-    private boolean check(String email, String password) {
+    private void registerUser() {
+        User user = new User(Name,Email,Password);
+        Call<User> call = retrofitAPI.registerUser(user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(getActivity(),response.code(),Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                //Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_LONG).show();
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
+    private boolean check(String name,String email, String password) {
+        if(name.isEmpty()){
+            EditName.setError("Name is empty");
+            return false;
+        }
         if(email.isEmpty()){
             EditEmail.setError("Email is empty");
             return false;

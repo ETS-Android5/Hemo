@@ -47,8 +47,6 @@ public class createProfileFragment extends Fragment {
 
         EditName=view.findViewById(R.id.EditName);
         EditOrg=view.findViewById(R.id.EditOrg);
-        EditFB=view.findViewById(R.id.EditFacebook);
-        EditInsta=view.findViewById(R.id.EditInsta);
         btnCreate=view.findViewById(R.id.btnCreate);
         EditInterest=view.findViewById(R.id.EditInterest);
 

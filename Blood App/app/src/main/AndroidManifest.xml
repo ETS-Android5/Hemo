@@ -11,13 +11,22 @@
         android:theme="@style/Theme.Blood">
         <activity
             android:name=".UI.SplashScreen"
-            android:exported="true">
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity android:name=".UI.Login.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

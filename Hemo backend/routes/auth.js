@@ -106,10 +106,8 @@ const sendVerificationEmail = ({name, _id, email}, res, next)=>{
             console.log(savedVerify)
             res.status=200
             res.send({
-                success:{
                     status: 200,
                     message: 'Email sent'
-                }
             })
         }
     });
@@ -146,7 +144,10 @@ router.post('/login', async (req, res, next)=>{
 
     //create web token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-    res.header('auth_token', token).send(token)
+    res.header('auth_token', token).send({
+        status: 200,
+        message: 'Successful'
+    })
 
 })
 

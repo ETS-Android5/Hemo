@@ -1,4 +1,5 @@
-const express=require('express')
+const express=require('express');
+const createError = require('http-errors');
 const app=express();
 require('dotenv').config();
 const mongoose=require('mongoose')
@@ -13,6 +14,20 @@ app.use(express.json())
 app.use('/api/user', authRoute);
 
 app.use('/api/data', dataRoute);
+
+app.use((req, res, next)=>{
+    next(createError(404, 'Not found'))
+})
+
+app.use((err, req, res, next) =>{
+    res.status(err.status || 500);
+    res.send({
+        error: {
+            status: err.status || 500,
+            message: err.message
+        }
+    })
+})
 
 app.listen(3000, ()=>{
     console.log('Server up and running')

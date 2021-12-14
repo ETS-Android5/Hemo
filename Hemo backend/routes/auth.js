@@ -7,7 +7,8 @@ const {v4: uuidv4} = require("uuid")
 
 const User=require('../model/User');
 const {registerValidation, loginValidation} = require('../validation')
-const UserVerifcation = require('../model/UserVerification')
+const UserVerifcation = require('../model/UserVerification');
+const createError = require('http-errors');
 
 //nodemailer transpoter
 let transporter = nodemailer.createTransport({
@@ -31,21 +32,27 @@ transporter.verify((error, success) =>{
 })
 
 //register new user
-router.post('/register', async (req, res)=>{
+router.post('/register', async (req, res, next)=>{
     
     //validating user data
     const {valid, error} = registerValidation(req.body)
     
     if (!valid) {
-         res.send(error)
+         next(createError(400, error))
          return;
     }
 
     //checking if the user already exsist
-    const emailExist= await User.findOne({email: req.body.email})
 
-    if(emailExist){
-        res.send("Email already exsist")
+    try{
+        const emailExist= await User.findOne({email: req.body.email})
+
+        if(emailExist){
+            throw createError(400, "Email already exist")
+            return;
+        }
+    }catch(err){
+        next(err)
         return;
     }
 
@@ -65,17 +72,17 @@ router.post('/register', async (req, res)=>{
             console.log('Sending email')
             sendVerificationEmail(result, res);
         })
-        res.send(savedUser)
     }catch(err){
-        res.send(err)
+        next(err)
+        return;
     }
 })
 
-const sendVerificationEmail = ({name, _id, email}, res)=>{
+const sendVerificationEmail = ({name, _id, email}, res, next)=>{
     //url to be used in the email
 
     const uniqueString = uuidv4() + _id;
-    const curUrl= "http://localhost:3000/"+"verify/"+uniqueString;
+    const curUrl= "http://localhost:3000/"+"api/user/verify/"+uniqueString;
 
     var mailOptions = {
         from: process.env.AUTH_EMAIL,
@@ -87,41 +94,53 @@ const sendVerificationEmail = ({name, _id, email}, res)=>{
      };
     transporter.sendMail(mailOptions, async function (error, response) {
         if (error) {
-            console.log(error);
+            next(error)
+            return;
         }else{
             const userVerify= new UserVerifcation({
                 userID: _id, 
                 uniqueString: uniqueString
             })
             const savedVerify=await userVerify.save()
-            console.log('message sent!!!')
+            console.log('message sent')
             console.log(savedVerify)
+            res.status=200
+            res.send({
+                success:{
+                    status: 200,
+                    message: 'Email sent'
+                }
+            })
         }
     });
 
 }
 
-router.post('/login', async (req, res)=>{
+router.post('/login', async (req, res, next)=>{
     //validating user data
     const {valid, error} = loginValidation(req.body)
     
     if (!valid) {
-        res.send(error)
+        next(createError(400, error))
         return;
     }
 
     //checking if the email exsist
-    const user= await User.findOne({email: req.body.email})
+    try{
+        const user= await User.findOne({email: req.body.email})
 
-    if(!user){
-        res.send("Email does not exsist")
+        if(!user){
+            throw createError(404, "Incorrect Email")
+        }
+    }catch(error){
+        next(error)
         return;
     }
 
     //checking if password is correct
     const validPass = await bcrypt.compare(req.body.password, user.password)
     if(!validPass){
-        res.status(400).send("Invalid Password")
+        next(createError(400, "Incorrect password"))
         return;
     }
 
@@ -131,20 +150,24 @@ router.post('/login', async (req, res)=>{
 
 })
 
-router.get('/verify/:us', async (req, res)=>{
+router.get('/verify/:us', async (req, res, next)=>{
     const {us}=req.params
-    const user= await UserVerifcation.findOne({uniqueString: us})
-    console.log(user)
-    if(user){
-        const tuser= await User.updateOne({_id: user.userID}, {verified: true})
-        if(tuser){
-            await UserVerifcation.deleteOne({uniqueString: us})
-            res.send("Verified")
+    try{
+        const user= await UserVerifcation.findOne({uniqueString: us})
+        if(user){
+            const tuser= await User.updateOne({_id: user.userID}, {verified: true})
+            if(tuser){
+                await UserVerifcation.deleteOne({uniqueString: us})
+                res.send("Verified")
+            }else{
+                res.send("Already verified")
+            }
         }else{
-
+            throw createError(404, 'User not found')
         }
-    }else{
-        res.send("ERROR Verifying")
+    }catch(error){
+        next(error)
+        return
     }
 })
 

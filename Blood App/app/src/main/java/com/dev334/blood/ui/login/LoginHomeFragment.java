@@ -1,4 +1,4 @@
-package com.dev334.blood.UI.Login;
+package com.dev334.blood.ui.login;
 
 import android.os.Bundle;
 
@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.dev334.blood.R;
 
-public class loginHomeFragment extends Fragment {
+public class LoginHomeFragment extends Fragment {
 
     private Button SignUp;
     private View view;

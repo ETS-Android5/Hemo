@@ -1,12 +1,9 @@
-package com.dev334.blood.UI.Login;
+package com.dev334.blood.ui.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.dev334.blood.Database.TinyDB;
+import com.dev334.blood.database.TinyDB;
 import com.dev334.blood.R;
 
 import java.util.ArrayList;
 
-public class createProfileFragment extends Fragment {
+public class CreateProfileFragment extends Fragment {
 
     private View view;
     private TinyDB tinyDB;
@@ -48,14 +45,12 @@ public class createProfileFragment extends Fragment {
         EditName=view.findViewById(R.id.EditName);
         EditOrg=view.findViewById(R.id.EditOrg);
         btnCreate=view.findViewById(R.id.btnCreate);
-        EditInterest=view.findViewById(R.id.EditInterest);
 
 
         Organisations=new ArrayList<>();
         userInterest=new ArrayList<>();
         tinyDB=new TinyDB(getContext());
         userInterest=tinyDB.getListString("UserInterest");
-        setupText();
         PhoneNo=tinyDB.getString("PhoneNumber");
 
         adapter = new ArrayAdapter<String>(getActivity(),
@@ -68,10 +63,6 @@ public class createProfileFragment extends Fragment {
             }
         });
 
-        EditInterest.setOnClickListener(v->{
-
-        });
-
 
 
         btnCreate.setOnClickListener(v -> {
@@ -81,21 +72,11 @@ public class createProfileFragment extends Fragment {
             Instagram=EditInsta.getText().toString();
 
             if(check()){
-                ((LoginActivity)getActivity()).setProfileData(Username, Organisation, Facebook, Instagram, userInterest);
-                ((LoginActivity)getActivity()).openPhoneAuth();
+                //create profile
             }
         });
         
         return view;
-    }
-
-    private void setupText() {
-
-        uInterest="";
-        for(int i=0;i<userInterest.size();i++){
-            uInterest=uInterest+userInterest.get(i)+" | ";
-        }
-        EditInterest.setText(uInterest);
     }
 
 
@@ -141,7 +122,6 @@ public class createProfileFragment extends Fragment {
         super.onResume();
         EditOrg.setText(tinyDB.getString("Organisation"));
         userInterest=tinyDB.getListString("UserInterest");
-        setupText();
     }
     
 }

@@ -1,4 +1,4 @@
-package com.dev334.blood.UI.Login;
+package com.dev334.blood.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,18 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.dev334.blood.Database.TinyDB;
-import com.dev334.blood.Model.User;
+import com.dev334.blood.database.TinyDB;
+import com.dev334.blood.model.ApiResponse;
+import com.dev334.blood.model.User;
 import com.dev334.blood.R;
-import com.dev334.blood.Retrofit.RetrofitAPI;
-import com.dev334.blood.UI.HomeActivity;
+import com.dev334.blood.util.app.AppConfig;
+import com.dev334.blood.util.retrofit.ApiClient;
+import com.dev334.blood.util.retrofit.ApiInterface;
+import com.dev334.blood.ui.HomeActivity;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,14 +31,12 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class loginFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
     private View view;
-    private Button Login, GoogleSignUp;
+    private Button Login;
     private TextView EditEmail, EditPassword;
     private TextView ForgotPwd, NewUser;
     private String Email,Password;
@@ -46,8 +46,8 @@ public class loginFragment extends Fragment {
     private TinyDB tinyDB;
     private Map<String, Object> map;
     ArrayList<String> interest;
-    public RetrofitAPI retrofitAPI;
     private static String TAG="LoginFragmentLog";
+    private AppConfig appConfig;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,27 +63,19 @@ public class loginFragment extends Fragment {
         tinyDB=new TinyDB(getContext());
         map=new HashMap<>();
 
-        GoogleSignUp=view.findViewById(R.id.GoogleSignUpLogin);
         ForgotPwd=view.findViewById(R.id.ForgetPasswordLogin);
         NewUser=view.findViewById(R.id.LoginTextSignup);
         EditEmail= view.findViewById(R.id.editEmailLogin);
         EditPassword=view.findViewById(R.id.editPasswordLogin);
         loading=view.findViewById(R.id.loginLoading);
         interest=new ArrayList<>();
+        appConfig=new AppConfig(getContext());
 
         loading.setVisibility(View.INVISIBLE);
 
         Login=view.findViewById(R.id.btnLogin);
 
         parentLayout=view.findViewById(R.id.LoginFragmentLayout);
-
-        Gson gson=new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.BaseURL))
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,32 +109,36 @@ public class loginFragment extends Fragment {
 
     private void SignInUser() {
 
-
         User user = new User(Email,Password);
-        Call<User> call = retrofitAPI.loginUser(user);
-        call.enqueue(new Callback<User>() {
+        Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
+        call.enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if(!response.isSuccessful()){
+
+                    if(response.code()==401){
+                        Toast.makeText(getContext(), "Email not verified", Toast.LENGTH_SHORT).show();
+                        loading.setVisibility(View.INVISIBLE);
+                        return;
+                    }
+                    Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onResponse: "+response.code());
+                    loading.setVisibility(View.INVISIBLE);
                     return;
                 }
+
                 Log.i(TAG, "onResponse: "+response.message());
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
+                Log.i(TAG, "onResponse: "+response.headers().get("auth_token"));
+                appConfig.setAuthToken(response.headers().get("auth_token"));
+                ((LoginActivity)getActivity()).openCreateProfile();
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.getMessage());
+                loading.setVisibility(View.INVISIBLE);
             }
         });
-
-
-
-    }
-
-    private void checkProfileCreated() {
 
     }
 

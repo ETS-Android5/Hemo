@@ -130,24 +130,29 @@ router.post('/login', async (req, res, next)=>{
         if(!user){
             throw createError(404, "Incorrect Email")
         }
+
+        if(!user.verified){
+            next(createError(401, "Email not verified"))
+            return;
+        }
+
+        const validPass = await bcrypt.compare(req.body.password, user.password)
+        if(!validPass){
+            next(createError(400, "Incorrect password"))
+            return;
+        }
+
+        //create web token
+        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+        res.header('auth_token', token).send({
+            status: 200,
+            message: 'Successful'
+        })
+
     }catch(error){
         next(error)
         return;
     }
-
-    //checking if password is correct
-    const validPass = await bcrypt.compare(req.body.password, user.password)
-    if(!validPass){
-        next(createError(400, "Incorrect password"))
-        return;
-    }
-
-    //create web token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-    res.header('auth_token', token).send({
-        status: 200,
-        message: 'Successful'
-    })
 
 })
 

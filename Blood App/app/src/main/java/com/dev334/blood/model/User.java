@@ -1,4 +1,4 @@
-package com.dev334.blood.Model;
+package com.dev334.blood.model;
 
 public class User {
     private String name;

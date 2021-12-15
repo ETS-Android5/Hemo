@@ -5,7 +5,7 @@
     android:id="@+id/signUpFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Login.signUpFragment">
+    tools:context=".ui.login.SignUpFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout13"
@@ -36,6 +36,7 @@
             android:text="Already have an account? Click Here"
             android:textColor="@color/hint"
             android:textSize="16sp" />
+
         <EditText
             android:id="@+id/editUserName"
             android:layout_width="match_parent"
@@ -44,7 +45,7 @@
             android:layout_marginTop="48dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/primary_outline_textbox"
-            android:drawableStart="@drawable/ic_baseline_email_24"
+            android:drawableStart="@drawable/ic_baseline_person_24"
             android:drawablePadding="8dp"
             android:ems="10"
             android:fontFamily="@font/poppinsregular"
@@ -55,14 +56,15 @@
             android:paddingRight="16dp"
             android:paddingBottom="10dp"
             android:textColor="@color/Text"
-            android:textColorHint="@color/GreyPrimary"
+            android:textColorHint="@color/hint"
             android:textSize="16sp" />
+
         <EditText
             android:id="@+id/editEmailSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/primary_outline_textbox"
             android:drawableStart="@drawable/ic_baseline_email_24"
@@ -76,7 +78,7 @@
             android:paddingRight="16dp"
             android:paddingBottom="10dp"
             android:textColor="@color/Text"
-            android:textColorHint="@color/GreyPrimary"
+            android:textColorHint="@color/hint"
             android:textSize="16sp" />
 
         <EditText
@@ -98,34 +100,9 @@
             android:paddingRight="16dp"
             android:paddingBottom="12dp"
             android:textColor="@color/Text"
-            android:textColorHint="@color/GreyPrimary"
+            android:textColorHint="@color/hint"
             android:textSize="16sp" />
 
-
-        <TextView
-            android:id="@+id/textView48"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="or"
-            android:textAlignment="center"
-            android:textColor="@color/Text"
-            android:textSize="18sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/GoogleSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="48dp"
-            android:background="@color/GreyPrimary"
-            android:drawableLeft="@drawable/ic_icons8_google"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:text="Countinue with Google"
-            android:textAllCaps="false"
-            android:textColor="@color/Text" />
 
     </LinearLayout>
 
@@ -157,6 +134,7 @@
         android:layout_height="32dp"
         app:layout_constraintBottom_toTopOf="@+id/SignUpButton"
         app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/ProgressBarStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout13" />
 

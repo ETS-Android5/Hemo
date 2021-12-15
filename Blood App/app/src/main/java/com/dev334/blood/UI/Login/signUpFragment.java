@@ -111,16 +111,16 @@ public class signUpFragment extends Fragment {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
-                    Toast.makeText(getActivity(),response.code(),Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "onResponse: "+response.code());
                     return;
                 }
+                Log.i(TAG, "onResponse: "+response.message());
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                //Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_LONG).show();
                 Log.i(TAG, "onFailure: "+t.getMessage());
             }
         });

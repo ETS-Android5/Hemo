@@ -2,11 +2,6 @@ package com.dev334.blood.UI.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +10,27 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+
 import com.dev334.blood.Database.TinyDB;
+import com.dev334.blood.Model.User;
 import com.dev334.blood.R;
+import com.dev334.blood.Retrofit.RetrofitAPI;
+import com.dev334.blood.UI.HomeActivity;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class loginFragment extends Fragment {
@@ -37,6 +46,7 @@ public class loginFragment extends Fragment {
     private TinyDB tinyDB;
     private Map<String, Object> map;
     ArrayList<String> interest;
+    public RetrofitAPI retrofitAPI;
     private static String TAG="LoginFragmentLog";
 
     @Override
@@ -66,6 +76,14 @@ public class loginFragment extends Fragment {
         Login=view.findViewById(R.id.btnLogin);
 
         parentLayout=view.findViewById(R.id.LoginFragmentLayout);
+
+        Gson gson=new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.BaseURL))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +116,29 @@ public class loginFragment extends Fragment {
     }
 
     private void SignInUser() {
+
+
+        User user = new User(Email,Password);
+        Call<User> call = retrofitAPI.loginUser(user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.message());
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+
+
 
     }
 

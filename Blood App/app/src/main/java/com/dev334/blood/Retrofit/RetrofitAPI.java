@@ -18,4 +18,8 @@ public interface RetrofitAPI {
 
     @POST("/api/user/register")
     Call<User> registerUser(@Body User user);
+
+    @POST("/api/user/login")
+    Call<User> loginUser(@Body User user);
+
 }

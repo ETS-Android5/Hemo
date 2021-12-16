@@ -79,5 +79,98 @@ const loginValidation = (body)=>{
     }
 }
 
+const profileValidation = (body)=>{
+  const schema = {
+    "type": "object",
+    "properties": {
+      "dob": {
+      },
+      "location": {
+        "type": "string"
+      },
+      "weight": {
+        "type": "integer"
+      },
+      "gender":{
+        "type":"string"
+      },
+      "blood":{
+        "type":"string"
+      },
+      "past":{
+        "type": "string"
+      }
+
+    },
+    "required": [
+      "dob",
+      "location",
+      "weight",
+      "gender",
+      "blood"
+    ]
+  }
+  const valid = ajv.validate(schema, body)
+  var error=ajv.errors;
+  if(!valid){
+      error = ajv.errors[0].message
+  }
+
+  return {
+      valid,
+      error
+  }
+}
+
+const bloodValidation = (body)=>{
+  const schema = {
+    "type": "object",
+    "properties": {
+      "latitude": {
+        "type": "number"
+      },
+      "longitude":{
+        "type": "number"
+      },
+      "location": {
+        "type": "string"
+      },
+      "blood": {
+        "type": "string"
+      },
+      "quantity":{
+        "type":"integer"
+      },
+      "user":{
+        "type":"string"
+      },
+      "status":{
+        "type": "boolean"
+      }
+
+    },
+    "required": [
+      "latitude",
+      "longitude",
+      "location",
+      "quantity",
+      "blood",
+      "user"
+    ]
+  }
+  const valid = ajv.validate(schema, body)
+  var error=ajv.errors;
+  if(!valid){
+      error = ajv.errors[0].message
+  }
+
+  return {
+      valid,
+      error
+  }
+}
+
+module.exports.profileValidation = profileValidation;
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.bloodValidation = bloodValidation;

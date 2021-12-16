@@ -6,7 +6,7 @@ const {v4: uuidv4} = require("uuid")
 
 
 const User=require('../model/user');
-const {registerValidation, loginValidation} = require('../validation')
+const {registerValidation, loginValidation, profileValidation} = require('../validation')
 const UserVerifcation = require('../model/user_verification');
 const createError = require('http-errors');
 
@@ -150,6 +150,36 @@ exports.user_login = async (req, res, next)=>{
 
 }
 
+
+//create Profile
+exports.user_create_profile = async (req, res, next)=>{
+    const {valid, error} = profileValidation(req.body);
+    if(!valid){
+        next(createError(400, error))
+        return
+    }
+    
+    try{
+
+    const {dob, location, weight, gender, blood, past} = req.body
+    const user = await User.updateOne({dob, location, weight, gender, blood, past})
+
+    if(user){
+        res.status(200).send({
+            status: 200,
+            message: "Profile created"
+        })
+    }else{
+        throw createError(404, "User not found")
+    }
+
+    }catch(error){
+        next(error)
+    }
+
+}
+
+
 // verifying user email
 exports.user_verify = async (req, res, next)=>{
     const {us}=req.params
@@ -172,7 +202,24 @@ exports.user_verify = async (req, res, next)=>{
     }
 }
 
-
+//delete user
+exports.user_delete= async (req, res, next)=>{
+    const {id} = req.params
+    try{
+        const user = await User.findOneAndDelete({_id: id})
+        if(user){
+            res.status(200).send({
+                status: 200,
+                message: "User deleted"
+            })
+        }else{
+            throw createError(404, "User not found")
+        }
+    }catch(error){
+        next(error)
+        return
+    }
+}
 
 
 //send verification email 

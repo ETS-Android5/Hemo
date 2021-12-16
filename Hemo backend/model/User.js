@@ -26,7 +26,32 @@ const userSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         default: false
+    },
+    location: {
+        type: String
+    },
+    dob:{
+        type: String
+    },
+    past:{
+        type: String
+    },
+    last:{
+        type: Date
+    },
+    blood:{
+        type: String,
+        enum: ['AB+', 'AB-','A+','A-','B+','B-','O+', 'O-']
+    },
+    gender: {
+        type: String,
+        enum: ['Male', 'Female', 'Other']
+    },
+    weight: {
+        type: Number,
+        min: 45
     }
+
 })
 
 const User= mongoose.model('User', userSchema);

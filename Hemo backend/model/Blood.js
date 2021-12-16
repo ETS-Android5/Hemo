@@ -1,7 +1,27 @@
 const mongoose = require('mongoose')
 
 const bloodSchema = new mongoose.Schema({
-    city:{
+    user:{
+        type: String,
+        required: true
+    },
+    status: {
+        type: Boolean,
+        default: true
+    },
+    created: {
+        type: Date,
+        default: Date.now()
+    },
+    latitude:{
+        type: Number,
+        required: true
+    },
+    longitude:{
+        type: Number,
+        required: true
+    },
+    location:{
         type: String,
         required: true
     },
@@ -9,8 +29,8 @@ const bloodSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phone:{
-        type: String,
+    quantity:{
+        type: Number,
         required: true
     }
 })

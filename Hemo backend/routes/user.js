@@ -18,5 +18,11 @@ router.get('/users/:id', verify, UserController.user_find_one)
 //getting all user
 router.get('/users/', verify, UserController.user_find_all)
 
+//create profile
+router.post('/create', verify, UserController.user_create_profile)
+
+//delete profile
+router.post('/delete/:id', verify, UserController.user_delete)
+
 
 module.exports=router

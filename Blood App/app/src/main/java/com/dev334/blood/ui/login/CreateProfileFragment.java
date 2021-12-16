@@ -21,11 +21,11 @@ import java.util.TimeZone;
 public class CreateProfileFragment extends Fragment {
 
     private View view;
-    private String selectedState,selectedDistrict;
+    private String selectedState,selectedDistrict,selectedBloodGroup;
     private Spinner stateSpinner,districtSpinner,bloodGroupSpinner;
     private ArrayAdapter<CharSequence> stateAdapter,districtAdapter,bloodGroupAdapter;
     private EditText weight,gender,dob;
-    String weightString,genderString,dobString;
+    private String weightString,genderString,dobString;
     DatePickerDialog.OnDateSetListener setListener;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,9 @@ public class CreateProfileFragment extends Fragment {
          gender=view.findViewById(R.id.EditGender);
          weight=view.findViewById(R.id.EditWeight);
 
+
+         genderString=gender.getText().toString();
+         weightString=weight.getText().toString();
 
          stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
              @Override
@@ -187,6 +190,18 @@ public class CreateProfileFragment extends Fragment {
                      }
                      districtAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                      districtSpinner.setAdapter(districtAdapter);
+                     districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                         @Override
+                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                             selectedDistrict=districtSpinner.getSelectedItem().toString();
+                         }
+
+                         @Override
+                         public void onNothingSelected(AdapterView<?> adapterView) {
+
+                         }
+                     });
+
                  }
 
              }
@@ -197,7 +212,21 @@ public class CreateProfileFragment extends Fragment {
              }
          });
 
-      //  selectedDistrict=districtSpinner.getSelectedItem().toString();
+
+         bloodGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+             @Override
+             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                 selectedBloodGroup=bloodGroupSpinner.getSelectedItem().toString();
+             }
+
+             @Override
+             public void onNothingSelected(AdapterView<?> adapterView) {
+
+             }
+         });
+
+
+
 
         dob=view.findViewById(R.id.EditDOB);
         Calendar calendar=Calendar.getInstance();

@@ -8,12 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.dev334.blood.database.TinyDB;
 import com.dev334.blood.R;
+import com.dev334.blood.database.TinyDB;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         FRAGMENT=getIntent().getIntExtra("FRAGMENT",0);
 
         if(FRAGMENT==0){
-            replaceFragment(loginHome);
+            replaceFragment(CreateProfileFragment);
         }else{
             replaceFragment(loginFrag);
         }

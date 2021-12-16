@@ -10,7 +10,7 @@ router.post('/register', UserController.user_register);
 router.post('/login', UserController.user_login);
 
 //verify user email
-router.post('/verify/:us', UserController.user_verify);
+router.get('/verify/:us', UserController.user_verify);
 
 //finding one user
 router.get('/users/:id', verify, UserController.user_find_one)

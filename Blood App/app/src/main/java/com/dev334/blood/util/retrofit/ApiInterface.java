@@ -23,4 +23,7 @@ public interface ApiInterface {
     @POST("/api/user/login")
     Call<ApiResponse> loginUser(@Body User user);
 
+    @POST("/api/user/create")
+    Call<ApiResponse> createUser(@Body User user);
+
 }

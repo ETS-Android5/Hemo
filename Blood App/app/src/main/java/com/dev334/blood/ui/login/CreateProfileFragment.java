@@ -2,21 +2,32 @@ package com.dev334.blood.ui.login;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.dev334.blood.R;
+import com.dev334.blood.model.ApiResponse;
+import com.dev334.blood.model.User;
+import com.dev334.blood.util.retrofit.ApiClient;
+import com.dev334.blood.util.retrofit.ApiInterface;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateProfileFragment extends Fragment {
 
@@ -26,7 +37,9 @@ public class CreateProfileFragment extends Fragment {
     private ArrayAdapter<CharSequence> stateAdapter,districtAdapter,bloodGroupAdapter;
     private EditText weight,gender,dob;
     private String weightString,genderString,dobString;
+    private Button nextButton;
     DatePickerDialog.OnDateSetListener setListener;
+    private String TAG="CreateProfile";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +68,7 @@ public class CreateProfileFragment extends Fragment {
 
          gender=view.findViewById(R.id.EditGender);
          weight=view.findViewById(R.id.EditWeight);
-
+         nextButton = view.findViewById(R.id.btnCreate);
 
          genderString=gender.getText().toString();
          weightString=weight.getText().toString();
@@ -248,9 +261,46 @@ public class CreateProfileFragment extends Fragment {
             }
         });
 
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(check()){
+                  createUser();
+                }
+            }
+
+
+        });
 
 
         return view;
+    }
+
+    private void createUser() {
+        User user = new User(weightString,genderString,dobString,selectedBloodGroup,selectedDistrict);
+        Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).createUser(user);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+
+            }
+        });
+
     }
 
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
@@ -263,15 +313,33 @@ public class CreateProfileFragment extends Fragment {
 
             dob.setText(date);
             dobString=date;
-
-
         }
     };
 
 
 
     private boolean check() {
-        return false;
+        if(!dobString.isEmpty()){
+            dob.setError("Enter your DOB");
+            return false;
+        }
+        if(!weightString.isEmpty()){
+            dob.setError("Enter your weight");
+            return false;
+        }
+        if(!genderString.isEmpty()){
+            dob.setError("Enter your Gender(M/F)");
+            return false;
+        }
+        if(selectedDistrict.equals("Select Your District")){
+            Toast.makeText(getContext(),"Enter your location",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(selectedBloodGroup.equals("Select Your Blood Group")){
+            Toast.makeText(getContext(),"Select your blood group",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     @Override

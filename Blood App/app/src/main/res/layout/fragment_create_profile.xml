@@ -8,37 +8,11 @@
     tools:context=".ui.login.CreateProfileFragment">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCreate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="32dp"
-        android:alpha="1"
-        android:background="@color/red_500"
-        android:fontFamily="@font/poppinsmedium"
-        android:gravity="center"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:text="Next"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnCreate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView49"
@@ -166,7 +140,7 @@
             android:backgroundTint="@color/Text"
             android:drawableLeft="@drawable/ic_baseline_place_24" />
 
-        <TextView
+        <EditText
             android:id="@+id/EditPastRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -176,7 +150,6 @@
             android:background="@drawable/primary_outline_textbox"
             android:drawableLeft="@drawable/ic_baseline_content_paste_24"
             android:drawablePadding="8dp"
-            android:focusableInTouchMode="false"
             android:fontFamily="@font/poppinsregular"
             android:hint="Past Record"
             android:paddingStart="16dp"
@@ -186,6 +159,27 @@
             android:textColor="@color/Text"
             android:textColorHint="@color/hint"
             android:textSize="16sp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            android:alpha="1"
+            android:background="@color/red_500"
+            android:fontFamily="@font/poppinsmedium"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="Next"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
 </RelativeLayout>

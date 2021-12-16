@@ -1,6 +1,5 @@
 package com.dev334.blood.ui.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.dev334.blood.R;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
-import com.dev334.blood.ui.HomeActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;

@@ -160,18 +160,18 @@ exports.user_create_profile = async (req, res, next)=>{
     }
     
     try{
+        const {email} = req.body
+        const {dob, location, weight, gender, blood, past} = req.body
+        const user = await User.findOneAndUpdate({email}, {dob, location, weight, gender, blood, past})
 
-    const {dob, location, weight, gender, blood, past} = req.body
-    const user = await User.updateOne({dob, location, weight, gender, blood, past})
-
-    if(user){
-        res.status(200).send({
-            status: 200,
-            message: "Profile created"
-        })
-    }else{
-        throw createError(404, "User not found")
-    }
+        if(user){
+            res.status(200).send({
+                status: 200,
+                message: "Profile created"
+            })
+        }else{
+            throw createError(404, "User not found")
+        }
 
     }catch(error){
         next(error)

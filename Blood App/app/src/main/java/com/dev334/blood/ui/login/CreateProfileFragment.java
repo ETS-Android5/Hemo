@@ -69,10 +69,6 @@ public class CreateProfileFragment extends Fragment {
          gender=view.findViewById(R.id.EditGender);
          weight=view.findViewById(R.id.EditWeight);
          nextButton = view.findViewById(R.id.btnCreate);
-
-         genderString=gender.getText().toString();
-         weightString=weight.getText().toString();
-
          stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
              @Override
              public void onItemSelected(AdapterView<?> parent, View v, int i, long l) {
@@ -264,6 +260,8 @@ public class CreateProfileFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                genderString=gender.getText().toString();
+                weightString=weight.getText().toString();
                 if(check()){
                   createUser();
                 }
@@ -277,7 +275,7 @@ public class CreateProfileFragment extends Fragment {
     }
 
     private void createUser() {
-        User user = new User(weightString,genderString,dobString,selectedBloodGroup,selectedDistrict);
+        User user = new User("kashyapaditya1234@gmail.com",Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
         Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).createUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -319,15 +317,15 @@ public class CreateProfileFragment extends Fragment {
 
 
     private boolean check() {
-        if(!dobString.isEmpty()){
+        if(dobString.isEmpty()){
             dob.setError("Enter your DOB");
             return false;
         }
-        if(!weightString.isEmpty()){
+        if(weightString.isEmpty()){
             dob.setError("Enter your weight");
             return false;
         }
-        if(!genderString.isEmpty()){
+        if(genderString.isEmpty()){
             dob.setError("Enter your Gender(M/F)");
             return false;
         }

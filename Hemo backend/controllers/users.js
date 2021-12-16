@@ -155,6 +155,7 @@ exports.user_login = async (req, res, next)=>{
 exports.user_create_profile = async (req, res, next)=>{
     const {valid, error} = profileValidation(req.body);
     if(!valid){
+        console.log(error);
         next(createError(400, error))
         return
     }

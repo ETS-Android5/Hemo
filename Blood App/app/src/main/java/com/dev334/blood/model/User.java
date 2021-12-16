@@ -4,10 +4,10 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private String weight;
+    private Integer weight;
     private String gender;
     private String dob;
-    private String bloodGroup;
+    private String blood;
     private String location;
     public User(){
         //empty
@@ -24,11 +24,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String weight, String gender, String dob, String bloodGroup, String location) {
+    public User(String email,Integer weight, String gender, String dob, String bloodGroup, String location) {
+        this.email=email;
         this.weight = weight;
         this.gender = gender;
         this.dob = dob;
-        this.bloodGroup = bloodGroup;
+        this.blood = bloodGroup;
         this.location = location;
     }
 
@@ -44,7 +45,7 @@ public class User {
         return password;
     }
 
-    public String getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
@@ -57,7 +58,7 @@ public class User {
     }
 
     public String getBloodGroup() {
-        return bloodGroup;
+        return blood;
     }
 
     public String getLocation() {

@@ -84,6 +84,7 @@ const profileValidation = (body)=>{
     "type": "object",
     "properties": {
       "dob": {
+        "type": "string"
       },
       "location": {
         "type": "string"

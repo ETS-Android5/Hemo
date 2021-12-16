@@ -31,6 +31,35 @@ transporter.verify((error, success) =>{
     }
 })
 
+//find one user
+exports.user_find_one = async (req, res, next)=>{
+    const {id} = req.params
+    //finding user
+    try{
+        const user= User.findOne({_id: id})
+        if(user){
+            res.status(200).send(user) 
+        }else{
+            throw createError(404, 'Not found')
+        }
+    }catch(error){
+        next(error)
+        return
+    }
+
+}
+
+//getting all users
+exports.user_find_all = async (req, res, next)=>{
+    try{
+        const users=await User.find()
+        res.send(users)
+    }catch(error){
+        next(error)
+        return
+    }
+}
+
 
 // registering new user
 exports.user_register= async (req, res, next)=>{

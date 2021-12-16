@@ -3,8 +3,8 @@ const createError = require('http-errors');
 const app=express();
 require('dotenv').config();
 const mongoose=require('mongoose')
-const authRoute = require('./routes/user');
-const dataRoute=require('./routes/data')
+const userRoute = require('./routes/user');
+const bloodRoute=require('./routes/blood')
 
 mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true}, ()=>{
     console.log('Mongo DB running')
@@ -13,10 +13,10 @@ app.use(express.json())
 
 
 //authentication route
-app.use('/api/user', authRoute);
+app.use('/api/user', userRoute);
 
 //data route
-app.use('/api/data', dataRoute);
+app.use('/api/blood', bloodRoute);
 
 
 

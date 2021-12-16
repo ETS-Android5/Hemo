@@ -3,17 +3,23 @@ const createError = require('http-errors');
 const app=express();
 require('dotenv').config();
 const mongoose=require('mongoose')
-const authRoute = require('./routes/auth');
+const authRoute = require('./routes/user');
 const dataRoute=require('./routes/data')
 
 mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true}, ()=>{
     console.log('Mongo DB running')
 })
-
 app.use(express.json())
+
+
+//authentication route
 app.use('/api/user', authRoute);
 
+//data route
 app.use('/api/data', dataRoute);
+
+
+
 
 app.use((req, res, next)=>{
     next(createError(404, 'Not found'))

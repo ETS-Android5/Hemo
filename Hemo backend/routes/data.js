@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { verify } = require('jsonwebtoken');
-const Blood = require('../model/Blood');
-const User=require('../model/User');
+const verify = require('../middleware/verify-token')
+const Blood = require('../model/blood');
+const User=require('../model/user');
 const createError =  require('http-errors')
 
 router.get('/user/:id',verify, async (req, res, next)=>{
@@ -19,14 +19,14 @@ router.get('/user/:id',verify, async (req, res, next)=>{
     }
 })
 
-router.get('/users', async (req, res, next)=>{
+router.get('/users', verify, async (req, res, next)=>{
     try{
         const users=await User.find()
+        res.send(users)
     }catch(error){
         next(error)
         return
     }
-    res.send(users)
 })
 
 router.get('/blood/req', verify, async (req, res,next)=>{

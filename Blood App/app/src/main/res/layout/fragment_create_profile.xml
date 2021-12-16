@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="64dp"
     tools:context=".ui.login.CreateProfileFragment">
 
 
@@ -61,28 +62,19 @@
             android:textColor="@color/hint"
             android:textSize="16sp" />
 
-        <EditText
+
+        <Spinner
             android:id="@+id/EditBloodGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/spinner_indian_states"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_baseline_bloodtype_24"
-            android:drawablePadding="8dp"
-            android:ems="10"
-            android:fontFamily="@font/poppinsregular"
-            android:hint="Blood Group"
-            android:inputType="textPersonName"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/Text"
-            android:textColorHint="@color/hint"
-            android:textSize="16sp" />
+            android:backgroundTint="@color/Text" />
 
-        <TextView
+
+        <EditText
             android:id="@+id/EditDOB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,11 +96,12 @@
             android:textSize="16sp" />
 
         <LinearLayout
+            android:id="@+id/linear_layout_gender_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <EditText
                 android:id="@+id/EditGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,7 +122,7 @@
                 android:textColorHint="@color/hint"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/EditWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,46 +144,28 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/EditLocationState"
+        <Spinner
+            android:id="@+id/spinner_indian_states"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/linear_layout_gender_weight"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_baseline_place_24"
-            android:drawablePadding="8dp"
-            android:focusableInTouchMode="false"
-            android:fontFamily="@font/poppinsregular"
-            android:hint="State"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/Text"
-            android:textColorHint="@color/hint"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/EditLocationDist"
+            android:backgroundTint="@color/Text"
+            android:drawableLeft="@drawable/ic_baseline_place_24" />
+
+        <Spinner
+            android:id="@+id/spinner_indian_district"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/spinner_indian_states"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_baseline_place_24"
-            android:drawablePadding="8dp"
-            android:focusableInTouchMode="false"
-            android:fontFamily="@font/poppinsregular"
-            android:hint="District"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/Text"
-            android:textColorHint="@color/hint"
-            android:textSize="16sp" />
+            android:backgroundTint="@color/Text"
+            android:drawableLeft="@drawable/ic_baseline_place_24" />
+
         <TextView
             android:id="@+id/EditPastRecord"
             android:layout_width="match_parent"
@@ -213,4 +188,4 @@
             android:textSize="16sp" />
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

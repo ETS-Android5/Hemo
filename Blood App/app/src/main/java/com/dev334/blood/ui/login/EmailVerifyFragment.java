@@ -1,6 +1,5 @@
 package com.dev334.blood.ui.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import com.dev334.blood.R;
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.User;
-import com.dev334.blood.ui.HomeActivity;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;

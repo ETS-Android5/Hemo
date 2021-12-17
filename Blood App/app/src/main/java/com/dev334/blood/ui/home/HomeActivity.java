@@ -1,13 +1,18 @@
 package com.dev334.blood.ui.home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.dev334.blood.R;
+import com.dev334.blood.databinding.ActivityHomeBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -17,11 +22,16 @@ public class HomeActivity extends AppCompatActivity {
     private ProfileFragment profileFragment;
     private RequestFragment requestFragment;
     private FragmentManager fragmentManager;
+    private ActivityHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.bottomNavView.setBackground(null);
+        binding.bottomNavView.getMenu().getItem(2).setEnabled(false);
 
         homeFragment = HomeFragment.newInstance();
         notificationFragment=NotificationFragment.newInstance();
@@ -31,7 +41,39 @@ public class HomeActivity extends AppCompatActivity {
 
         fragmentManager=getSupportFragmentManager();
 
-        replaceFragment(homeFragment);
+        if(savedInstanceState==null){
+            binding.bottomNavView.getMenu().getItem(0).isChecked();
+            replaceFragment(homeFragment);
+        }
+
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.bottomNavView.getMenu().setGroupCheckable(0,false, true);
+                replaceFragment(requestFragment);
+            }
+        });
+
+        binding.bottomNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.nav_donate:
+                        replaceFragment(scheduleFragment);
+                        break;
+                    case R.id.nav_notification:
+                        replaceFragment(notificationFragment);
+                        break;
+                    case R.id.nav_profile:
+                        replaceFragment(profileFragment);
+                        break;
+                    default:
+                        replaceFragment(homeFragment);
+                        break;
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -50,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
             transaction.show(fragmentToShow);
         } else {
             // When fragment is adding first time - add it
-            transaction.add(R.id.LoginContainer, fragmentToShow);
+            transaction.add(R.id.homeContainer, fragmentToShow);
         }
 
         transaction.commit();

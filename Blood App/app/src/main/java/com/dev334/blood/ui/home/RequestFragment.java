@@ -21,7 +21,7 @@ public class RequestFragment extends Fragment {
 
     public static RequestFragment newInstance() {
         if(fragment==null) {
-            RequestFragment fragment = new RequestFragment();
+            fragment = new RequestFragment();
         }
         return fragment;
     }

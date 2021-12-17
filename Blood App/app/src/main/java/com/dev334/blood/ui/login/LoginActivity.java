@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         FRAGMENT=getIntent().getIntExtra("FRAGMENT",0);
 
         if(FRAGMENT==0){
-            replaceFragment(CreateProfileFragment);
+            replaceFragment(loginHome);
         }else{
             replaceFragment(loginFrag);
         }

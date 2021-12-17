@@ -21,7 +21,7 @@ public class ProfileFragment extends Fragment {
 
     public static ProfileFragment newInstance() {
         if(fragment==null) {
-            ProfileFragment fragment = new ProfileFragment();
+            fragment = new ProfileFragment();
         }
         return fragment;
     }

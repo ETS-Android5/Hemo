@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     //Darpan ipv4:- 192.168.29.186
     //Aditya ipv4:- 192.168.29.237
-    private static final String BASE_URL = "http://192.168.29.237:3000/";
+    private static final String BASE_URL = "http://192.168.1.8:3000/";
     private static Retrofit retrofit=null;
     private static String auth_token="";
 
@@ -39,7 +39,7 @@ public class ApiClient {
 
                                     // Request customization: add request headers
                                     Request.Builder requestBuilder = original.newBuilder()
-                                            .header("Authorization", appConfig.getAuthToken())
+                                            .header("auth_token", appConfig.getAuthToken())
                                             .method(original.method(), original.body());
 
                                     Request request = requestBuilder.build();

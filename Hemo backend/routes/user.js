@@ -3,6 +3,7 @@ const UserController = require('../controllers/users');
 const verify = require('../middleware/verify-token')
 
 
+
 //register new user
 router.post('/register', UserController.user_register);
 

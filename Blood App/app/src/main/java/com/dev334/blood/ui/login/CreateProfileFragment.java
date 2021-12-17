@@ -275,13 +275,14 @@ public class CreateProfileFragment extends Fragment {
     }
 
     private void createUser() {
-        User user = new User("kashyapaditya1234@gmail.com",Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
+        User user = new User("shuklaanant540@gmail.com",Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
         Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).createUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
                     Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                     return;
                 }

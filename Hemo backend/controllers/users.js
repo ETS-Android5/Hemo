@@ -153,6 +153,7 @@ exports.user_login = async (req, res, next)=>{
 
 //create Profile
 exports.user_create_profile = async (req, res, next)=>{
+    console.log("Request recieved")
     const {valid, error} = profileValidation(req.body);
     if(!valid){
         console.log(error);
@@ -175,6 +176,7 @@ exports.user_create_profile = async (req, res, next)=>{
         }
 
     }catch(error){
+        console.log(error)
         next(error)
     }
 

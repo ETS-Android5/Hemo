@@ -114,6 +114,7 @@ const profileValidation = (body)=>{
   const valid = ajv.validate(schema, body)
   var error=ajv.errors;
   if(!valid){
+      console.log(ajv.errors)
       error = ajv.errors[0].message
   }
 

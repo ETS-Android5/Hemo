@@ -1,7 +1,6 @@
 package com.dev334.blood.util.retrofit;
 
 import com.dev334.blood.model.ApiResponse;
-import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
 
 import java.util.List;
@@ -35,3 +34,6 @@ public interface ApiInterface {
     Call<User> getBloodReq(@Body BloodReq req);
 
 }
+    @POST("/api/blood/req")
+    Call<ApiResponse> reqBlood(@Body Blood blood);
+ }

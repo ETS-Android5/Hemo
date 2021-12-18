@@ -28,6 +28,7 @@ public class RequestFragment extends Fragment {
     private View view;
     private String TAG="RequestFragment";
     private FragmentRequestBinding binding;
+    private String blood,quantity,info;
 
     public RequestFragment() {
         // Required empty public constructor
@@ -54,44 +55,68 @@ public class RequestFragment extends Fragment {
         disableAllButton();
 
         binding.button1.setOnClickListener(v->{
+            blood=binding.button1.getText().toString();
             disableAllButton();
             binding.button1.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button2.setOnClickListener(v->{
+            blood=binding.button2.getText().toString();
             disableAllButton();
             binding.button2.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button3.setOnClickListener(v->{
+            blood=binding.button3.getText().toString();
             disableAllButton();
             binding.button3.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button4.setOnClickListener(v->{
+            blood=binding.button4.getText().toString();
             disableAllButton();
             binding.button4.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button5.setOnClickListener(v->{
+            blood=binding.button5.getText().toString();
             disableAllButton();
             binding.button5.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button6.setOnClickListener(v->{
+            blood=binding.button6.getText().toString();
             disableAllButton();
             binding.button6.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button7.setOnClickListener(v->{
+            blood=binding.button7.getText().toString();
             disableAllButton();
             binding.button7.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
 
         binding.button8.setOnClickListener(v->{
+            blood=binding.button8.getText().toString();
             disableAllButton();
             binding.button8.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
         });
+
+
+        binding.buttonLocationNext.setOnClickListener(v->{
+            info=binding.editInformation.getText().toString();
+            quantity=binding.EditQuantity.getText().toString();
+
+            if(quantity.isEmpty()){
+                binding.EditQuantity.setError("Enter quantity");
+            }else if(blood.isEmpty()){
+                Toast.makeText(getContext(), "Select a blood type", Toast.LENGTH_SHORT).show();
+            }else{
+                //open location
+            }
+
+        });
+
 
         return binding.getRoot();
     }

@@ -1,5 +1,7 @@
 package com.dev334.blood.model;
 
+import java.util.Date;
+
 public class Blood {
     private String user;
     private Double latitude;
@@ -7,6 +9,7 @@ public class Blood {
     private String location;
     private Integer quantity;
     private String blood;
+    private Date created;
 
     Blood(){
         //empty constructor
@@ -19,6 +22,10 @@ public class Blood {
         this.location = location;
         this.quantity = quantity;
         this.blood = blood;
+    }
+
+    public Date getCreated() {
+        return created;
     }
 
     public String getUser() {

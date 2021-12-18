@@ -9,6 +9,7 @@ public class User {
     private String dob;
     private String blood;
     private String location;
+    private String id;
     public User(){
         //empty
     }
@@ -31,6 +32,24 @@ public class User {
         this.dob = dob;
         this.blood = bloodGroup;
         this.location = location;
+    }
+
+    public void setUserData(String name, String email, Integer weight, String gender, String dob, String blood, String location) {
+        this.name = name;
+        this.email = email;
+        this.weight = weight;
+        this.gender = gender;
+        this.dob = dob;
+        this.blood = blood;
+        this.location = location;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

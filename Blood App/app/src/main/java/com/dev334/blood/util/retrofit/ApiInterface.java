@@ -1,6 +1,7 @@
 package com.dev334.blood.util.retrofit;
 
 import com.dev334.blood.model.ApiResponse;
+import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
     //@Headers("auth_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI3YTNkOGViMjYxYjdjMjJkNGYzNjAiLCJpYXQiOjE2Mzk0MjUxMDF9.iRKfrKeuH26HFyqVHnPSmLgQlFH2KAbSTFm5a2yP4g8")
@@ -21,9 +23,15 @@ public interface ApiInterface {
     Call<ApiResponse> registerUser(@Body User user);
 
     @POST("/api/user/login")
-    Call<ApiResponse> loginUser(@Body User user);
+    Call<User> loginUser(@Body User user);
 
     @POST("/api/user/create")
     Call<ApiResponse> createUser(@Body User user);
+
+    @GET("api/user/users/{id}")
+    Call<User> getUser(@Path("id") String id);
+
+    @GET("api/blood/req")
+    Call<User> getBloodReq(@Body BloodReq req);
 
 }

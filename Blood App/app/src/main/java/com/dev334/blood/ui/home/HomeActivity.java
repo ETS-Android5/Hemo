@@ -6,12 +6,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityHomeBinding;
+import com.dev334.blood.model.User;
+import com.dev334.blood.ui.login.LoginActivity;
+import com.dev334.blood.util.app.AppConfig;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -21,8 +26,11 @@ public class HomeActivity extends AppCompatActivity {
     private ScheduleFragment scheduleFragment;
     private ProfileFragment profileFragment;
     private RequestFragment requestFragment;
+    private SplashFragment splashFragment;
     private FragmentManager fragmentManager;
     private ActivityHomeBinding binding;
+    private AppConfig appConfig;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +47,14 @@ public class HomeActivity extends AppCompatActivity {
         profileFragment=ProfileFragment.newInstance();
         requestFragment=RequestFragment.newInstance();
 
+        appConfig= new AppConfig(this);
+        user = appConfig.getUserInfo();
+
         fragmentManager=getSupportFragmentManager();
 
         if(savedInstanceState==null){
             binding.bottomNavView.getMenu().getItem(0).isChecked();
-            replaceFragment(homeFragment);
+            replaceFragment(splashFragment);
         }
 
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -97,4 +108,24 @@ public class HomeActivity extends AppCompatActivity {
 
         transaction.commit();
     }
+
+    public void openLoginActivity(int i) {
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        intent.putExtra("FRAGMENT", i);
+        startActivity(intent);
+        finish();
+    }
+
+    public void openHomeFragment() {
+        replaceFragment(homeFragment);
+    }
+
+    public String getUserLocation(){
+        return user.getLocation();
+    }
+
+    public String getUserBlood(){
+        return user.getBloodGroup();
+    }
+
 }

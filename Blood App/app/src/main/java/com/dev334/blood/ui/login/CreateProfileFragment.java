@@ -289,6 +289,7 @@ public class CreateProfileFragment extends Fragment {
                 Log.i(TAG, "onResponse: "+response.body());
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
+                    ((LoginActivity)getActivity()).openHomeActivity();
                 }
 
             }

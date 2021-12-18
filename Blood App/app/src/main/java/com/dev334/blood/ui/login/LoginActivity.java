@@ -1,7 +1,11 @@
 package com.dev334.blood.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,8 +14,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.dev334.blood.R;
 import com.dev334.blood.database.TinyDB;
+import com.dev334.blood.model.User;
+import com.dev334.blood.ui.home.HomeActivity;
+import com.dev334.blood.util.app.AppConfig;
+import com.dev334.blood.util.retrofit.ApiClient;
+import com.dev334.blood.util.retrofit.ApiInterface;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
     private TinyDB tinyDB;
     private TextView loginTxt;
     private int FRAGMENT=0; //0>default 1->emailVerification
+    private String UserId;
+    private final String TAG="LoginActivityLog";
+    private AppConfig appConfig;
 
     private String email, password,  phoneNo, verificationID;
 
@@ -46,11 +62,15 @@ public class LoginActivity extends AppCompatActivity {
 
         FRAGMENT=getIntent().getIntExtra("FRAGMENT",0);
 
+
+        appConfig = new AppConfig(this);
+
         if(FRAGMENT==0){
             replaceFragment(loginHome);
         }else{
             replaceFragment(loginFrag);
         }
+
 
     }
 
@@ -70,6 +90,9 @@ public class LoginActivity extends AppCompatActivity {
         replaceFragment(CreateProfileFragment);
     }
 
+    public void setUserID(String UserId){
+        this.UserId=UserId;
+    }
 
     public void setSignUpCredentials(String email, String password){
         this.email=email;
@@ -103,5 +126,46 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         transaction.commit();
+    }
+
+    public void openHomeActivity() {
+        User user = new User();
+        Call<User> call = ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getUser(UserId);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+
+                    if(response.code()==401){
+                        Toast.makeText(getApplicationContext(), "Email not verified", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.message());
+                    return;
+                }
+
+                Log.i(TAG, "onResponse: "+response.message());
+                Log.i(TAG, "onResponse: "+response.headers().get("auth_token"));
+
+                user.setId(UserId);
+                user.setUserData(response.body().getName(), response.body().getEmail(), response.body().getWeight()
+                , response.body().getGender(), response.body().getDob(), response.body().getBloodGroup(), response.body().getLocation()
+                );
+
+                appConfig.setUserInfo(user);
+
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(i);
+                finish();
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
     }
 }

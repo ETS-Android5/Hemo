@@ -108,10 +108,10 @@ public class LoginFragment extends Fragment {
     private void SignInUser() {
 
         User user = new User(Email,Password);
-        Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
-        call.enqueue(new Callback<ApiResponse>() {
+        Call<User> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
 
                     if(response.code()==401){
@@ -127,12 +127,21 @@ public class LoginFragment extends Fragment {
 
                 Log.i(TAG, "onResponse: "+response.message());
                 Log.i(TAG, "onResponse: "+response.headers().get("auth_token"));
+                ((LoginActivity)getActivity()).setUserID(response.body().getId());
                 appConfig.setAuthToken(response.headers().get("auth_token"));
-                ((LoginActivity)getActivity()).openCreateProfile();
+
+                if(response.body().getGender().isEmpty()){
+                    appConfig.setLoginStatus(true);
+                    ((LoginActivity)getActivity()).openCreateProfile();
+                }
+                else {
+                    appConfig.setLoginStatus(true);
+                    ((LoginActivity) getActivity()).openHomeActivity();
+                }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.getMessage());
                 loading.setVisibility(View.INVISIBLE);
             }

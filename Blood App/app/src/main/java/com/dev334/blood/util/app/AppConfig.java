@@ -4,10 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.dev334.blood.database.TinyDB;
+import com.dev334.blood.model.User;
 
 public class AppConfig {
     private Context context;
     private TinyDB tinyDB;
+    private final String TAG="AppConfigLog";
 
     public AppConfig(Context context){
         this.context=context;
@@ -27,8 +29,25 @@ public class AppConfig {
     }
 
     public void setAuthToken(String token){
-        Log.i("AuthTokenSaved", "setAuthToken: "+token);
+        Log.i(TAG, "setAuthToken: "+token);
         tinyDB.putString("AuthToken", token);
+    }
+
+    public User getUserInfo(){
+        return tinyDB.getObject("User", User.class);
+    }
+
+    public void setUserInfo(User user){
+        tinyDB.putObject("User", user);
+        Log.i(TAG, "setUserInfo: "+user.getName());
+    }
+
+    public void setProfileCreated(Boolean status){
+        tinyDB.putBoolean("Profile", status);
+    }
+
+    public boolean isProfileCreated(){
+        return tinyDB.getBoolean("Profile");
     }
 
 }

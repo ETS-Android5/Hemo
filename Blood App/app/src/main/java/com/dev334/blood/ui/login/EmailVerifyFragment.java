@@ -69,10 +69,10 @@ public class EmailVerifyFragment extends Fragment {
         String Password=((LoginActivity)getActivity()).getSignUpPassword();
 
         User user = new User(Email,Password);
-        Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
-        call.enqueue(new Callback<ApiResponse>() {
+        Call<User> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
                     if(response.code()==401){
                         Toast.makeText(getContext(), "Email not verified", Toast.LENGTH_SHORT).show();
@@ -87,13 +87,16 @@ public class EmailVerifyFragment extends Fragment {
 
                 Log.i(TAG, "onResponse: "+response.message());
                 Log.i(TAG, "onResponse: "+response.headers().get("auth_token"));
+
+                ((LoginActivity)getActivity()).setUserID(response.body().getId());
+
                 appConfig.setAuthToken(response.headers().get("auth_token"));
                 ((LoginActivity)getActivity()).openCreateProfile();
                 loading.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.getMessage());
                 loading.setVisibility(View.INVISIBLE);
             }

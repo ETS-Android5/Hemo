@@ -34,9 +34,10 @@ transporter.verify((error, success) =>{
 //find one user
 exports.user_find_one = async (req, res, next)=>{
     const {id} = req.params
+    console.log(id)
     //finding user
     try{
-        const user= User.findOne({_id: id})
+        const user= await User.findOne({_id: id})
         if(user){
             res.status(200).send(user) 
         }else{
@@ -138,10 +139,7 @@ exports.user_login = async (req, res, next)=>{
 
         //create web token
         const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-        res.header('auth_token', token).send({
-            status: 200,
-            message: 'Successful'
-        })
+        res.header('auth_token', token).send(user)
 
     }catch(error){
         next(error)

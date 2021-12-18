@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dev334.blood.R;
+import com.dev334.blood.databinding.FragmentRequestBinding;
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
 import com.dev334.blood.model.User;
@@ -26,6 +27,7 @@ public class RequestFragment extends Fragment {
     public static RequestFragment fragment=null;
     private View view;
     private String TAG="RequestFragment";
+    private FragmentRequestBinding binding;
 
     public RequestFragment() {
         // Required empty public constructor
@@ -47,9 +49,63 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_request, container, false);
-        reqBlood();
-        return view;
+        binding=FragmentRequestBinding.inflate(getLayoutInflater());
+
+        disableAllButton();
+
+        binding.button1.setOnClickListener(v->{
+            disableAllButton();
+            binding.button1.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button2.setOnClickListener(v->{
+            disableAllButton();
+            binding.button2.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button3.setOnClickListener(v->{
+            disableAllButton();
+            binding.button3.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button4.setOnClickListener(v->{
+            disableAllButton();
+            binding.button4.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button5.setOnClickListener(v->{
+            disableAllButton();
+            binding.button5.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button6.setOnClickListener(v->{
+            disableAllButton();
+            binding.button6.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button7.setOnClickListener(v->{
+            disableAllButton();
+            binding.button7.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        binding.button8.setOnClickListener(v->{
+            disableAllButton();
+            binding.button8.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
+        });
+
+        return binding.getRoot();
+    }
+
+    private void disableAllButton() {
+        binding.button1.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button2.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button3.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button4.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button5.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button6.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button7.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+        binding.button8.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+
     }
 
     private void reqBlood() {

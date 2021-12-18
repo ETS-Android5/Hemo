@@ -66,7 +66,9 @@ public class LoginActivity extends AppCompatActivity {
         appConfig = new AppConfig(this);
 
         if(FRAGMENT==0){
-            replaceFragment(loginHome);
+            replaceFragment(CreateProfileFragment);
+        }else if(FRAGMENT==1){
+            replaceFragment(CreateProfileFragment);
         }else{
             replaceFragment(loginFrag);
         }
@@ -91,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setUserID(String UserId){
+        Log.i(TAG, "setUserID: "+UserId);
         this.UserId=UserId;
     }
 
@@ -147,7 +150,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 Log.i(TAG, "onResponse: "+response.message());
-                Log.i(TAG, "onResponse: "+response.headers().get("auth_token"));
 
                 user.setId(UserId);
                 user.setUserData(response.body().getName(), response.body().getEmail(), response.body().getWeight()
@@ -155,6 +157,9 @@ public class LoginActivity extends AppCompatActivity {
                 );
 
                 appConfig.setUserInfo(user);
+
+                appConfig.setProfileCreated(true);
+                appConfig.setLoginStatus(true);
 
                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);

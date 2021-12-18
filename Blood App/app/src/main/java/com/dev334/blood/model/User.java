@@ -9,7 +9,7 @@ public class User {
     private String dob;
     private String blood;
     private String location;
-    private String id;
+    private String _id;
     public User(){
         //empty
     }
@@ -45,11 +45,11 @@ public class User {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getName() {

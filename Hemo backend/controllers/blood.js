@@ -5,9 +5,10 @@ const {bloodValidation} = require("../validation")
 
 exports.blood_all_req = async (req, res, next)=>{
     try{
-        const{city, blood} = req.body;
-        const mblood = await Blood.find({city, blood})
-        res.send(mblood);
+        location=req.query.location
+        blood = req.query.blood
+        const mblood = await Blood.find({location, blood})
+        res.status(200).send(mblood);
     }catch(error){
         next(error)
         return

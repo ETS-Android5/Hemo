@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -64,7 +65,6 @@ public class CreateProfileFragment extends Fragment {
          bloodGroupAdapter=ArrayAdapter.createFromResource(getContext(),R.array.array_blood_group,R.layout.spinner_layout);
          bloodGroupAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
          bloodGroupSpinner.setAdapter(bloodGroupAdapter);
-
 
          gender=view.findViewById(R.id.EditGender);
          weight=view.findViewById(R.id.EditWeight);

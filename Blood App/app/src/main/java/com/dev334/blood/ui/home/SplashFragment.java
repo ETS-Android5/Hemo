@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dev334.blood.R;
+import com.dev334.blood.model.Blood;
 import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +29,8 @@ public class SplashFragment extends Fragment {
 
     private View view;
     private AppConfig appConfig;
+    private final String TAG= "SplashFragmentLog";
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,14 +42,40 @@ public class SplashFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_splash, container, false);
-
+        appConfig=new AppConfig(getContext());
         if(!appConfig.isUserLogin()){
+
             ((HomeActivity)getActivity()).openLoginActivity(0);
         }else if(!appConfig.isProfileCreated()){
             ((HomeActivity)getActivity()).openLoginActivity(1);
         }else{
-            BloodReq bloodReq= new BloodReq(((HomeActivity)getActivity()).getUserLocation(), ((HomeActivity)getActivity()).getUserBlood());
+            user=appConfig.getUserInfo();
 
+            ((HomeActivity)getActivity()).setUser(user);
+
+            Call<List<Blood>> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
+                    .getBloodReq(((HomeActivity)getActivity()).getUserLocation(), ((HomeActivity)getActivity()).getUserBlood());
+            call.enqueue(new Callback<List<Blood>>() {
+                @Override
+                public void onResponse(Call<List<Blood>> call, Response<List<Blood>> response) {
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onResponse: "+response.code());
+                        Log.i(TAG, "onResponse: "+response.errorBody());
+                        return;
+                    }
+
+                    if(response.code()==200){
+                        ((HomeActivity)getActivity()).setBloodRequests(response.body());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Blood>> call, Throwable t) {
+                    Log.i(TAG, "onFailure: "+t.getMessage());
+                }
+            });
         }
 
 

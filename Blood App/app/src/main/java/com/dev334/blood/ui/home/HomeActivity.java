@@ -8,16 +8,22 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityHomeBinding;
+import com.dev334.blood.model.Blood;
+import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -31,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
     private AppConfig appConfig;
     private User user;
+    private List<Blood> bloods;
+    private final String TAG="HomeActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +54,10 @@ public class HomeActivity extends AppCompatActivity {
         scheduleFragment=ScheduleFragment.newInstance();
         profileFragment=ProfileFragment.newInstance();
         requestFragment=RequestFragment.newInstance();
+        splashFragment=new SplashFragment();
 
         appConfig= new AppConfig(this);
-        user = appConfig.getUserInfo();
+        bloods=new ArrayList<>();
 
         fragmentManager=getSupportFragmentManager();
 
@@ -68,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.bottomNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                binding.bottomNavView.getMenu().setGroupCheckable(0,true,true);
                 switch(item.getItemId()){
                     case R.id.nav_donate:
                         replaceFragment(scheduleFragment);
@@ -120,6 +130,10 @@ public class HomeActivity extends AppCompatActivity {
         replaceFragment(homeFragment);
     }
 
+    public void setUser(User user){
+        this.user=user;
+    }
+
     public String getUserLocation(){
         return user.getLocation();
     }
@@ -128,4 +142,7 @@ public class HomeActivity extends AppCompatActivity {
         return user.getBloodGroup();
     }
 
+    public void setBloodRequests(List<Blood> body) {
+        bloods=body;
+    }
 }

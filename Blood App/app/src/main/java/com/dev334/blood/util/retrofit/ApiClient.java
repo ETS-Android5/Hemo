@@ -3,8 +3,6 @@ package com.dev334.blood.util.retrofit;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.dev334.blood.util.app.AppConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

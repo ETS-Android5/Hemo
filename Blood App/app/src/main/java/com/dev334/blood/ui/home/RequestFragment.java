@@ -1,6 +1,10 @@
 package com.dev334.blood.ui.home;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.dev334.blood.R;
@@ -17,6 +23,14 @@ import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +45,10 @@ public class RequestFragment extends Fragment {
     private String blood,quantity,info;
     private Blood mBlood;
     private TinyDB tinyDB;
+    private int REQ_PDF=21;
+    private String encodedPDF;
+    StorageReference storageReference;
+
 
     public RequestFragment() {
         // Required empty public constructor
@@ -56,6 +74,7 @@ public class RequestFragment extends Fragment {
 
         mBlood = new Blood();
         tinyDB=new TinyDB(getContext());
+        storageReference= FirebaseStorage.getInstance().getReference();
 
         disableAllButton();
 
@@ -108,6 +127,18 @@ public class RequestFragment extends Fragment {
         });
 
 
+        binding.verifiyFile.setOnClickListener(v->{
+
+             Intent chooseFile=new Intent(Intent.ACTION_GET_CONTENT);
+             chooseFile.setType("application/pdf");
+             chooseFile=Intent.createChooser(chooseFile,"Choose a valid pdf");
+             startActivityForResult(chooseFile,REQ_PDF);
+
+
+        });
+
+
+
         binding.buttonLocationNext.setOnClickListener(v->{
 
             if(binding.buttonLocationNext.getText().toString().equals("Done")){
@@ -128,7 +159,7 @@ public class RequestFragment extends Fragment {
                 mBlood.setBlood(blood);
                 mBlood.setQuantity(Integer.parseInt(quantity));
                 mBlood.setInfo(info);
-                mBlood.setLocation("Lucknow");
+                mBlood.setLocation("Noida");
                 mBlood.setUser("61bd9323f074c24a7140da57");
                 ((HomeActivity)getActivity()).openMapActivity();
 
@@ -140,7 +171,59 @@ public class RequestFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void disableAllButton() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if(requestCode==REQ_PDF && resultCode==RESULT_OK && data!=null)
+        {
+
+
+            uploadToStorage(data.getData(),data);
+
+        }
+    }
+
+    private void uploadToStorage(Uri data, Intent intent) {
+
+         final ProgressDialog progressDialog=new ProgressDialog(getContext());
+         progressDialog.setTitle("Loading...");
+         progressDialog.show();
+
+         StorageReference reference=storageReference.child("BloodRequest"+System.currentTimeMillis()+".pdf");
+
+         reference.putFile(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+             @Override
+             public void onSuccess(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+
+                 Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
+                 while (!uriTask.isComplete());
+                 Uri uri=uriTask.getResult();
+
+                 mBlood.setFile(uri.toString());
+                 File file= new File(uri.getPath());
+
+
+                 binding.verifiyFile.setText(file.getName().toString());
+                 progressDialog.dismiss();
+
+
+             }
+         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+             @Override
+             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                 double progress=(100.0*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                 progressDialog.setMessage("File Uploading ..."+(int)progress);
+
+             }
+         });
+
+
+    }
+
+   private void disableAllButton() {
         binding.button1.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
         binding.button2.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
         binding.button3.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));

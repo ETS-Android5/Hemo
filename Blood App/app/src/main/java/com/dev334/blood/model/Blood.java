@@ -11,18 +11,29 @@ public class Blood {
     private String blood;
     private Date created;
     private String info;
+    private String file;
 
     public Blood(){
         //empty constructor
     }
 
-    public Blood(String user, Double latitude, Double longitude, String location, Integer quantity, String blood) {
+
+
+    public Blood(String user, Double latitude, Double longitude, String location, Integer quantity, String blood, String file) {
         this.user = user;
         this.latitude = latitude;
         this.longitude = longitude;
         this.location = location;
         this.quantity = quantity;
         this.blood = blood;
+        this.file=file;
+    }
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public void setInfo(String info) {

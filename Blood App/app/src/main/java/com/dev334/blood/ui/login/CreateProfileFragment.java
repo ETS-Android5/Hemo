@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -275,7 +274,7 @@ public class CreateProfileFragment extends Fragment {
     }
 
     private void createUser() {
-        User user = new User("shuklaanant540@gmail.com",Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
+        User user = new User("mittal11darpan@gmail.com",Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
         Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).createUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override

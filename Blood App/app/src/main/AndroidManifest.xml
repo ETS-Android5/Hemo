@@ -27,6 +27,12 @@
             android:value="9PFZdTcQr8Oe98-wZdMv1eD_kNxw93e0g4uWHB4Ez-5taG8BhcEuCT3Cse8JJihrf25f6R_vAFuT4lDnQJsVrA" />
 
         <activity
+            android:name=".ui.home.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.UserFeedback"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
@@ -34,6 +40,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.SplashScreen"

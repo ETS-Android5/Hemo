@@ -3,7 +3,6 @@ package com.dev334.blood.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         appConfig = new AppConfig(this);
 
         if(FRAGMENT==0){
-            replaceFragment(CreateProfileFragment);
+            replaceFragment(loginHome);
         }else if(FRAGMENT==1){
             replaceFragment(CreateProfileFragment);
         }else{

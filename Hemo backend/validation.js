@@ -1,179 +1,168 @@
-const Ajv = require("ajv")
-const addFormats = require("ajv-formats")
-const ajv = new Ajv()
-addFormats(ajv)
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
+const ajv = new Ajv();
+addFormats(ajv);
 
-const registerValidation = (body)=>{
-    const schema = {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 4,
-            "maxLength": 255
-          },
-          "email": {
-            "type": "string",
-            "minLength": 6,
-            "maxLength": 255,
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "minLength": 6,
-            "maxLength": 1024
-          },
-          "date": {
-              "type": "string",
-              "format": "date"
-          }
-        },
-        "required": [
-          "name",
-          "email",
-          "password"
-        ]
-    }
-    const valid = ajv.validate(schema, body)
-    var error=ajv.errors;
-    if(!valid){
-        error = ajv.errors[0].message
-    }
-
-    return {
-        valid,
-        error
-    }
-}
-
-const loginValidation = (body)=>{
-    const schema = {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "minLength": 6,
-            "maxLength": 255,
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "minLength": 6,
-            "maxLength": 1024
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ]
-    }
-    const valid = ajv.validate(schema, body)
-    var error=ajv.errors;
-    if(!valid){
-        error = ajv.errors[0].message
-    }
-
-    return {
-        valid,
-        error
-    }
-}
-
-const profileValidation = (body)=>{
+const registerValidation = (body) => {
   const schema = {
-    "type": "object",
-    "properties": {
-      "dob": {
-        "type": "string"
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        minLength: 4,
+        maxLength: 255,
       },
-      "location": {
-        "type": "string"
+      email: {
+        type: "string",
+        minLength: 6,
+        maxLength: 255,
+        format: "email",
       },
-      "weight": {
-        "type": "integer"
+      password: {
+        type: "string",
+        minLength: 6,
+        maxLength: 1024,
       },
-      "gender":{
-        "type":"string"
+      date: {
+        type: "string",
+        format: "date",
       },
-      "blood":{
-        "type":"string"
-      },
-      "past":{
-        "type": "string"
-      }
-
     },
-    "required": [
-      "dob",
-      "location",
-      "weight",
-      "gender",
-      "blood"
-    ]
-  }
-  const valid = ajv.validate(schema, body)
-  var error=ajv.errors;
-  if(!valid){
-      console.log(ajv.errors)
-      error = ajv.errors[0].message
+    required: ["name", "email", "password"],
+  };
+  const valid = ajv.validate(schema, body);
+  var error = ajv.errors;
+  if (!valid) {
+    error = ajv.errors[0].message;
   }
 
   return {
-      valid,
-      error
-  }
-}
+    valid,
+    error,
+  };
+};
 
-const bloodValidation = (body)=>{
+const loginValidation = (body) => {
   const schema = {
-    "type": "object",
-    "properties": {
-      "latitude": {
-        "type": "number"
+    type: "object",
+    properties: {
+      email: {
+        type: "string",
+        minLength: 6,
+        maxLength: 255,
+        format: "email",
       },
-      "longitude":{
-        "type": "number"
+      password: {
+        type: "string",
+        minLength: 6,
+        maxLength: 1024,
       },
-      "location": {
-        "type": "string"
-      },
-      "blood": {
-        "type": "string"
-      },
-      "quantity":{
-        "type":"integer"
-      },
-      "user":{
-        "type":"string"
-      },
-      "status":{
-        "type": "boolean"
-      },
-      "info":{
-        "type":"string"
-      }
-
     },
-    "required": [
+    required: ["email", "password"],
+  };
+  const valid = ajv.validate(schema, body);
+  var error = ajv.errors;
+  if (!valid) {
+    error = ajv.errors[0].message;
+  }
+
+  return {
+    valid,
+    error,
+  };
+};
+
+const profileValidation = (body) => {
+  const schema = {
+    type: "object",
+    properties: {
+      dob: {
+        type: "string",
+      },
+      location: {
+        type: "string",
+      },
+      weight: {
+        type: "integer",
+      },
+      gender: {
+        type: "string",
+      },
+      blood: {
+        type: "string",
+      },
+      past: {
+        type: "string",
+      },
+    },
+    required: ["dob", "location", "weight", "gender", "blood"],
+  };
+  const valid = ajv.validate(schema, body);
+  var error = ajv.errors;
+  if (!valid) {
+    console.log(ajv.errors);
+    error = ajv.errors[0].message;
+  }
+
+  return {
+    valid,
+    error,
+  };
+};
+
+const bloodValidation = (body) => {
+  const schema = {
+    type: "object",
+    properties: {
+      latitude: {
+        type: "number",
+      },
+      longitude: {
+        type: "number",
+      },
+      location: {
+        type: "string",
+      },
+      blood: {
+        type: "string",
+      },
+      quantity: {
+        type: "integer",
+      },
+      user: {
+        type: "string",
+      },
+      status: {
+        type: "boolean",
+      },
+      info: {
+        type: "string",
+      },
+      file: {
+        type: "string",
+      },
+    },
+    required: [
       "latitude",
       "longitude",
       "location",
       "quantity",
       "blood",
-      "user"
-    ]
-  }
-  const valid = ajv.validate(schema, body)
-  var error=ajv.errors;
-  if(!valid){
-      error = ajv.errors[0].message
+      "user",
+      "file",
+    ],
+  };
+  const valid = ajv.validate(schema, body);
+  var error = ajv.errors;
+  if (!valid) {
+    error = ajv.errors[0].message;
   }
 
   return {
-      valid,
-      error
-  }
-}
+    valid,
+    error,
+  };
+};
 
 module.exports.profileValidation = profileValidation;
 module.exports.registerValidation = registerValidation;

@@ -148,6 +148,9 @@ const bloodValidation = (body)=>{
       },
       "status":{
         "type": "boolean"
+      },
+      "info":{
+        "type":"string"
       }
 
     },

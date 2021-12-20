@@ -10,8 +10,9 @@ public class Blood {
     private Integer quantity;
     private String blood;
     private Date created;
+    private String info;
 
-    Blood(){
+    public Blood(){
         //empty constructor
     }
 
@@ -22,6 +23,42 @@ public class Blood {
         this.location = location;
         this.quantity = quantity;
         this.blood = blood;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setBlood(String blood) {
+        this.blood = blood;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public Date getCreated() {

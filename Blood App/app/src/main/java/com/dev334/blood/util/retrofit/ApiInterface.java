@@ -2,7 +2,6 @@ package com.dev334.blood.util.retrofit;
 
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
-import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
 
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;

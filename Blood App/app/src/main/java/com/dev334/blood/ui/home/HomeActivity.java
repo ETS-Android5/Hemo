@@ -8,16 +8,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityHomeBinding;
 import com.dev334.blood.model.Blood;
-import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
+import com.dev334.blood.ui.MapActivity;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
 import com.google.android.material.navigation.NavigationBarView;
@@ -96,6 +94,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void openMapActivity() {
+        Intent i = new Intent(HomeActivity.this, MapActivity.class);
+        startActivity(i);
     }
 
     private void replaceFragment(Fragment fragmentToShow) {

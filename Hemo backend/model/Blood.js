@@ -32,6 +32,17 @@ const bloodSchema = new mongoose.Schema({
     quantity:{
         type: Number,
         required: true
+    },
+    info:{
+        type: String
+    },
+    verified:{
+        type: Boolean,
+        default: false
+    },
+    file:{
+        type: String,
+        required: false
     }
 })
 

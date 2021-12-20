@@ -1,5 +1,6 @@
 package com.dev334.blood.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dev334.blood.R;
+import com.dev334.blood.database.TinyDB;
 import com.dev334.blood.databinding.FragmentRequestBinding;
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
@@ -29,6 +31,8 @@ public class RequestFragment extends Fragment {
     private String TAG="RequestFragment";
     private FragmentRequestBinding binding;
     private String blood,quantity,info;
+    private Blood mBlood;
+    private TinyDB tinyDB;
 
     public RequestFragment() {
         // Required empty public constructor
@@ -51,6 +55,9 @@ public class RequestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding=FragmentRequestBinding.inflate(getLayoutInflater());
+
+        mBlood = new Blood();
+        tinyDB=new TinyDB(getContext());
 
         disableAllButton();
 
@@ -104,6 +111,13 @@ public class RequestFragment extends Fragment {
 
 
         binding.buttonLocationNext.setOnClickListener(v->{
+
+            if(binding.buttonLocationNext.getText().toString().equals("Done")){
+                reqBlood();
+                binding.buttonLocationNext.setText("Next");
+                return;
+            }
+
             info=binding.editInformation.getText().toString();
             quantity=binding.EditQuantity.getText().toString();
 
@@ -113,6 +127,13 @@ public class RequestFragment extends Fragment {
                 Toast.makeText(getContext(), "Select a blood type", Toast.LENGTH_SHORT).show();
             }else{
                 //open location
+                mBlood.setBlood(blood);
+                mBlood.setQuantity(Integer.parseInt(quantity));
+                mBlood.setInfo(info);
+                mBlood.setLocation("Lucknow");
+                mBlood.setUser("61bd9323f074c24a7140da57");
+                ((HomeActivity)getActivity()).openMapActivity();
+
             }
 
         });
@@ -134,8 +155,7 @@ public class RequestFragment extends Fragment {
     }
 
     private void reqBlood() {
-      Blood blood = new Blood("61bafacadaecb4894fa11447",77.1244558,76.222666,"Lucknow",20,"A+");
-      Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class).reqBlood(blood);
+      Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class).reqBlood(mBlood);
       call.enqueue(new Callback<ApiResponse>() {
           @Override
           public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -148,6 +168,7 @@ public class RequestFragment extends Fragment {
                 Log.i(TAG, "onResponse: "+response.body());
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(getContext(), "Blood requested", Toast.LENGTH_SHORT).show();
                 }
           }
 
@@ -158,4 +179,15 @@ public class RequestFragment extends Fragment {
       });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBlood.setLatitude(tinyDB.getDouble("Latitude"));
+        mBlood.setLongitude(tinyDB.getDouble("Longitude"));
+        tinyDB.putDouble("Latitude", 0);
+        tinyDB.putDouble("Longitude", 0);
+        if(mBlood.getLatitude()!=0){
+            binding.buttonLocationNext.setText("Done");
+        }
+    }
 }

@@ -35,6 +35,7 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_mode_comment_24.xml" value="0.14290540540540542" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_peoples_outline_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.14290540540540542" />
@@ -53,6 +54,7 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/primary_outline_textbox.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_home.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_map.xml" value="0.2" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_create_profile.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_login.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_login_home.xml" value="0.12" />

@@ -12,9 +12,7 @@ import android.widget.Toast;
 
 import com.dev334.blood.R;
 import com.dev334.blood.model.Blood;
-import com.dev334.blood.model.BloodReq;
 import com.dev334.blood.model.User;
-import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;

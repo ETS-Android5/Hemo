@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dev334.blood.R;
+import com.dev334.blood.databinding.FragmentNotificationBinding;
 
 public class NotificationFragment extends Fragment {
 
     public static NotificationFragment fragment=null;
     private View view;
-
+    FragmentNotificationBinding binding;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -36,7 +37,8 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
-        return view;
+        binding = FragmentNotificationBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
     }
 }

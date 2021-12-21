@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -147,5 +148,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setBloodRequests(List<Blood> body) {
         bloods=body;
+    }
+    public List<Blood> getBloodRequests(){
+        return bloods;
     }
 }

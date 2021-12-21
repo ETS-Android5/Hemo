@@ -29,7 +29,10 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-
+//      holder.nameTxtView.setText(bloods.get(position).getUser());
+//      holder.bloodUnitTxtView.setText(bloods.get(position).getQuantity());
+//      holder.bloodGrpTxtView.setText(bloods.get(position).getBlood())
+        holder.setItems(bloods.get(position).getUser(),bloods.get(position).getQuantity(),bloods.get(position).getBlood());
     }
 
 
@@ -47,8 +50,13 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
             nameTxtView=itemView.findViewById(R.id.request_card_name);
             bloodGrpTxtView=itemView.findViewById(R.id.request_card_blood_group);
             bloodUnitTxtView=itemView.findViewById(R.id.request_card_blood_quantity);
-            locationTxtView=itemView.findViewById(R.id.request_card_location);
+
         }
 
+        public void setItems(String user, Integer quantity, String blood) {
+            nameTxtView.setText(user);
+            bloodGrpTxtView.setText(blood);
+            bloodUnitTxtView.setText(quantity.toString());
+        }
     }
 }

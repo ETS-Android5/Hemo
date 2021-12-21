@@ -148,6 +148,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setBloodRequests(List<Blood> body) {
         bloods=body;
+        Log.i(TAG, "setBloodRequests: "+bloods);
     }
     public List<Blood> getBloodRequests(){
         return bloods;

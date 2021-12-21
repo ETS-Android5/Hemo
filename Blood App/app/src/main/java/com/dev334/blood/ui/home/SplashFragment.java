@@ -53,7 +53,7 @@ public class SplashFragment extends Fragment {
             ((HomeActivity)getActivity()).setUser(user);
 
             Call<List<Blood>> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
-                    .getBloodReq(((HomeActivity)getActivity()).getUserLocation(), ((HomeActivity)getActivity()).getUserBlood());
+                    .getBloodReq("Lucknow", ((HomeActivity)getActivity()).getUserBlood());
             call.enqueue(new Callback<List<Blood>>() {
                 @Override
                 public void onResponse(Call<List<Blood>> call, Response<List<Blood>> response) {
@@ -65,6 +65,7 @@ public class SplashFragment extends Fragment {
                     }
 
                     if(response.code()==200){
+                        Log.i(TAG, "onResponse: "+response.body());
                         ((HomeActivity)getActivity()).setBloodRequests(response.body());
                         blood=((HomeActivity)getActivity()).getBloodRequests();
                     }

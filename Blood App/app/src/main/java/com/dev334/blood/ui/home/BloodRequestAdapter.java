@@ -29,9 +29,6 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-//      holder.nameTxtView.setText(bloods.get(position).getUser());
-//      holder.bloodUnitTxtView.setText(bloods.get(position).getQuantity());
-//      holder.bloodGrpTxtView.setText(bloods.get(position).getBlood())
         holder.setItems(bloods.get(position).getUser(),bloods.get(position).getQuantity(),bloods.get(position).getBlood());
     }
 

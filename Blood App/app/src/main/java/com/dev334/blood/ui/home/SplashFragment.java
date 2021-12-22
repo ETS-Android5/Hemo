@@ -79,9 +79,6 @@ public class SplashFragment extends Fragment {
             });
         }
 
-
-
-
         ((HomeActivity)getActivity()).openHomeFragment();
 
         return view;

@@ -158,4 +158,5 @@ public class HomeActivity extends AppCompatActivity {
     public String getUserId() {
         return user.getId();
     }
+
 }

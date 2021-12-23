@@ -53,6 +53,7 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_icons8_google.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/primary_outline_textbox.xml" value="0.14290540540540542" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_blood_bank.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_home.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_map.xml" value="0.2" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_create_profile.xml" value="0.13243243243243244" />
@@ -61,7 +62,7 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_notification.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_profile.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_request.xml" value="0.13243243243243244" />
-        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_schedule.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_schedule.xml" value="0.25" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_signup.xml" value="0.13243243243243244" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/drawable/primary_outline_textbox.xml" value="0.2703125" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/activity_home.xml" value="0.24909420289855072" />

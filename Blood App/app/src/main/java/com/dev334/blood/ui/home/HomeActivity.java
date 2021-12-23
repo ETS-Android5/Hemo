@@ -148,4 +148,8 @@ public class HomeActivity extends AppCompatActivity {
     public void setBloodRequests(List<Blood> body) {
         bloods=body;
     }
+
+    public List<Blood> getBloodRequests(){
+        return bloods;
+    }
 }

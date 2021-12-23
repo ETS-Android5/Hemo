@@ -164,7 +164,50 @@ const bloodValidation = (body) => {
   };
 };
 
+const scheduleValidation = (body) => {
+  const schema = {
+    type: "object",
+    properties: {
+      bank: {
+        type: "string",
+      },
+      bank_id: {
+        type: "string",
+      },
+      date: {
+        type: "string",
+      },
+      user: {
+        type: "string",
+      },
+      time: {
+        type: "string",
+      }
+    },
+    required: [
+      "bank",
+      "bank_id",
+      "date",
+      "user",
+      "time",
+    ],
+  };
+  const valid = ajv.validate(schema, body);
+  var error = ajv.errors;
+  if (!valid) {
+    error = ajv.errors[0].message;
+  }
+
+  return {
+    valid,
+    error,
+  };
+};
+
+
+
 module.exports.profileValidation = profileValidation;
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.bloodValidation = bloodValidation;
+module.exports.scheduleValidation = scheduleValidation;

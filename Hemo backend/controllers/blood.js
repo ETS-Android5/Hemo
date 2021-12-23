@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const createError = require('http-errors');
 const Blood = require('../model/Blood')
-const {bloodValidation} = require("../validation")
+const {bloodValidation, scheduleValidation} = require("../validation");
+const Schedule = require('../model/schedule');
 
 exports.blood_all_req = async (req, res, next)=>{
     try{
@@ -47,4 +48,25 @@ exports.blood_save_req = async (req, res, next)=>{
         next(error)
         return
     }
+}
+
+exports.blood_schedule = async (req, res, next)=>{
+    const {valid, error} = scheduleValidation(req.body)
+    if(!valid){
+        next(createError(400, error))
+        return;
+    }
+
+    try{
+        const schedule = new Schedule(req.body)
+        await schedule.save();
+        res.status(200).send({
+            status: 200,
+            message: 'Saved'
+        })
+    }catch(error){
+        next(error)
+        return
+    }
+
 }

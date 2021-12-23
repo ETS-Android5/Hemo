@@ -10,10 +10,12 @@ public class AppConfig {
     private Context context;
     private TinyDB tinyDB;
     private final String TAG="AppConfigLog";
+    private User user;
 
     public AppConfig(Context context){
         this.context=context;
         tinyDB=new TinyDB(context);
+        user = tinyDB.getObject("User", User.class);
     }
 
     public boolean isUserLogin(){
@@ -34,12 +36,17 @@ public class AppConfig {
     }
 
     public User getUserInfo(){
-        return tinyDB.getObject("User", User.class);
+        return user;
     }
 
     public void setUserInfo(User user){
+        this.user = user;
         tinyDB.putObject("User", user);
         Log.i(TAG, "setUserInfo: "+user.getName());
+    }
+
+    public String getUserLocation(){
+        return user.getLocation().toUpperCase();
     }
 
     public void setProfileCreated(Boolean status){

@@ -128,13 +128,10 @@ public class RequestFragment extends Fragment {
 
 
         binding.verifiyFile.setOnClickListener(v->{
-
              Intent chooseFile=new Intent(Intent.ACTION_GET_CONTENT);
              chooseFile.setType("application/pdf");
              chooseFile=Intent.createChooser(chooseFile,"Choose a valid pdf");
              startActivityForResult(chooseFile,REQ_PDF);
-
-
         });
 
 
@@ -162,12 +159,9 @@ public class RequestFragment extends Fragment {
                 mBlood.setLocation("Noida");
                 mBlood.setUser("61bd9323f074c24a7140da57");
                 ((HomeActivity)getActivity()).openMapActivity();
-
             }
 
         });
-
-
         return binding.getRoot();
     }
 
@@ -175,13 +169,9 @@ public class RequestFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         if(requestCode==REQ_PDF && resultCode==RESULT_OK && data!=null)
         {
-
-
             uploadToStorage(data.getData(),data);
-
         }
     }
 
@@ -250,6 +240,7 @@ public class RequestFragment extends Fragment {
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
                     Toast.makeText(getContext(), "Blood requested", Toast.LENGTH_SHORT).show();
+                    clearAllFeilds();
                 }
           }
 
@@ -258,6 +249,13 @@ public class RequestFragment extends Fragment {
               Log.i(TAG, "onFailure: "+t.getMessage());
           }
       });
+    }
+
+    private void clearAllFeilds() {
+        disableAllButton();
+        binding.EditQuantity.setText("");
+        binding.editInformation.setText("");
+        binding.verifiyFile.setText("Upload Valid document");
     }
 
     @Override

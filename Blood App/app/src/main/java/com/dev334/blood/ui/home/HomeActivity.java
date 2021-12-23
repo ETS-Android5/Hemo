@@ -154,7 +154,5 @@ public class HomeActivity extends AppCompatActivity {
         return bloods;
     }
 
-    public List<Blood> getBloodRequests(){
-        return bloods;
-    }
+
 }

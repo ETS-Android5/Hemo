@@ -1,16 +1,16 @@
 package com.dev334.blood.ui.home;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityHomeBinding;
@@ -19,7 +19,11 @@ import com.dev334.blood.model.User;
 import com.dev334.blood.ui.MapActivity;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +68,26 @@ public class HomeActivity extends AppCompatActivity {
             binding.bottomNavView.getMenu().getItem(0).isChecked();
             replaceFragment(splashFragment);
         }
+
+
+        FirebaseApp.initializeApp(HomeActivity.this);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful())
+                {
+                    Log.i(TAG, "onComplete: Could not get the token");
+                    return;
+                }
+                if(task.getResult()!=null)
+                {
+                    String firebaseMessagingToken =task.getResult();
+                    Log.i(TAG, "Token :"+firebaseMessagingToken);
+                }
+
+            }
+        });
+
 
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

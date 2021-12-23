@@ -9,4 +9,6 @@ router.post('/req', verify, BloodController.blood_save_req)
 
 router.get('/req/:id', verify, BloodController.blood_one_req)
 
+router.post('/schedule', verify, BloodController.blood_schedule)
+
 module.exports=router

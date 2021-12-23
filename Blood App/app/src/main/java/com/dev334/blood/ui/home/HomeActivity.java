@@ -150,11 +150,12 @@ public class HomeActivity extends AppCompatActivity {
         bloods=body;
         Log.i(TAG, "setBloodRequests: "+bloods);
     }
+
     public List<Blood> getBloodRequests(){
         return bloods;
     }
 
-    public List<Blood> getBloodRequests(){
-        return bloods;
+    public String getUserId() {
+        return user.getId();
     }
 }

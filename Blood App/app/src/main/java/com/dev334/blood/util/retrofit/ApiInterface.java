@@ -4,6 +4,7 @@ import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
 import com.dev334.blood.model.BloodBank;
 import com.dev334.blood.model.GovApiResponse;
+import com.dev334.blood.model.Schedule;
 import com.dev334.blood.model.User;
 
 import java.util.List;
@@ -42,4 +43,7 @@ public interface ApiInterface {
 
     @GET("/resource/fced6df9-a360-4e08-8ca0-f283fc74ce15?api-key=579b464db66ec23bdd00000127eaf05b3f0e45765d7131e141b41c0c&format=json&offset=0&limit=100")
     Call<GovApiResponse> getBloodBank(@Query(value="filters[__district]", encoded = true) String location);
+
+    @POST("api/blood/schedule")
+    Call<ApiResponse> schedule(@Body Schedule schedule);
  }

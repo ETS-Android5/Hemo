@@ -38,6 +38,7 @@
         android:background="@drawable/primary_grey_outline"
         android:drawablePadding="8dp"
         android:fontFamily="@font/poppinsregular"
+        android:focusableInTouchMode="false"
         android:hint="Select the nearest blood bank"
         android:paddingStart="16dp"
         android:paddingTop="12dp"

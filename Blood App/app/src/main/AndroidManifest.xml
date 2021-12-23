@@ -16,11 +16,11 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.BloodBankActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.MapActivity"
             android:exported="false" />
+
+        <activity android:name=".ui.bank.BloodBankActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.here.sdk.access_key_id"

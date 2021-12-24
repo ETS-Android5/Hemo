@@ -1,0 +1,130 @@
+package com.dev334.blood.ui.home;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.dev334.blood.R;
+import com.dev334.blood.model.ApiResponse;
+import com.dev334.blood.model.Blood;
+import com.dev334.blood.model.Schedule;
+import com.dev334.blood.util.retrofit.ApiClient;
+import com.dev334.blood.util.retrofit.ApiInterface;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequestAdapter.mViewHolder>{
+
+    private List<Schedule> schedules;
+    private boolean PENDING;
+    private Context context;
+    private String TAG="ScheduleRequestAdapter";
+    public ScheduleRequestAdapter(List<Schedule> schedules,boolean pending,Context context){
+        this.schedules=schedules;
+        this.PENDING=pending;
+        this.context=context;
+    }
+
+    @NonNull
+    @Override
+    public ScheduleRequestAdapter.mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.appointment_card, parent, false);
+        return new ScheduleRequestAdapter.mViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ScheduleRequestAdapter.mViewHolder holder, int position) {
+       holder.setItems(schedules.get(position).getUser(),schedules.get(position).getBank(),schedules.get(position).getDate(),schedules.get(position).getTime());
+        holder.approvedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(PENDING){
+                    Approval(schedules.get(position).get_id(),"1");
+                }
+                Toast.makeText(view.getContext(), "Marked Approved",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.declineBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int actualPosition=holder.getAdapterPosition();
+                schedules.remove(actualPosition);
+                notifyItemRemoved(actualPosition);
+                notifyItemRangeChanged(actualPosition,schedules.size());
+                if(PENDING){
+                    Approval(schedules.get(position).get_id(),"0");
+                }
+                Toast.makeText(view.getContext(), "Declined",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return schedules.size();
+    }
+
+    public class mViewHolder extends RecyclerView.ViewHolder{
+
+        TextView userNameTxt,bankTxt,dateTxt,timeTxt;
+        Button approvedBtn,declineBtn;
+        public mViewHolder(@NonNull View itemView) {
+            super(itemView);
+            userNameTxt=itemView.findViewById(R.id.textViewUserName);
+            bankTxt=itemView.findViewById(R.id.textViewLocation);
+            dateTxt=itemView.findViewById(R.id.textViewDate);
+            timeTxt=itemView.findViewById(R.id.textViewTiming);
+            approvedBtn=itemView.findViewById(R.id.buttonMarkApp);
+            declineBtn=itemView.findViewById(R.id.buttonDecline);
+            if(!PENDING){
+                approvedBtn.setText("Mark Success");
+            }
+
+        }
+
+        public void setItems(String user, String bank, String date, String time) {
+            userNameTxt.setText(user);
+            bankTxt.setText(bank);
+            dateTxt.setText(date);
+            timeTxt.setText(time);
+        }
+    }
+
+    public void Approval(String userId,String approved){
+        Call<ApiResponse> call= ApiClient.getApiClient(context).create(ApiInterface.class).setApproval(userId,approved);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
+                    Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(context, "Blood requested", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+}

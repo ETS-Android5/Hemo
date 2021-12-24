@@ -13,6 +13,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -46,4 +47,10 @@ public interface ApiInterface {
 
     @POST("api/blood/schedule")
     Call<ApiResponse> schedule(@Body Schedule schedule);
+
+    @GET("api/admin/schedule")
+    Call<List<Schedule>> getSchedule(@Query("bank_id") String bank_id,@Query("pending") String pending);
+
+    @PATCH("api/admin/schedule/approval")
+    Call<ApiResponse> setApproval(@Query("id") String id,@Query("approval") String approval);
  }

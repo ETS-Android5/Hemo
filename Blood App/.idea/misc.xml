@@ -69,6 +69,9 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_request.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_schedule.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_signup.xml" value="0.13243243243243244" />
+        <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/drawable/dialog_request_bg.xml" value="0.1" />
+        <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/drawable/ic_bloodrequested_01.xml" value="0.2703125" />
+        <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/drawable/ic_scheduled_01.xml" value="0.2703125" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/drawable/primary_outline_textbox.xml" value="0.2703125" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/activity_home.xml" value="0.24909420289855072" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/activity_login.xml" value="0.24909420289855072" />
@@ -78,6 +81,9 @@
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/blood_request_card.xml" value="0.536" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/card_blood_bank.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/card_request_contact.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/contact_us_dailog.xml" value="0.1897644927536232" />
+        <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/dialog_appointment_scheduled.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/dialog_blood_requested.xml" value="0.264" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/fragment_create_profile.xml" value="0.1911231884057971" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/fragment_home.xml" value="0.23278985507246377" />
         <entry key="..\:/Users/Asus/Documents/Avishkar21/Hemo/Blood App/app/src/main/res/layout/fragment_notification.xml" value="0.25" />

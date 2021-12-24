@@ -2,14 +2,19 @@ package com.dev334.blood.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,6 +52,7 @@ public class RequestFragment extends Fragment {
     private TinyDB tinyDB;
     private int REQ_PDF=21;
     private String encodedPDF;
+    private boolean pdfUploadFlag=false;
     StorageReference storageReference;
 
 
@@ -151,7 +157,12 @@ public class RequestFragment extends Fragment {
                 binding.EditQuantity.setError("Enter quantity");
             }else if(blood.isEmpty()){
                 Toast.makeText(getContext(), "Select a blood type", Toast.LENGTH_SHORT).show();
-            }else{
+            }
+            else if(pdfUploadFlag==false)
+            {
+               binding.verifiyFile.setError("Upload a valid document to avoid illegal activities");
+            }
+            else{
                 //open location
                 mBlood.setBlood(blood);
                 mBlood.setQuantity(Integer.parseInt(quantity));
@@ -196,6 +207,7 @@ public class RequestFragment extends Fragment {
 
 
                  binding.verifiyFile.setText(file.getName().toString());
+                 pdfUploadFlag=true;
                  progressDialog.dismiss();
 
 
@@ -239,9 +251,23 @@ public class RequestFragment extends Fragment {
                 Log.i(TAG, "onResponse: "+response.body());
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
-                    Toast.makeText(getContext(), "Blood requested", Toast.LENGTH_SHORT).show();
+                    showDialog();
                     clearAllFeilds();
                 }
+          }
+
+          private void showDialog() {
+
+              final Dialog dialog=new Dialog(getContext());
+              dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+              dialog.setContentView(R.layout.dialog_blood_requested);
+
+              dialog.show();
+              dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+              dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+              dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+              dialog.getWindow().setGravity(Gravity.BOTTOM);
+
           }
 
           @Override

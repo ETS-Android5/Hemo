@@ -126,6 +126,32 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/settings_admin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/primary_grey_filled"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/imageViewAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_admin_panel_settings_24" />
+
+                <TextView
+                    android:id="@+id/textViewAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="  Admin"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

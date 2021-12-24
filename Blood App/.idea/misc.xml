@@ -99,12 +99,15 @@
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/drawable/ic_outline_feedback_24.xml" value="0.24375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/drawable/ic_outline_info_24.xml" value="0.24375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/drawable/ic_outline_lock_24.xml" value="0.24375" />
+        <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_admin.xml" value="0.2" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_change_password.xml" value="0.2234375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_home.xml" value="0.2234375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_main2.xml" value="0.20625" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/activity_user_feedback.xml" value="0.2234375" />
+        <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/blood_request_card.xml" value="0.6" />
+        <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/card_blood_bank.xml" value="0.2234375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/contact_us_dailog.xml" value="0.2234375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/dialog_delete_account.xml" value="0.2234375" />
         <entry key="..\:/droidrush/Hemo/Blood App/app/src/main/res/layout/fragment_create_profile.xml" value="0.2234375" />

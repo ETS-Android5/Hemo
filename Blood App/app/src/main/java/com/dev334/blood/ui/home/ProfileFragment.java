@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.FragmentProfileBinding;
+import com.dev334.blood.ui.admin.AdminActivity;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.ui.login.LoginFragment;
 import com.dev334.blood.util.app.AppConfig;
@@ -145,6 +146,15 @@ public class ProfileFragment extends Fragment {
                 show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
         });
+
+        binding.settingsAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent =new Intent(getActivity(), AdminActivity.class);
+               startActivity(intent);
+            }
+        });
+
         return binding.getRoot();
     }
 }

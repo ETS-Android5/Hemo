@@ -1,8 +1,12 @@
 package com.dev334.blood.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,8 +20,13 @@ import java.util.List;
 public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.mViewHolder>{
 
     private List<Blood> bloods;
-    public BloodRequestAdapter(List<Blood> bloods){
+    private ClickInterface clickInterface;
+    private Context context;
+    private String TAG="BloodRequestAdapter";
+    public BloodRequestAdapter(List<Blood> bloods, ClickInterface clickInterface,Context context){
         this.bloods=bloods;
+        this.clickInterface= clickInterface;
+        this.context=context;
     }
 
     @NonNull
@@ -32,6 +41,10 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         holder.setItems(bloods.get(position).getUser(),bloods.get(position).getQuantity(),bloods.get(position).getBlood());
     }
 
+    public interface ClickInterface {
+        void recyclerviewOnClick(int position);
+    }
+
 
     @Override
     public int getItemCount() {
@@ -40,13 +53,44 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     public class mViewHolder extends RecyclerView.ViewHolder{
 
-        TextView nameTxtView,bloodUnitTxtView,bloodGrpTxtView,locationTxtView;
+        TextView nameTxtView,bloodUnitTxtView,bloodGrpTxtView;
+        ImageView locationTxtView;
 
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(view -> {
+
+                clickInterface.recyclerviewOnClick(getAdapterPosition());
+
+            });
             nameTxtView=itemView.findViewById(R.id.request_card_name);
             bloodGrpTxtView=itemView.findViewById(R.id.request_card_blood_group);
             bloodUnitTxtView=itemView.findViewById(R.id.request_card_blood_quantity);
+            locationTxtView=itemView.findViewById(R.id.request_card_location);
+
+            locationTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Blood currentRequest=bloods.get(getAdapterPosition());
+
+                    Double lat=currentRequest.getLatitude();
+                    Double lng=currentRequest.getLongitude();
+
+                    String strUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng+ " (" + "Label which you want" + ")";
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+
+                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+                    context.startActivity(intent);
+
+
+
+
+                }
+            });
+
+
+
 
         }
 

@@ -1,4 +1,4 @@
-package com.dev334.blood.fcm;
+package com.dev334.blood.util.fcm;
 
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;

@@ -5,9 +5,21 @@ const scheduleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  close: {
+    type: Boolean,
+    default: false
+  },
   status: {
     type: Boolean,
-    default: true,
+    default: false,
+  },
+  approval: {
+    type: Boolean,
+    default: false
+  },
+  pending: {
+    type: Boolean,
+    default: true
   },
   created: {
     type: Date,

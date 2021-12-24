@@ -5,6 +5,7 @@ require('dotenv').config();
 const mongoose=require('mongoose')
 const userRoute = require('./routes/user');
 const bloodRoute=require('./routes/blood')
+const adminRoute=require('./routes/admin')
 
 mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true}, ()=>{
     console.log('Mongo DB running')
@@ -17,11 +18,14 @@ app.use('/api/user', userRoute);
 //data route
 app.use('/api/blood', bloodRoute);
 
+//admin route
+app.use('/api/admin', adminRoute)
+
 
 
 
 app.use((req, res, next)=>{
-    next(createError(404, 'Not found'))
+    next(createError(404, 'Not Found: Route'))
 })
 
 app.use((err, req, res, next) =>{

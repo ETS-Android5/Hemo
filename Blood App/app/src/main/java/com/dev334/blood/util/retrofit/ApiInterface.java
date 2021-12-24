@@ -46,4 +46,7 @@ public interface ApiInterface {
 
     @POST("api/blood/schedule")
     Call<ApiResponse> schedule(@Body Schedule schedule);
+
+    @GET("api/admin/schedule")
+    Call<List<Schedule>> getSchedule(@Query("bank_id") String bank_id,@Query("pending") String pending);
  }

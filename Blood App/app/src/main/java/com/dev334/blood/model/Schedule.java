@@ -1,7 +1,7 @@
 package com.dev334.blood.model;
 
 public class Schedule {
-    private String user, bank_id, bank, date, time;
+    private String user, bank_id, bank, date, time,_id;
 
     public Schedule(String user, String bank_id, String bank, String date, String time) {
         this.user = user;
@@ -49,5 +49,13 @@ public class Schedule {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

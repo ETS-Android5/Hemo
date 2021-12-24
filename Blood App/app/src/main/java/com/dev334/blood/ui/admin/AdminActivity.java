@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.dev334.blood.R;
@@ -30,7 +31,9 @@ public class AdminActivity extends AppCompatActivity {
     private String TAG="AdminActivity";
     private ScheduleRequestAdapter scheduleRequestAdapter;
     private List<Schedule> schedules;
+    private List<Schedule> ApprovedSchedules;
     ActivityAdminBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +42,26 @@ public class AdminActivity extends AppCompatActivity {
         binding=ActivityAdminBinding.inflate(getLayoutInflater());
         schedules=new ArrayList<>();
         reqSchedule();
+
+        binding.buttonPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reqSchedule();
+            }
+        });
+
+        binding.buttonApproved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         setContentView(binding.getRoot());
     }
     private void reqSchedule() {
 
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2565","1");
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2525","1");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {

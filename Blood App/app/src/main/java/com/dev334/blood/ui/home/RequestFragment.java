@@ -286,7 +286,7 @@ public class RequestFragment extends Fragment {
 
         final Dialog dialog=new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_blood_requested);
+        dialog.setContentView(R.layout.dialog_error_404);
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);

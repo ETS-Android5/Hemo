@@ -20,7 +20,7 @@ public class ApiClient {
     //Darpan ipv4:- 192.168.29.186
     //Aditya ipv4:- 192.168.29.237
     //Anant ipv4:- 192.168.1.4
-    private static final String BASE_URL = "http://192.168.29.237:3000/";
+    private static final String BASE_URL = "http://192.168.1.4:3000/";
     private static Retrofit retrofit=null;
     private static String auth_token="";
 

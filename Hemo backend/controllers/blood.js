@@ -3,7 +3,30 @@ const createError = require('http-errors');
 const Blood = require('../model/Blood')
 const {bloodValidation, scheduleValidation} = require("../validation");
 const Schedule = require('../model/schedule');
+const ScheduleTemplate = require('../template/schedule')
 const notif = require('../notification/notification') 
+const nodemailer = require("nodemailer");
+const User = require('../model/user')
+
+
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    service: "gmail",
+    auth: {
+      user: process.env.AUTH_EMAIL,
+      pass: process.env.AUTH_PASS,
+    },
+  });
+  
+  // testing nodemailer
+  transporter.verify((error, success) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Ready for messages");
+      console.log(success);
+    }
+  });
 
 exports.blood_all_req = async (req, res, next)=>{
     try{
@@ -54,6 +77,9 @@ exports.blood_save_req = async (req, res, next)=>{
 }
 
 exports.blood_schedule = async (req, res, next)=>{
+
+    console.log("schedule called")
+
     const {valid, error} = scheduleValidation(req.body)
     if(!valid){
         next(createError(400, error))
@@ -62,49 +88,25 @@ exports.blood_schedule = async (req, res, next)=>{
 
     try{
 
-        const{name, user, bank, date, time} = req.body;
+        const{user, bank, date, time} = req.body;
 
-        const token = "cJ4l2E5jSOiiQDPxtnx912:APA91bE6CmXSynk5zWrRx_abzTy-bOAstiEL9S59c4Vj4p23ScNj5lm0lJn31RX8TKQCTdHAqRrjXQi-wYtO6wPFfOQLYH9FfcTPGupTR3eaRhgtLM4zKCdc5K9VMNxQlebeY3CzarHI";
+        const muser= await User.findOne({_id:user})
+
         const schedule = new Schedule(req.body)
         await schedule.save();
 
+        
+        res.status(200).send({
+          status: 200,
+          message: "approval updated"
+        })
+
+        //const token = "cJ4l2E5jSOiiQDPxtnx912:APA91bE6CmXSynk5zWrRx_abzTy-bOAstiEL9S59c4Vj4p23ScNj5lm0lJn31RX8TKQCTdHAqRrjXQi-wYtO6wPFfOQLYH9FfcTPGupTR3eaRhgtLM4zKCdc5K9VMNxQlebeY3CzarHI";
         //notif.send_notificaiton(token, "Appointment Scheduled", "Your blood can save someone's life")
 
-        sendVerificationEmail(name, user, "anantshukla1402@gmail.com", date, time, bank)
-
-        res.status(200).send({
-            status: 200,
-            message: 'Saved'
-        })
     }catch(error){
         next(error)
         return
     }
 
 }
-
-const sendVerificationEmail = ({ name, _id, email, date, time, bank}, res, next) => {
-    //url to be used in the email
-  
-    const uniqueString = uuidv4() + _id;
-    const curUrl = "http://localhost:3000/" + "api/user/verify/" + uniqueString;
-  
-    var mailOptions = {
-      from: process.env.AUTH_EMAIL,
-      to: email,
-      subject: "Email verification Hemo Dev334",
-      html: pug.renderFile('F:\Software Projects\Hemo\Hemo backend\views\schedule.pug', { name: name, user_id: _id, date: date, time: time, bank: bank})
-    };
-    transporter.sendMail(mailOptions, async function (error, response) {
-      if (error) {
-        next(error);
-        return;
-      } else {
-        res.status = 200;
-        res.send({
-          status: 200,
-          message: "Email sent",
-        });
-      }
-    });
-  };

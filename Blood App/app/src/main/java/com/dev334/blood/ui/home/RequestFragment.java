@@ -2,13 +2,17 @@ package com.dev334.blood.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +23,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.dev334.blood.R;
@@ -53,6 +59,10 @@ public class RequestFragment extends Fragment {
     private int REQ_PDF=21;
     private String encodedPDF;
     private boolean pdfUploadFlag=false;
+    private boolean CONTACT_UPLOAD_FLAG=false;
+    private static final int CONTACT_PERMISSION_CODE=1;
+    private static final int CONTACT_PICK_CODE=2;
+
     StorageReference storageReference;
 
 
@@ -133,11 +143,24 @@ public class RequestFragment extends Fragment {
         });
 
 
-        binding.verifiyFile.setOnClickListener(v->{
+        binding.verifyFile.setOnClickListener(v->{
              Intent chooseFile=new Intent(Intent.ACTION_GET_CONTENT);
              chooseFile.setType("application/pdf");
              chooseFile=Intent.createChooser(chooseFile,"Choose a valid pdf");
              startActivityForResult(chooseFile,REQ_PDF);
+        });
+
+        binding.phoneNo.setOnClickListener(v->{
+
+                if(checkContactPermission())
+                {
+                  pickContactIntent();
+                }
+                else
+                {
+                    requestContactPermission();
+                }
+
         });
 
 
@@ -160,7 +183,11 @@ public class RequestFragment extends Fragment {
             }
             else if(pdfUploadFlag==false)
             {
-               binding.verifiyFile.setError("Upload a valid document to avoid illegal activities");
+               binding.verifyFile.setError("Upload a valid document to avoid illegal activities");
+            }
+            else if(CONTACT_UPLOAD_FLAG==false)
+            {
+                binding.phoneNo.setError("please give contact number");
             }
             else{
                 //open location
@@ -176,15 +203,7 @@ public class RequestFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==REQ_PDF && resultCode==RESULT_OK && data!=null)
-        {
-            uploadToStorage(data.getData(),data);
-        }
-    }
 
     private void uploadToStorage(Uri data, Intent intent) {
 
@@ -206,7 +225,7 @@ public class RequestFragment extends Fragment {
                  File file= new File(uri.getPath());
 
 
-                 binding.verifiyFile.setText(file.getName().toString());
+                 binding.verifyFile.setText(file.getName().toString());
                  pdfUploadFlag=true;
                  progressDialog.dismiss();
 
@@ -256,33 +275,129 @@ public class RequestFragment extends Fragment {
                 }
           }
 
-          private void showDialog() {
-
-              final Dialog dialog=new Dialog(getContext());
-              dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-              dialog.setContentView(R.layout.dialog_blood_requested);
-
-              dialog.show();
-              dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-              dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-              dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
-              dialog.getWindow().setGravity(Gravity.BOTTOM);
-
-          }
-
           @Override
           public void onFailure(Call<ApiResponse> call, Throwable t) {
-              Log.i(TAG, "onFailure: "+t.getMessage());
+              showErrorDialog();
           }
       });
+    }
+
+    private void showErrorDialog() {
+
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_blood_requested);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
     }
 
     private void clearAllFeilds() {
         disableAllButton();
         binding.EditQuantity.setText("");
         binding.editInformation.setText("");
-        binding.verifiyFile.setText("Upload Valid document");
+        binding.verifyFile.setText("Upload Valid document");
     }
+
+    private void showDialog() {
+
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_blood_requested);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+    }
+
+    private boolean checkContactPermission(){
+
+         boolean result= ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)== (PackageManager.PERMISSION_GRANTED);
+
+         return result;
+    }
+
+    private void requestContactPermission(){
+          String[] permission={Manifest.permission.READ_CONTACTS};
+        ActivityCompat.requestPermissions(getActivity(),permission,CONTACT_PERMISSION_CODE);
+    }
+
+    private void pickContactIntent(){
+          Intent intent=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+          startActivityForResult(intent,CONTACT_PICK_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode==CONTACT_PERMISSION_CODE)
+        {
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+            {
+                pickContactIntent();
+            }
+            else
+            {
+                Toast.makeText(getContext(),"Permission Denied",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==REQ_PDF && resultCode==RESULT_OK && data!=null)
+        {
+            uploadToStorage(data.getData(),data);
+        }
+
+        if(requestCode==CONTACT_PICK_CODE && resultCode==RESULT_OK)
+        {
+            binding.phoneNo.setText("");
+
+
+            Cursor c = getActivity().getContentResolver().query(data.getData(), null, null, null, null);
+            String number="";
+            if (c.moveToFirst()) {
+
+
+                String id =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+
+                String hasPhone =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                //String hasEmail =c.getString(c.getColumnIndex(ContactsContract.Contacts.Data.DATA1.));
+
+
+                if (hasPhone.equalsIgnoreCase("1")) {
+                    Cursor phones = getActivity().getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id,
+                            null, null);
+                    phones.moveToFirst();
+                    number = phones.getString(phones.getColumnIndexOrThrow("data1"));
+                    binding.phoneNo.setText(number);
+                    mBlood.setContact(number);
+                    CONTACT_UPLOAD_FLAG=true;
+                    phones.close();
+                }
+
+
+                c.close();
+            }
+
+
+        }
+
+    }
+
 
     @Override
     public void onResume() {

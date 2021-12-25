@@ -3,29 +3,9 @@ const createError = require('http-errors');
 const Blood = require('../model/Blood')
 const {bloodValidation, scheduleValidation} = require("../validation");
 const Schedule = require('../model/schedule');
-const ScheduleTemplate = require('../template/schedule')
-const nodemailer = require("nodemailer");
 const User = require('../model/user')
 
 
-let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    service: "gmail",
-    auth: {
-      user: process.env.AUTH_EMAIL,
-      pass: process.env.AUTH_PASS,
-    },
-  });
-  
-  // testing nodemailer
-  transporter.verify((error, success) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Ready for messages");
-      console.log(success);
-    }
-  });
 
 exports.blood_all_req = async (req, res, next)=>{
     try{

@@ -21,6 +21,7 @@ import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.User;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -262,7 +263,7 @@ public class CreateProfileFragment extends Fragment {
                 genderString=gender.getText().toString();
                 weightString=weight.getText().toString();
                 if(check()){
-                  createUser();
+                    createUser();
                 }
             }
 
@@ -274,7 +275,7 @@ public class CreateProfileFragment extends Fragment {
     }
 
     private void createUser() {
-        User user = new User("mittal11darpan@gmail.com",Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
+        User user = new User(((LoginActivity)getActivity()).getUserEmail(),Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
         Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).createUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override

@@ -10,6 +10,7 @@ public class User {
     private String blood;
     private String location;
     private String _id;
+    private String token;
     public User(){
         //empty
     }
@@ -20,9 +21,10 @@ public class User {
         this.password = password;
     }
 
-    public User(String email, String password) {
+    public User(String email, String password, String token, boolean random) {
         this.email = email;
         this.password = password;
+        this.token=token;
     }
 
     public User(String email,Integer weight, String gender, String dob, String bloodGroup, String location) {
@@ -34,6 +36,7 @@ public class User {
         this.location = location;
     }
 
+
     public void setUserData(String name, String email, Integer weight, String gender, String dob, String blood, String location) {
         this.name = name;
         this.email = email;
@@ -42,6 +45,14 @@ public class User {
         this.dob = dob;
         this.blood = blood;
         this.location = location;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getId() {

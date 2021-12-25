@@ -57,8 +57,11 @@ const loginValidation = (body) => {
         minLength: 6,
         maxLength: 1024,
       },
+      token: {
+        type: "string"
+      }
     },
-    required: ["email", "password"],
+    required: ["email", "password", "token"],
   };
   const valid = ajv.validate(schema, body);
   var error = ajv.errors;
@@ -93,12 +96,9 @@ const profileValidation = (body) => {
       },
       past: {
         type: "string",
-      },
-      token: {
-        type: "string"
       }
     },
-    required: ["dob", "location", "weight", "gender", "blood", "token"],
+    required: ["dob", "location", "weight", "gender", "blood"],
   };
   const valid = ajv.validate(schema, body);
   var error = ajv.errors;

@@ -93,12 +93,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void setUserID(String UserId){
         Log.i(TAG, "setUserID: "+UserId);
+        appConfig.setUserID(UserId);
         this.UserId=UserId;
     }
 
     public void setSignUpCredentials(String email, String password){
         this.email=email;
         this.password=password;
+        appConfig.setUserEmail(email);
+    }
+
+    public String getUserEmail(){
+        return appConfig.getUserEmail();
     }
 
     public String getSignUpEmail(){
@@ -132,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void openHomeActivity() {
         User user = new User();
-        Call<User> call = ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getUser(UserId);
+        Call<User> call = ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getUser(appConfig.getUserID());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -150,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.i(TAG, "onResponse: "+response.message());
 
-                user.setId(UserId);
+                user.setId(appConfig.getUserID());
                 user.setUserData(response.body().getName(), response.body().getEmail(), response.body().getWeight()
                 , response.body().getGender(), response.body().getDob(), response.body().getBloodGroup(), response.body().getLocation()
                 );

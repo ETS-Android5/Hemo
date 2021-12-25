@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -17,10 +18,15 @@ import com.dev334.blood.database.TinyDB;
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.User;
 import com.dev334.blood.R;
+import com.dev334.blood.ui.home.HomeActivity;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +88,7 @@ public class LoginFragment extends Fragment {
                 Email=EditEmail.getText().toString();
                 Password=EditPassword.getText().toString();
                 if(check(Email,Password)) {
-                    SignInUser();
+                    getNotificationToken();
                 }else {
                     loading.setVisibility(View.INVISIBLE);
                 }
@@ -105,9 +111,9 @@ public class LoginFragment extends Fragment {
         snackbar.show();
     }
 
-    private void SignInUser() {
+    private void SignInUser(String token) {
 
-        User user = new User(Email,Password);
+        User user = new User(Email,Password,token, true);
         Call<User> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
         call.enqueue(new Callback<User>() {
             @Override
@@ -164,6 +170,26 @@ public class LoginFragment extends Fragment {
                 return true;
             }
         }
+    }
+
+    private void getNotificationToken(){
+        FirebaseApp.initializeApp(getActivity());
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful())
+                {
+                    Log.i(TAG, "onComplete: Could not get the token");
+                    return;
+                }
+                if(task.getResult()!=null)
+                {
+                    String firebaseMessagingToken =task.getResult();
+                    SignInUser(firebaseMessagingToken);
+                }
+
+            }
+        });
     }
 
 }

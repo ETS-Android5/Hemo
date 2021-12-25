@@ -57,4 +57,20 @@ public class AppConfig {
         return tinyDB.getBoolean("Profile");
     }
 
+    public void setUserEmail(String email) {
+        tinyDB.putString("Email", email);
+        return;
+    }
+
+    public String getUserEmail(){
+        return tinyDB.getString("Email");
+    }
+
+    public String getUserID() {
+        return tinyDB.getString("UserId");
+    }
+
+    public void setUserID(String UserId){
+        tinyDB.putString("UserId", UserId);
+    }
 }

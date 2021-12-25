@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const createError = require('http-errors');
 const Schedule = require('../model/schedule');
 const Blood = require('../model/Blood');
+const notif = require('../notification/notification') 
 
 exports.get_all_schedule = async (req, res, next)=>{
     try{
@@ -34,12 +35,14 @@ exports.approve_schedule = async (req, res, next)=>{
         }
 
         const name =muser.name;
+        const token=muser.token;
         const email = muser.email;
         const bank = schedule.bank
         const date = schedule.date
         const time = schedule.time
         const user = schedule.user
-
+        
+        notif.send_notificaiton(token, "Appointment Scheduled", "Your blood can save someone's life")
         sendVerificationEmail({email , name, bank, date, time, user}, res)
 
     }catch(error){

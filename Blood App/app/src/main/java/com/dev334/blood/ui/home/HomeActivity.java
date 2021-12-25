@@ -70,25 +70,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
 
-        FirebaseApp.initializeApp(HomeActivity.this);
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if(!task.isSuccessful())
-                {
-                    Log.i(TAG, "onComplete: Could not get the token");
-                    return;
-                }
-                if(task.getResult()!=null)
-                {
-                    String firebaseMessagingToken =task.getResult();
-                    Log.i(TAG, "Token :"+firebaseMessagingToken);
-                }
-
-            }
-        });
-
-
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

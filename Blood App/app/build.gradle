@@ -50,6 +50,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'com.google.android.gms:play-services-location:19.0.0'
     implementation 'com.github.gastricspark:scrolldatepicker:0.0.1'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
 
 
 

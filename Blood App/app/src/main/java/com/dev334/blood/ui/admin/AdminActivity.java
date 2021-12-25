@@ -30,38 +30,48 @@ public class AdminActivity extends AppCompatActivity {
 
     private String TAG="AdminActivity";
     private ScheduleRequestAdapter scheduleRequestAdapter;
-    private List<Schedule> schedules;
-    private List<Schedule> ApprovedSchedules;
+    private List<Schedule> approvedSchedules,pendingSchedule;
     ActivityAdminBinding binding;
-
+    private boolean PENDING=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding=ActivityAdminBinding.inflate(getLayoutInflater());
-        schedules=new ArrayList<>();
-        reqSchedule();
+        approvedSchedules =new ArrayList<>();
+        pendingSchedule = new ArrayList<>();
+        reqPendingSchedule();
+        reqApprovedSchedule();
+
 
         binding.buttonPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reqSchedule();
+                PENDING=true;
+                scheduleRequestAdapter= new ScheduleRequestAdapter(pendingSchedule,PENDING,getApplicationContext());
+                binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
+                binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                binding.ScheduleRecyclerView.setHasFixedSize(true);
             }
         });
 
         binding.buttonApproved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                PENDING=false;
+                scheduleRequestAdapter= new ScheduleRequestAdapter(approvedSchedules,PENDING,getApplicationContext());
+                binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
+                binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                binding.ScheduleRecyclerView.setHasFixedSize(true);
             }
         });
 
         setContentView(binding.getRoot());
     }
-    private void reqSchedule() {
 
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2525","1");
+    private void reqApprovedSchedule() {
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2567","0");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
@@ -74,9 +84,37 @@ public class AdminActivity extends AppCompatActivity {
 
                 if(response.code() == 200){
                     Log.i(TAG, "onResponse: Successful");
-                    schedules=response.body();
-                    Log.i(TAG, "Array of Schedules: "+schedules);
-                    scheduleRequestAdapter= new ScheduleRequestAdapter(schedules);
+                    approvedSchedules=response.body();
+                    Log.i(TAG, "Array of Schedules: "+approvedSchedules);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Schedule>> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
+    private void reqPendingSchedule() {
+
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2567","1");
+        call.enqueue(new Callback<List<Schedule>>() {
+            @Override
+            public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
+                    Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(response.code() == 200){
+                    Log.i(TAG, "onResponse: Successful");
+                    pendingSchedule=response.body();
+                    Log.i(TAG, "Array of Schedules: "+pendingSchedule);
+                    scheduleRequestAdapter= new ScheduleRequestAdapter(pendingSchedule,PENDING,getApplicationContext());
                     binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
                     binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     binding.ScheduleRecyclerView.setHasFixedSize(true);

@@ -89,7 +89,14 @@ exports.status_schedule = async (req, res, next)=>{
     try{
         const id = req.query.id
         const status = !!parseInt(req.query.status)
-        await Schedule.updateOne({_id: id},{status, close:true})
+        const schedule=await Schedule.findOneAndUpdate({_id: id},{status, close:true})
+        
+        if(status){
+          notif.send_notificaiton(token, schedule.bank, "Thank you for donating blood")
+        }else{
+          notif.send_notificaiton(token,schedule.bank, "No worries hope you donate next time")
+        }
+
         res.status(200).send({
             status: 200,
             message: "status updated"
@@ -118,8 +125,10 @@ exports.verify_request = async(req, res, next)=>{
         const verified = !!parseInt(req.query.id)
         if(!verified){
             await Blood.updateOne({_id}, {verified, status: false})
+            notif.send_notificaiton(token, "Blood request", "Your recent blood request was rejected")
         }else{
             await Blood.updateOne({_id}, {verified})
+            notif.send_notificaiton(token, "Blood request", "Your recent blood request was accepted")
         }
         res.status(200).send({
             status: 200,

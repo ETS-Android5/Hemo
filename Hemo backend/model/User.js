@@ -50,6 +50,9 @@ const userSchema = new mongoose.Schema({
     weight: {
         type: Number,
         min: 45
+    },
+    token: {
+        type: String,
     }
 
 })

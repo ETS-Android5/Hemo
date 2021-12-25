@@ -94,8 +94,11 @@ const profileValidation = (body) => {
       past: {
         type: "string",
       },
+      token: {
+        type: "string"
+      }
     },
-    required: ["dob", "location", "weight", "gender", "blood"],
+    required: ["dob", "location", "weight", "gender", "blood", "token"],
   };
   const valid = ajv.validate(schema, body);
   var error = ajv.errors;

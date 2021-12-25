@@ -128,6 +128,9 @@ public class ScheduleFragment extends Fragment {
         Schedule schedule=new Schedule(((HomeActivity)getActivity()).getUserId(), bloodBank.getId(),
                 bloodBank.getBankName(), dateString, time);
 
+        Log.i(TAG, "scheduleAppointment: "+schedule.getBank());
+
+
         Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class).schedule(schedule);
         call.enqueue(new Callback<ApiResponse>() {
             @Override

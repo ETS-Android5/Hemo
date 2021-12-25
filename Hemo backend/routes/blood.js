@@ -3,6 +3,7 @@ const verify = require('../middleware/verify-token')
 
 const BloodController = require('../controllers/blood')
 
+
 router.get('/req', verify, BloodController.blood_all_req)
 
 router.post('/req', verify, BloodController.blood_save_req)

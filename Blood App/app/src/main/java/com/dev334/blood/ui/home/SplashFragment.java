@@ -1,14 +1,13 @@
 package com.dev334.blood.ui.home;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.dev334.blood.R;
 import com.dev334.blood.model.Blood;
@@ -53,7 +52,7 @@ public class SplashFragment extends Fragment {
             ((HomeActivity)getActivity()).setUser(user);
 
             Call<List<Blood>> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
-                    .getBloodReq("Lucknow", ((HomeActivity)getActivity()).getUserBlood());
+                    .getBloodReq("Noida","O-");
             call.enqueue(new Callback<List<Blood>>() {
                 @Override
                 public void onResponse(Call<List<Blood>> call, Response<List<Blood>> response) {

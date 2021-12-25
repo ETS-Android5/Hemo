@@ -13,13 +13,22 @@ public class Blood {
     private String info;
     private String file;
 
+    private String contact;
+
     public Blood(){
         //empty constructor
     }
 
 
+    public String getContact() {
+        return contact;
+    }
 
-    public Blood(String user, Double latitude, Double longitude, String location, Integer quantity, String blood, String file) {
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public Blood(String user, Double latitude, Double longitude, String location, Integer quantity, String blood, String file, String contact) {
         this.user = user;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -27,6 +36,7 @@ public class Blood {
         this.quantity = quantity;
         this.blood = blood;
         this.file=file;
+        this.contact=contact;
     }
     public String getFile() {
         return file;

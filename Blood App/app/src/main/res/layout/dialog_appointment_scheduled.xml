@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_request_bg">
+
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="clip_horizontal|center_horizontal"
+        android:src="@drawable/ic_scheduled_01"></ImageView>
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hey Hero!"
+        android:textColor="@color/Text"
+        android:textSize="16sp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="center_horizontal"
+        />
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Appointment Sent for approval."
+        android:textColor="@color/Text"
+        android:textSize="12sp"
+        android:fontFamily="@font/poppinsmedium"
+        android:gravity="center_horizontal"
+        />
+
+
+</LinearLayout>

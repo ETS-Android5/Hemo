@@ -3,6 +3,29 @@ const createError = require('http-errors');
 const Schedule = require('../model/schedule');
 const Blood = require('../model/Blood');
 const notif = require('../notification/notification') 
+const nodemailer = require("nodemailer");
+const ScheduleTemplate = require("../template/schedule")
+const User = require('../model/user')
+
+//nodemailer transpoter
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    service: "gmail",
+    auth: {
+      user: process.env.AUTH_EMAIL,
+      pass: process.env.AUTH_PASS,
+    },
+  });
+  
+  // testing nodemailer
+  transporter.verify((error, success) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Ready for messages");
+      console.log(success);
+    }
+  });
 
 exports.get_all_schedule = async (req, res, next)=>{
     try{
@@ -18,14 +41,27 @@ exports.get_all_schedule = async (req, res, next)=>{
 
 exports.approve_schedule = async (req, res, next)=>{
     try{
+        
         const id = req.query.id
         const approval = !!parseInt(req.query.approval)
-        const schedule = await Schedule.updateOne({_id: id},{approval, pending: false})
+
+        console.log(id, approval)
+
+        const schedule = await Schedule.findOneAndUpdate({_id: id},{approval, pending: false})
+
+        console.log(schedule)
 
         if(!schedule){
             next(createError(404, "Schedule not found"))
             return;
         }
+
+        
+        const bank = schedule.bank
+        const date = schedule.date
+        const time = schedule.time
+        const user = schedule.user
+        
 
         const muser= await User.findOne({_id:user})
 
@@ -37,10 +73,8 @@ exports.approve_schedule = async (req, res, next)=>{
         const name =muser.name;
         const token=muser.token;
         const email = muser.email;
-        const bank = schedule.bank
-        const date = schedule.date
-        const time = schedule.time
-        const user = schedule.user
+
+        console.log(email , name, bank, date, time, user)
         
         notif.send_notificaiton(token, "Appointment Scheduled", "Your blood can save someone's life")
         sendVerificationEmail({email , name, bank, date, time, user}, res)
@@ -116,8 +150,6 @@ const sendVerificationEmail = ({email, name, bank, date, time, user},res, next) 
         });
         return;
       } else {
-        res.status = 200;
-        
         res.status(200).send({
           status: 200,
           message: "approval updated"

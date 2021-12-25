@@ -4,7 +4,6 @@ const Blood = require('../model/Blood')
 const {bloodValidation, scheduleValidation} = require("../validation");
 const Schedule = require('../model/schedule');
 const ScheduleTemplate = require('../template/schedule')
-const notif = require('../notification/notification') 
 const nodemailer = require("nodemailer");
 const User = require('../model/user')
 
@@ -102,7 +101,7 @@ exports.blood_schedule = async (req, res, next)=>{
         })
 
         //const token = "cJ4l2E5jSOiiQDPxtnx912:APA91bE6CmXSynk5zWrRx_abzTy-bOAstiEL9S59c4Vj4p23ScNj5lm0lJn31RX8TKQCTdHAqRrjXQi-wYtO6wPFfOQLYH9FfcTPGupTR3eaRhgtLM4zKCdc5K9VMNxQlebeY3CzarHI";
-        //notif.send_notificaiton(token, "Appointment Scheduled", "Your blood can save someone's life")
+        
 
     }catch(error){
         next(error)

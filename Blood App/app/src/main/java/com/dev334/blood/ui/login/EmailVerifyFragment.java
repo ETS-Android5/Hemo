@@ -2,6 +2,7 @@ package com.dev334.blood.ui.login;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +20,10 @@ import com.dev334.blood.model.User;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,19 +61,19 @@ public class EmailVerifyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loading.setVisibility(View.VISIBLE);
-                SignInUser();
+                getNotificationToken();
             }
         });
 
         return view;
     }
 
-    private void SignInUser() {
+    private void SignInUser(String token) {
 
         String Email=((LoginActivity)getActivity()).getSignUpEmail();
         String Password=((LoginActivity)getActivity()).getSignUpPassword();
 
-        User user = new User(Email,Password);
+        User user = new User(Email,Password, token, true);
         Call<User> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).loginUser(user);
         call.enqueue(new Callback<User>() {
             @Override
@@ -89,7 +94,7 @@ public class EmailVerifyFragment extends Fragment {
                 Log.i(TAG, "onResponse: "+response.headers().get("auth_token"));
 
                 ((LoginActivity)getActivity()).setUserID(response.body().getId());
-
+                appConfig.setLoginStatus(true);
                 appConfig.setAuthToken(response.headers().get("auth_token"));
                 ((LoginActivity)getActivity()).openCreateProfile();
                 loading.setVisibility(View.INVISIBLE);
@@ -103,4 +108,25 @@ public class EmailVerifyFragment extends Fragment {
         });
 
     }
+
+    private void getNotificationToken(){
+        FirebaseApp.initializeApp(getActivity());
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful())
+                {
+                    Log.i(TAG, "onComplete: Could not get the token");
+                    return;
+                }
+                if(task.getResult()!=null)
+                {
+                    String firebaseMessagingToken =task.getResult();
+                    SignInUser(firebaseMessagingToken);
+                }
+
+            }
+        });
+    }
+
 }

@@ -53,4 +53,7 @@ public interface ApiInterface {
 
     @PATCH("api/admin/schedule/approval")
     Call<ApiResponse> setApproval(@Query("id") String id,@Query("approval") String approval);
+
+    @PATCH("api/admin/schedule/status")
+    Call<ApiResponse> setSuccess(@Query("id") String id,@Query("approval") String approval);
  }

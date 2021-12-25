@@ -52,8 +52,17 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
             public void onClick(View view) {
                 if(PENDING){
                     Approval(schedules.get(position).get_id(),"1");
+                    int actualPosition=holder.getAdapterPosition();
+                    schedules.remove(actualPosition);
+                    notifyItemRemoved(actualPosition);
+                    notifyItemRangeChanged(actualPosition,schedules.size());
+                    Toast.makeText(view.getContext(), "Marked Approved",Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(view.getContext(), "Marked Approved",Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(view.getContext(), "Success",Toast.LENGTH_SHORT).show();
+                    Success(schedules.get(position).get_id(),"1");
+                }
+
             }
         });
 
@@ -66,6 +75,9 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
                 notifyItemRangeChanged(actualPosition,schedules.size());
                 if(PENDING){
                     Approval(schedules.get(position).get_id(),"0");
+                }
+                else{
+                    Success(schedules.get(position).get_id(),"0");
                 }
                 Toast.makeText(view.getContext(), "Declined",Toast.LENGTH_SHORT).show();
             }
@@ -117,7 +129,32 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
                 Log.i(TAG, "onResponse: "+response.body());
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
-                    Toast.makeText(context, "Blood requested", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Request Approved", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
+    public void Success(String userId,String approved){
+        Call<ApiResponse> call= ApiClient.getApiClient(context).create(ApiInterface.class).setSuccess(userId,approved);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
+                    Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
                 }
             }
 

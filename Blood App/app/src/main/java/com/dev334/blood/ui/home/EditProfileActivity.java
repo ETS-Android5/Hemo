@@ -1,14 +1,13 @@
 package com.dev334.blood.ui.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityEditProfileBinding;
@@ -27,7 +26,7 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityEditProfileBinding.inflate(getLayoutInflater());
-
+        setContentView(binding.getRoot());
         newWeight=binding.EditYourWeight.getText().toString();
         newPhone=binding.EditYourPhone.getText().toString();
         stateSpinner=findViewById(R.id.spinner_indian_states_editProfile);
@@ -197,7 +196,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        setContentView(binding.getRoot());
+
     }
 
     private boolean checkAll() {

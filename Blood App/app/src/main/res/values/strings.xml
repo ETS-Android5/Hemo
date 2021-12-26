@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blood</string>
+    <string name="app_name">Hemo</string>
     <string name="BaseURL">http://192.168.29.237:3000/</string>
     <string name="mapbox_access_token">pk.eyJ1Ijoib25lb24iLCJhIjoiY2t3dDBsemMxMDQ5dDJybWl0ZWtnaTh5ZCJ9.vJ_c4dfplBSKRnLQ0aJ9kQ</string>
 

@@ -19,11 +19,7 @@ import com.dev334.blood.model.User;
 import com.dev334.blood.ui.MapActivity;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;

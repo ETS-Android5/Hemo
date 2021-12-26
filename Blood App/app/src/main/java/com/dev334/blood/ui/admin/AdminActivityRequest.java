@@ -33,13 +33,13 @@ public class AdminActivityRequest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_admin_request);
 
         pendingRequests=new ArrayList<>();
         recyclerViewPendingRequests=(RecyclerView) findViewById(R.id.blood_request_pending_recycler);
         reqPendingRequests();
 
 
-        setContentView(R.layout.activity_admin_request);
     }
 
     private void reqPendingRequests() {

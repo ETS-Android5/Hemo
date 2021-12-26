@@ -18,6 +18,7 @@ import com.dev334.blood.model.User;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.dev334.blood.util.retrofit.NoConnectivityException;
 
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class SplashFragment extends Fragment {
                     if(response.code()==200){
                         Log.i(TAG, "onResponse: "+response.body());
                         ((HomeActivity)getActivity()).setBloodRequests(response.body());
+                        ((HomeActivity)getActivity()).openHomeFragment();
                     }
 
                 }
@@ -75,11 +77,14 @@ public class SplashFragment extends Fragment {
                 @Override
                 public void onFailure(Call<List<Blood>> call, Throwable t) {
                     Log.i(TAG, "onFailure: "+t.getMessage());
+
+                    if(t instanceof NoConnectivityException){
+                        ((HomeActivity)getActivity()).openNoInternetFragment();
+                    }
+
                 }
             });
         }
-
-        ((HomeActivity)getActivity()).openHomeFragment();
 
         return view;
     }

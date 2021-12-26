@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private ProfileFragment profileFragment;
     private RequestFragment requestFragment;
     private SplashFragment splashFragment;
+    private NoInternetFragment noInternetFragment;
     private FragmentManager fragmentManager;
     private ActivityHomeBinding binding;
     private AppConfig appConfig;
@@ -56,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         profileFragment=ProfileFragment.newInstance();
         requestFragment=RequestFragment.newInstance();
         splashFragment=new SplashFragment();
+        noInternetFragment = NoInternetFragment.newInstance();
 
         appConfig= new AppConfig(this);
         bloods=new ArrayList<>();
@@ -63,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
         fragmentManager=getSupportFragmentManager();
 
         if(savedInstanceState==null){
+            binding.bottomNavigationBar.setVisibility(View.GONE);
+            binding.floatingActionButton.setVisibility(View.GONE);
             binding.bottomNavView.getMenu().getItem(0).isChecked();
             replaceFragment(splashFragment);
         }
@@ -133,6 +137,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openHomeFragment() {
+        binding.bottomNavigationBar.setVisibility(View.VISIBLE);
+        binding.floatingActionButton.setVisibility(View.VISIBLE);
         replaceFragment(homeFragment);
     }
 
@@ -177,5 +183,9 @@ public class HomeActivity extends AppCompatActivity {
     public void setUserRequest(Blood body) {
         Log.i(TAG, "setUserRequest: "+body);
         userBlood=body;
+    }
+
+    public void openNoInternetFragment() {
+        replaceFragment(noInternetFragment);
     }
 }

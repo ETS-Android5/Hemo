@@ -206,7 +206,7 @@ exports.remove_schedule = async (req, res, next)=>{
 exports.show_user_schedule = async (req, res, next)=>{
     try{
         const user_id=req.body.user_id;
-        const schedule = await Schedule.findOne({user: user_id})
+        const schedule = await Schedule.findOne({user: user_id, close: false})
         if(schedule){
             res.send(schedule);
         }else{
@@ -221,7 +221,7 @@ exports.show_user_schedule = async (req, res, next)=>{
 exports.show_user_request = async (req, res, next)=>{
     try{
         const user_id=req.query.user_id;
-        const request = await Blood.findOne({user: user_id})
+        const request = await Blood.findOne({user: user_id, status: true})
 
         if(request){
             res.send(request);

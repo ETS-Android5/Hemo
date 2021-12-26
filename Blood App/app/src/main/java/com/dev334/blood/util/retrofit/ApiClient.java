@@ -45,6 +45,7 @@ public class ApiClient {
                                     return chain.proceed(request);
                                 }
                             })
+                    .addInterceptor(new NetworkConnectionInterceptor(context))
                     .build();
 
             retrofit = new Retrofit.Builder()

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -89,7 +90,19 @@ public class NotificationFragment extends Fragment implements BloodRequestAdapte
         close=view.findViewById(R.id.card_request_close_btn);
         viewpdf=view.findViewById(R.id.card_request_document_btn);
 
-
+          contact.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  String phone=bloods.get(position).getPhone();
+                  if(phone.equals("")){
+                      Toast.makeText(getActivity(), "Phone number not provided", Toast.LENGTH_SHORT).show();
+                  }else{
+                      Intent intent =new Intent(Intent.ACTION_DIAL);
+                      intent.setData(Uri.parse("tel:"+phone));
+                      startActivity(intent);
+                  }
+              }
+          });
 
         close.setOnClickListener(v->{
             show.dismiss();

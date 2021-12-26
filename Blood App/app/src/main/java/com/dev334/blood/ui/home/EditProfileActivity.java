@@ -2,10 +2,18 @@ package com.dev334.blood.ui.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,6 +22,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityEditProfileBinding;
+import com.dev334.blood.model.ApiResponse;
+import com.dev334.blood.model.User;
+import com.dev334.blood.ui.login.LoginActivity;
+import com.dev334.blood.util.app.AppConfig;
+import com.dev334.blood.util.retrofit.ApiClient;
+import com.dev334.blood.util.retrofit.ApiInterface;
+import com.dev334.blood.util.retrofit.NoConnectivityException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -48,7 +67,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 selectedState=stateSpinner.getSelectedItem().toString();
 
                 int parentID=parent.getId();
-                if(parentID==R.id.spinner_indian_states)
+                if(true)
                 {
                     switch (selectedState){
                         case "Select Your State": districtAdapter = ArrayAdapter.createFromResource(parent.getContext(),
@@ -195,18 +214,70 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkAll()){
-
+                   UpdateUser();
                 }
             }
         });
     }
 
+    private void UpdateUser() {
+        AppConfig appConfig=new AppConfig(this);
+        User user = new User(Integer.parseInt(binding.EditYourWeight.getText().toString()),binding.EditYourPhone.getText().toString(),selectedDistrict,1,appConfig.getUserID());
+        Call<ApiResponse> call = ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).updateUser(user);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
+                    Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+                if(t instanceof NoConnectivityException){
+                    showNoInternetDialog();
+
+                    return;
+                }
+
+            }
+            private void showNoInternetDialog() {
+                final Dialog dialog=new Dialog(getApplicationContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_no_internet);
+
+                dialog.show();
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                Button goToHome=dialog.findViewById(R.id.go_to_home4);
+                goToHome.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
     private boolean checkAll() {
-        if(newWeight.isEmpty()){
+        if(binding.EditYourWeight.getText().toString().isEmpty()){
             binding.EditYourWeight.setError("Enter your weight");
             return false;
         }
-        if(newPhone.isEmpty()){
+        if(binding.EditYourPhone.getText().toString().isEmpty()){
             binding.EditYourPhone.setError("Enter your phone");
             return false;
         }

@@ -33,6 +33,9 @@ public interface ApiInterface {
     @POST("/api/user/create")
     Call<ApiResponse> createUser(@Body User user);
 
+    @POST("/api/user/edit")
+    Call<ApiResponse> updateUser(@Body User user);
+
     @GET("api/user/users/{id}")
     Call<User> getUser(@Path("id") String id);
 

@@ -24,6 +24,16 @@
             android:padding="12dp">
 
             <ImageView
+                android:id="@+id/shareRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/request_card_location"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_share_24" />
+
+            <ImageView
                 android:id="@+id/request_card_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -1,11 +1,16 @@
 package com.dev334.blood.ui.login;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,7 +26,7 @@ import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.User;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.dev334.blood.util.retrofit.NoConnectivityException;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -300,10 +305,34 @@ public class CreateProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.getMessage());
+                if(t instanceof NoConnectivityException){
+                    showNoInternetDialog();
+
+                    return;
+                }
 
             }
         });
 
+    }
+
+    private void showNoInternetDialog() {
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_no_internet);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        Button goToHome=dialog.findViewById(R.id.go_to_home4);
+        goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {

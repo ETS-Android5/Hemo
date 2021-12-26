@@ -26,6 +26,7 @@ import com.dev334.blood.model.Schedule;
 import com.dev334.blood.ui.bank.BloodBankActivity;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.dev334.blood.util.retrofit.NoConnectivityException;
 import com.harrywhewell.scrolldatepicker.OnDateSelectedListener;
 
 import org.joda.time.DateTime;
@@ -176,7 +177,7 @@ public class ScheduleFragment extends Fragment {
                 goToHome.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((HomeActivity)getActivity()).openHomeFragment();
+
                         dialog.dismiss();
                     }
                 });
@@ -199,7 +200,7 @@ public class ScheduleFragment extends Fragment {
                 goToHome.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((HomeActivity)getActivity()).openHomeFragment();
+
                         dialog.dismiss();
                     }
                 });
@@ -209,6 +210,30 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.getMessage());
+                if(t instanceof NoConnectivityException){
+                    showNoInternetDialog();
+
+                    return;
+                }
+            }
+        });
+    }
+
+    private void showNoInternetDialog() {
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_no_internet);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        Button goToHome=dialog.findViewById(R.id.go_to_home4);
+        goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
     }

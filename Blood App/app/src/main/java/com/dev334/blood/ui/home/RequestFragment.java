@@ -36,6 +36,7 @@ import com.dev334.blood.model.Blood;
 import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
+import com.dev334.blood.util.retrofit.NoConnectivityException;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
@@ -288,9 +289,34 @@ public class RequestFragment extends Fragment {
 
           @Override
           public void onFailure(Call<ApiResponse> call, Throwable t) {
+              if(t instanceof NoConnectivityException){
+                  showNoInternetDialog();
+
+                  return;
+              }
               showErrorDialog();
           }
       });
+    }
+
+    private void showNoInternetDialog() {
+
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_no_internet);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        Button goToHome=dialog.findViewById(R.id.go_to_home4);
+        goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void showErrorDialog() {
@@ -308,7 +334,6 @@ public class RequestFragment extends Fragment {
         goToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((HomeActivity)getActivity()).openHomeFragment();
                 dialog.dismiss();
             }
         });
@@ -337,7 +362,7 @@ public class RequestFragment extends Fragment {
         goToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((HomeActivity)getActivity()).openHomeFragment();
+
                 dialog.dismiss();
             }
 
@@ -412,7 +437,7 @@ public class RequestFragment extends Fragment {
                     phones.moveToFirst();
                     number = phones.getString(phones.getColumnIndexOrThrow("data1"));
                     binding.phoneNo.setText(number);
-                    mBlood.setContact(number);
+                    mBlood.setPhone(number);
                     CONTACT_UPLOAD_FLAG=true;
                     phones.close();
                 }

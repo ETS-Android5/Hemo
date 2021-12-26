@@ -140,19 +140,19 @@
             android:backgroundTint="@color/Text"
             android:drawableLeft="@drawable/ic_baseline_place_24" />
 
-        <TextView
-            android:id="@+id/EditPastRecord"
+        <EditText
+            android:id="@+id/EditContactRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_baseline_content_paste_24"
+            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
             android:drawablePadding="8dp"
-            android:focusableInTouchMode="false"
             android:fontFamily="@font/poppinsregular"
-            android:hint="Past Record"
+            android:hint="Contact No."
+            android:inputType="number"
             android:paddingStart="16dp"
             android:paddingTop="12dp"
             android:paddingEnd="16dp"

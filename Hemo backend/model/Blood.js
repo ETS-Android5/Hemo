@@ -44,6 +44,12 @@ const bloodSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String
+  },
+  phone: {
+    type: String
+  }
 });
 
 const Blood = mongoose.model("Blood", bloodSchema);

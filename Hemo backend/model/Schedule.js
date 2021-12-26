@@ -40,6 +40,12 @@ const scheduleSchema = new mongoose.Schema({
   bank_id: {
     type: String,
     required: true,
+  },
+  name: {
+    type: String
+  },
+  phone: {
+    type: String
   }
 });
 

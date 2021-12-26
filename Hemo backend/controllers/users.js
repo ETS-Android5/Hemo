@@ -160,10 +160,10 @@ exports.user_create_profile = async (req, res, next) => {
 
   try {
     const { email } = req.body;
-    const { dob, location, weight, gender, blood, past } = req.body;
+    const { dob, location, weight, gender, blood, phone } = req.body;
     const user = await User.findOneAndUpdate(
       { email },
-      { dob, location, weight, gender, blood, past }
+      { dob, location, weight, gender, blood, phone }
     );
 
     if (user) {

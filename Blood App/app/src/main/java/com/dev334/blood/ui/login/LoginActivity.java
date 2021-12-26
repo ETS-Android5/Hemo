@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 user.setId(appConfig.getUserID());
                 user.setUserData(response.body().getName(), response.body().getEmail(), response.body().getWeight()
                 , response.body().getGender(), response.body().getDob(), response.body().getBloodGroup(), response.body().getLocation()
-                );
+                ,response.body().getPhone());
 
                 appConfig.setUserInfo(user);
 

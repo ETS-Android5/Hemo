@@ -36,8 +36,8 @@ public class CreateProfileFragment extends Fragment {
     private String selectedState,selectedDistrict,selectedBloodGroup;
     private Spinner stateSpinner,districtSpinner,bloodGroupSpinner;
     private ArrayAdapter<CharSequence> stateAdapter,districtAdapter,bloodGroupAdapter;
-    private EditText weight,gender,dob;
-    private String weightString,genderString,dobString;
+    private EditText weight,gender,dob,phone;
+    private String weightString,genderString,dobString, phoneString;
     private Button nextButton;
     DatePickerDialog.OnDateSetListener setListener;
     private String TAG="CreateProfile";
@@ -69,6 +69,8 @@ public class CreateProfileFragment extends Fragment {
          gender=view.findViewById(R.id.EditGender);
          weight=view.findViewById(R.id.EditWeight);
          nextButton = view.findViewById(R.id.btnCreate);
+         phone=view.findViewById(R.id.EditContactRecord);
+
          stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
              @Override
              public void onItemSelected(AdapterView<?> parent, View v, int i, long l) {
@@ -262,6 +264,7 @@ public class CreateProfileFragment extends Fragment {
             public void onClick(View view) {
                 genderString=gender.getText().toString();
                 weightString=weight.getText().toString();
+                phoneString=phone.getText().toString();
                 if(check()){
                     createUser();
                 }
@@ -275,7 +278,7 @@ public class CreateProfileFragment extends Fragment {
     }
 
     private void createUser() {
-        User user = new User(((LoginActivity)getActivity()).getUserEmail(),Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict);
+        User user = new User(((LoginActivity)getActivity()).getUserEmail(),Integer.parseInt(weightString),genderString,dobString,selectedBloodGroup,selectedDistrict,phoneString);
         Call<ApiResponse> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class).createUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -339,6 +342,12 @@ public class CreateProfileFragment extends Fragment {
             Toast.makeText(getContext(),"Select your blood group",Toast.LENGTH_LONG).show();
             return false;
         }
+
+        if(phoneString.isEmpty()){
+            phone.setError("Enter valid contact no.");
+            return false;
+        }
+
         return true;
     }
 

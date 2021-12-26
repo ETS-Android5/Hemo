@@ -12,6 +12,8 @@ public class Blood {
     private Date created;
     private String info;
     private String file;
+    private String name;
+    private String phone;
 
     private String contact;
 
@@ -19,6 +21,13 @@ public class Blood {
         //empty constructor
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getContact() {
         return contact;
@@ -38,6 +47,15 @@ public class Blood {
         this.file=file;
         this.contact=contact;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getFile() {
         return file;
     }

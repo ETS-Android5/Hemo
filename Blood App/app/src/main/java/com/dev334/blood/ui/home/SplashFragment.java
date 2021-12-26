@@ -53,9 +53,9 @@ public class SplashFragment extends Fragment {
             user=appConfig.getUserInfo();
 
             ((HomeActivity)getActivity()).setUser(user);
-
+            Log.i(TAG, "onCreateView: "+appConfig.getUserLocation()+" "+((HomeActivity)getActivity()).getUserBlood());
             Call<List<Blood>> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
-                    .getBloodReq("Noida", ((HomeActivity)getActivity()).getUserBlood());
+                    .getBloodReq(appConfig.getUserLocation(), ((HomeActivity)getActivity()).getUserBlood());
             call.enqueue(new Callback<List<Blood>>() {
                 @Override
                 public void onResponse(Call<List<Blood>> call, Response<List<Blood>> response) {

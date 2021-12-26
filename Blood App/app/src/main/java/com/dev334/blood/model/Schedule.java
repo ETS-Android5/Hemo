@@ -2,6 +2,7 @@ package com.dev334.blood.model;
 
 public class Schedule {
     private String user, bank_id, bank, date, time,_id;
+    private String name, phone;
 
     public Schedule(String user, String bank_id, String bank, String date, String time) {
         this.user = user;
@@ -9,6 +10,22 @@ public class Schedule {
         this.bank = bank;
         this.date = date;
         this.time = time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getUser() {

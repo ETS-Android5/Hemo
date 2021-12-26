@@ -119,10 +119,16 @@ public class ScheduleFragment extends Fragment {
                 binding.bloodBank.setError("Select a blood bank");
             }else{
                 scheduleAppointment();
+                clearAllfeilds();
             }
         });
 
         return binding.getRoot();
+    }
+
+    private void clearAllfeilds() {
+        disableAllButton();
+        binding.bloodBank.setText("");
     }
 
     private void scheduleAppointment() {

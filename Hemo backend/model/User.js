@@ -53,6 +53,14 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String
+    },
+    request: {
+        type: Boolean,
+        default: false
+    },
+    schedule: {
+        type: Boolean,
+        default: false
     }
 
 })

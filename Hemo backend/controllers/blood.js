@@ -13,28 +13,28 @@ exports.blood_all_req = async (req, res, next)=>{
         var blood = req.query.blood
 
         if(blood==="A+"){
-            const mblood = await Blood.find({location, blood: {$in: ['A+','AB+']}})
+            const mblood = await Blood.find({location, blood: {$in: ['A+','AB+']}, verified: true})
             res.status(200).send(mblood);
         }else if (blood==="A-"){
-            const mblood = await Blood.find({location, blood: {$in: ['A-','A+','AB+','AB-']}})
+            const mblood = await Blood.find({location, blood: {$in: ['A-','A+','AB+','AB-']}, verified: true})
             res.status(200).send(mblood);
         }else if(blood==="B+"){
-            const mblood = await Blood.find({location, blood: {$in: ['B+','AB+']}})
+            const mblood = await Blood.find({location, blood: {$in: ['B+','AB+']}, verified: true})
             res.status(200).send(mblood);
         }else if(blood==="B-"){
-            const mblood = await Blood.find({location, blood: {$in: ['B-','B+','AB+', 'AB-']}})
+            const mblood = await Blood.find({location, blood: {$in: ['B-','B+','AB+', 'AB-']}, verified: true})
             res.status(200).send(mblood);
         }else if(blood==="O+"){
-            const mblood = await Blood.find({location, blood: {$in: ['O+','A+','AB+']}})
+            const mblood = await Blood.find({location, blood: {$in: ['O+','A+','AB+']}, verified: true})
             res.status(200).send(mblood);
         }else if(blood==="O-"){
-            const mblood = await Blood.find({location})
+            const mblood = await Blood.find({location, verified: true})
             res.status(200).send(mblood);
         }else if(blood==="AB+"){
-            const mblood = await Blood.find({location, blood: {$in: ['AB+']}})
+            const mblood = await Blood.find({location, blood: {$in: ['AB+']}, verified: true})
             res.status(200).send(mblood);
         }else if(blood==="AB-"){
-            const mblood = await Blood.find({location, blood: {$in: ['AB+','AB-']}})
+            const mblood = await Blood.find({location, blood: {$in: ['AB+','AB-']}, verified: true})
             res.status(200).send(mblood);
         }else{
             next(createError(400, "Undefined blood type"))
@@ -77,6 +77,11 @@ exports.blood_save_req = async (req, res, next)=>{
             return;
         }
 
+        if(user.request){
+            next(createError(400, "Request already open"))
+            return;
+        }
+
         const blood = new Blood(req.body);
         blood.name = user.name;
         blood.phone=user.phone;
@@ -113,6 +118,11 @@ exports.blood_schedule = async (req, res, next)=>{
             return;
         }
 
+        if(muser.schedule){
+            next(createError(400, "Schedule already open"))
+            return;
+        }
+
         const schedule = new Schedule(req.body)
         schedule.name=muser.name;
         schedule.phone=muser.phone;
@@ -123,8 +133,6 @@ exports.blood_schedule = async (req, res, next)=>{
           status: 200,
           message: "approval updated"
         })
-
-        //const token = "cJ4l2E5jSOiiQDPxtnx912:APA91bE6CmXSynk5zWrRx_abzTy-bOAstiEL9S59c4Vj4p23ScNj5lm0lJn31RX8TKQCTdHAqRrjXQi-wYtO6wPFfOQLYH9FfcTPGupTR3eaRhgtLM4zKCdc5K9VMNxQlebeY3CzarHI";
         
 
     }catch(error){
@@ -132,4 +140,97 @@ exports.blood_schedule = async (req, res, next)=>{
         return
     }
 
+}
+
+exports.remove_request = async (req, res, next)=>{
+
+    try{
+        const request_id = req.query.request_id;
+        const user_id = req.query.user_id;
+
+        const user = await User.findOneAndUpdate({_id: user_id}, {request: false})
+        if(!user){
+            next(createError(404, "User not found"))
+            return;
+        }
+
+        const request = await Blood.findOneAndUpdate({_id: request_id}, {status: false})
+
+        if(!request){
+            next(createError(404, "Request not found"))
+            return;
+        }
+
+        res.status(200).send({
+            status: 200,
+            message: "Removed successfully"
+        })
+
+    }catch(error){
+        next(error)
+    }
+
+}
+
+exports.remove_schedule = async (req, res, next)=>{
+
+    try{
+        const schedule_id = req.query.schedule_id;
+        const user_id = req.query.user_id;
+
+        const user = await User.findOneAndUpdate({_id: user_id}, {schedule: false})
+        if(!user){
+            next(createError(404, "User not found"))
+            return;
+        }
+
+        const schedule = await Schedule.findOneAndUpdate({_id: schedule_id}, {close: true})
+
+        if(!schedule){
+            next(createError(404, "Schedule not found"))
+            return;
+        }
+
+        res.status(200).send({
+            status: 200,
+            message: "Removed successfully"
+        })
+
+    }catch(error){
+        next(error)
+    }
+
+}
+
+
+exports.show_user_schedule = async (req, res, next)=>{
+    try{
+        const user_id=req.body.user_id;
+        const schedule = await Schedule.findOne({user: user_id})
+        if(schedule){
+            res.send(schedule);
+        }else{
+            next(createError(404, "No schedule found"))
+        }
+
+    }catch(error){
+        next(error)
+    }
+}
+
+exports.show_user_request = async (req, res, next)=>{
+    try{
+        const user_id=req.query.user_id;
+        const request = await Blood.findOne({user: user_id})
+
+        if(request){
+            res.send(request);
+        }else{
+            next(createError(404, "No request found"))
+        }
+
+
+    }catch(error){
+        next(error)
+    }
 }

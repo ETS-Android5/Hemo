@@ -50,7 +50,7 @@ public class BloodRequestAdminAdapter extends RecyclerView.Adapter<BloodRequestA
 
     @Override
     public void onBindViewHolder(@NonNull BloodRequestAdminAdapter.mViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.setItems(bloods.get(position).getUser(),bloods.get(position).getQuantity(),bloods.get(position).getBlood());
+        holder.setItems(bloods.get(position).getName(),bloods.get(position).getQuantity(),bloods.get(position).getBlood());
 
            holder.callImgView.setOnClickListener(new View.OnClickListener() {
               @Override

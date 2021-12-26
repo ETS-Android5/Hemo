@@ -57,4 +57,16 @@ public interface ApiInterface {
 
     @PATCH("api/admin/request/verify")
     Call<ApiResponse> markRequest(@Query("id")String id,@Query("verified")String verified);
- }
+
+    @PATCH("api/blood/remove/schedule")
+    Call<ApiResponse> removeSchedule(@Query("user_id") String user_id, @Query("schedule_id") String schedule_id);
+
+    @PATCH("api/blood/remove/request")
+    Call<ApiResponse> removeRequest(@Query("user_id") String user_id, @Query("request_id") String request_id);
+
+    @GET("api/blood/user/req")
+    Call<Blood> getUserRequest(@Query("user_id") String user_id);
+
+    @GET("api/blood/user/schedule")
+    Call<Schedule> getUserSchedule(@Query("user_id") String user_id);
+}

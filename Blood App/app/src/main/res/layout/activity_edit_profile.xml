@@ -10,8 +10,8 @@
         android:id="@+id/textView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppinsregular"
         android:text="Edit Your Details"
         android:textColor="@color/Text"
@@ -38,7 +38,6 @@
             android:background="@drawable/primary_outline_textbox"
             android:drawableLeft="@drawable/ic_baseline_line_weight_24"
             android:drawablePadding="8dp"
-            android:focusableInTouchMode="false"
             android:fontFamily="@font/poppinsregular"
             android:hint="Enter your weight"
             android:paddingStart="16dp"
@@ -58,7 +57,6 @@
             android:background="@drawable/primary_outline_textbox"
             android:drawableLeft="@drawable/ic_baseline_local_phone_24"
             android:drawablePadding="8dp"
-            android:focusableInTouchMode="false"
             android:fontFamily="@font/poppinsregular"
             android:hint="Enter your Phone Number"
             android:paddingStart="16dp"
@@ -92,12 +90,12 @@
             android:id="@+id/buttonEditProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
             android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textColor="@color/Text"
             android:background="@drawable/primary_color_filled"
-            android:text="Make Changes" />
+            android:text="Make Changes"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

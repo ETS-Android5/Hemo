@@ -27,6 +27,7 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityEditProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         newWeight=binding.EditYourWeight.getText().toString();
         newPhone=binding.EditYourPhone.getText().toString();
@@ -196,8 +197,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
-        setContentView(binding.getRoot());
     }
 
     private boolean checkAll() {

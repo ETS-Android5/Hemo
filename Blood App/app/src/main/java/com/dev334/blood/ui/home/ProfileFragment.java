@@ -186,6 +186,15 @@ public class ProfileFragment extends Fragment {
                 getUserRequest();
             }
         });
+
+        binding.settingsEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return binding.getRoot();
     }
 

@@ -29,7 +29,14 @@ public class User {
         this.token=token;
     }
 
-    public User(String email,Integer weight, String gender, String dob, String bloodGroup, String location, String phone) {
+    public User(Integer weight, String location, String phone,int x,String uid) {
+        this.weight = weight;
+        this.location = location;
+        this.phone = phone;
+        this._id=uid;
+    }
+
+    public User(String email, Integer weight, String gender, String dob, String bloodGroup, String location, String phone) {
         this.email=email;
         this.weight = weight;
         this.gender = gender;

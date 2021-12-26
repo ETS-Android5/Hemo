@@ -13,28 +13,28 @@ exports.blood_all_req = async (req, res, next)=>{
         var blood = req.query.blood
 
         if(blood==="A+"){
-            const mblood = await Blood.find({location, blood: {$in: ['A+','AB+']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['A+','AB+']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else if (blood==="A-"){
-            const mblood = await Blood.find({location, blood: {$in: ['A-','A+','AB+','AB-']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['A-','A+','AB+','AB-']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else if(blood==="B+"){
-            const mblood = await Blood.find({location, blood: {$in: ['B+','AB+']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['B+','AB+']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else if(blood==="B-"){
-            const mblood = await Blood.find({location, blood: {$in: ['B-','B+','AB+', 'AB-']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['B-','B+','AB+', 'AB-']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else if(blood==="O+"){
-            const mblood = await Blood.find({location, blood: {$in: ['O+','A+','AB+']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['O+','A+','AB+']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else if(blood==="O-"){
-            const mblood = await Blood.find({location, verified: true})
+            const mblood = await Blood.find({location, verified: true, status: true})
             res.status(200).send(mblood);
         }else if(blood==="AB+"){
-            const mblood = await Blood.find({location, blood: {$in: ['AB+']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['AB+']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else if(blood==="AB-"){
-            const mblood = await Blood.find({location, blood: {$in: ['AB+','AB-']}, verified: true})
+            const mblood = await Blood.find({location, blood: {$in: ['AB+','AB-']}, verified: true, status: true})
             res.status(200).send(mblood);
         }else{
             next(createError(400, "Undefined blood type"))

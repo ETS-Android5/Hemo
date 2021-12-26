@@ -10,16 +10,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.FragmentHomeBinding;
 import com.dev334.blood.ui.bank.BloodBankActivity;
+import com.dev334.blood.util.app.AppConfig;
 
 public class HomeFragment extends Fragment {
 
     public static HomeFragment fragment=null;
     private View view;
     FragmentHomeBinding binding;
+    private AppConfig appConfig;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -43,6 +46,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        appConfig=new AppConfig(getContext());
+
+        binding.textView24.setText(appConfig.getUsername());
 
         binding.HomemakeRequest.setOnClickListener(new View.OnClickListener() {
             @Override

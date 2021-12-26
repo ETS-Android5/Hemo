@@ -77,4 +77,8 @@ public class AppConfig {
     public void setUserID(String UserId){
         tinyDB.putString("UserId", UserId);
     }
+
+    public String getUsername() {
+        return user.getName();
+    }
 }

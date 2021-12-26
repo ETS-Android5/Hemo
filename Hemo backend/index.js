@@ -12,6 +12,7 @@ mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true}, ()=>{
 })
 app.use(express.json())
 
+
 //authentication route
 app.use('/api/user', userRoute);
 
@@ -25,7 +26,7 @@ app.use('/api/admin', adminRoute)
 
 
 app.use((req, res, next)=>{
-    next(createError(404, 'Not Found: Route'))
+    next(createError(404, 'Not Found Route'))
 })
 
 app.use((err, req, res, next) =>{

@@ -33,6 +33,73 @@ transporter.verify((error, success) => {
   }
 });
 
+//deleting user
+exports.user_delete = async (req, res, next)=>{
+  try{
+    const _id = req.query.user_id;
+    const user = await User.findOneAndDelete({_id});
+    if(user){
+      res.status(200).send({
+        status: 200,
+        message: "Account deleted"
+      })
+    }else{
+      next(createError(404, "User not found"))
+    }
+  }catch(error){
+    next(error)
+  }
+
+}
+
+
+//change Password
+exports.user_change_password = async(req, res,next)=>{
+  try{
+    const {user_id, old_password, new_password} = req.body;
+
+    const user = await User.findOne({_id: user_id});
+
+    const validPass = await bcrypt.compare(old_password, user.password);
+    if (!validPass) {
+      next(createError(400, "Incorrect password"));
+      return;
+    }
+
+    //hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).send({
+      status: 200,
+      message: "Password changed"
+    })
+
+  }catch(error){
+    next(error)
+  }
+}
+
+exports.user_edit_profile = async(req, res, next)=>{
+  try{
+    const{_id, location, weight, phone} = req.body;
+    const user = await User.findOneAndUpdate({_id}, {location, weight, phone})
+    if(user){
+      res.status(200).send({
+        status: 200,
+        message: "Profile updated"
+      })
+    }else{
+      next(404, "User not found")
+    } 
+  }catch(error){
+    next(error)
+  }
+}
+
 //find one user
 exports.user_find_one = async (req, res, next) => {
   const { id } = req.params;
@@ -205,24 +272,6 @@ exports.user_verify = async (req, res, next) => {
   }
 };
 
-//delete user
-exports.user_delete = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findOneAndDelete({ _id: id });
-    if (user) {
-      res.status(200).send({
-        status: 200,
-        message: "User deleted",
-      });
-    } else {
-      throw createError(404, "User not found");
-    }
-  } catch (error) {
-    next(error);
-    return;
-  }
-};
 
 //send verification email
 const sendVerificationEmail = ({ name, _id, email }, res, next) => {

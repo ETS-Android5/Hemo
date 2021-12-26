@@ -141,7 +141,7 @@ public class ProfileFragment extends Fragment {
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        deleteUser();
                     }
                 });
 
@@ -360,5 +360,39 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+
+    private void deleteUser() {
+        Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class)
+                .deleteUser(appConfig.getUserID());
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.message());
+                    Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(getContext(), "Account Deleted", Toast.LENGTH_SHORT).show();
+                    appConfig.setAuthToken("");
+                    appConfig.setLoginStatus(false);
+                    appConfig.setProfileCreated(false);
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
 
 }

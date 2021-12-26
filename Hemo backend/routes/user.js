@@ -1,7 +1,7 @@
 const router = require('express').Router();
+const { app } = require('firebase-admin');
 const UserController = require('../controllers/users');
 const verify = require('../middleware/verify-token')
-
 
 
 //register new user
@@ -23,7 +23,14 @@ router.get('/users/', verify, UserController.user_find_all)
 router.post('/create', verify, UserController.user_create_profile)
 
 //delete profile
-router.post('/delete/:id', verify, UserController.user_delete)
+router.delete('/delete', verify, UserController.user_delete)
+
+//edit profile
+router.put('/edit', verify, UserController.user_edit_profile)
+
+//change password
+router.put('/password', verify, UserController.user_change_password)
+
 
 
 module.exports=router

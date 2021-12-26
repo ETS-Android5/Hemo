@@ -55,6 +55,7 @@ exports.user_delete = async (req, res, next)=>{
 
 //change Password
 exports.user_change_password = async(req, res,next)=>{
+  console.log("Change password called")
   try{
     const {user_id, old_password, new_password} = req.body;
 

@@ -2,6 +2,7 @@ package com.dev334.blood.util.retrofit;
 
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
+import com.dev334.blood.model.ChangePasswordModel;
 import com.dev334.blood.model.GovApiResponse;
 import com.dev334.blood.model.Schedule;
 import com.dev334.blood.model.User;
@@ -76,4 +77,7 @@ public interface ApiInterface {
 
     @DELETE("api/user/delete")
     Call<ApiResponse> deleteUser(@Query("user_id") String user_id);
+
+    @PATCH("api/user/password")
+    Call<ApiResponse> changePassword(@Body ChangePasswordModel changePassword);
 }

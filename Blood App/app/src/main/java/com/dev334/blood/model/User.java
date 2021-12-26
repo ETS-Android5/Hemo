@@ -11,6 +11,8 @@ public class User {
     private String location;
     private String _id;
     private String token;
+    private String phone;
+
     public User(){
         //empty
     }
@@ -27,17 +29,18 @@ public class User {
         this.token=token;
     }
 
-    public User(String email,Integer weight, String gender, String dob, String bloodGroup, String location) {
+    public User(String email,Integer weight, String gender, String dob, String bloodGroup, String location, String phone) {
         this.email=email;
         this.weight = weight;
         this.gender = gender;
         this.dob = dob;
         this.blood = bloodGroup;
         this.location = location;
+        this.phone = phone;
     }
 
 
-    public void setUserData(String name, String email, Integer weight, String gender, String dob, String blood, String location) {
+    public void setUserData(String name, String email, Integer weight, String gender, String dob, String blood, String location, String phone) {
         this.name = name;
         this.email = email;
         this.weight = weight;
@@ -45,6 +48,15 @@ public class User {
         this.dob = dob;
         this.blood = blood;
         this.location = location;
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getToken() {

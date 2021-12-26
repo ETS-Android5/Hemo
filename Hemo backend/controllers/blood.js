@@ -9,10 +9,36 @@ const User = require('../model/user')
 
 exports.blood_all_req = async (req, res, next)=>{
     try{
-        location=req.query.location
-        blood = req.query.blood
-        const mblood = await Blood.find({location, blood})
-        res.status(200).send(mblood);
+        var location=req.query.location
+        var blood = req.query.blood
+
+        if(blood==="A+"){
+            const mblood = await Blood.find({location, blood: {$in: ['A+','AB+']}})
+            res.status(200).send(mblood);
+        }else if (blood==="A-"){
+            const mblood = await Blood.find({location, blood: {$in: ['A-','A+','AB+','AB-']}})
+            res.status(200).send(mblood);
+        }else if(blood==="B+"){
+            const mblood = await Blood.find({location, blood: {$in: ['B+','AB+']}})
+            res.status(200).send(mblood);
+        }else if(blood==="B-"){
+            const mblood = await Blood.find({location, blood: {$in: ['B-','B+','AB+', 'AB-']}})
+            res.status(200).send(mblood);
+        }else if(blood==="O+"){
+            const mblood = await Blood.find({location, blood: {$in: ['O+','A+','AB+']}})
+            res.status(200).send(mblood);
+        }else if(blood==="O-"){
+            const mblood = await Blood.find({location})
+            res.status(200).send(mblood);
+        }else if(blood==="AB+"){
+            const mblood = await Blood.find({location, blood: {$in: ['AB+']}})
+            res.status(200).send(mblood);
+        }else if(blood==="AB-"){
+            const mblood = await Blood.find({location, blood: {$in: ['AB+','AB-']}})
+            res.status(200).send(mblood);
+        }else{
+            next(createError(400, "Undefined blood type"))
+        }
     }catch(error){
         next(error)
         return
@@ -42,7 +68,18 @@ exports.blood_save_req = async (req, res, next)=>{
         return
     }
     try{
+        const user_id = req.body.user;
+
+        const user = await User.findOne({_id: user_id})
+
+        if(!user){
+            next(createError(404, "User not found"))
+            return;
+        }
+
         const blood = new Blood(req.body);
+        blood.name = user.name;
+        blood.phone=user.phone;
         await blood.save();
 
         res.status(200).send({
@@ -67,11 +104,18 @@ exports.blood_schedule = async (req, res, next)=>{
 
     try{
 
-        const{user, bank, date, time} = req.body;
+        const user_id = req.body.user;
 
-        const muser= await User.findOne({_id:user})
+        const muser = await User.findOne({_id: user_id})
+
+        if(!muser){
+            next(createError(404, "User not found"))
+            return;
+        }
 
         const schedule = new Schedule(req.body)
+        schedule.name=muser.name;
+        schedule.phone=muser.phone;
         await schedule.save();
 
         

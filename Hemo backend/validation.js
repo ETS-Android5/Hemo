@@ -94,11 +94,11 @@ const profileValidation = (body) => {
       blood: {
         type: "string",
       },
-      past: {
+      phone: {
         type: "string",
       }
     },
-    required: ["dob", "location", "weight", "gender", "blood"],
+    required: ["dob", "location", "weight", "gender", "blood", "phone"],
   };
   const valid = ajv.validate(schema, body);
   var error = ajv.errors;

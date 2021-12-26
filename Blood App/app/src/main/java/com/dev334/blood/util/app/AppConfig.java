@@ -49,6 +49,10 @@ public class AppConfig {
         return user.getLocation().toUpperCase();
     }
 
+    public String getRequestLocation(){
+        return user.getLocation();
+    }
+
     public void setProfileCreated(Boolean status){
         tinyDB.putBoolean("Profile", status);
     }

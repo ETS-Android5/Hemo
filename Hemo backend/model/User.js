@@ -33,9 +33,6 @@ const userSchema = new mongoose.Schema({
     dob:{
         type: String
     },
-    past:{
-        type: String
-    },
     last:{
         type: Date
     },
@@ -53,6 +50,9 @@ const userSchema = new mongoose.Schema({
     },
     token: {
         type: String,
+    },
+    phone: {
+        type: String
     }
 
 })

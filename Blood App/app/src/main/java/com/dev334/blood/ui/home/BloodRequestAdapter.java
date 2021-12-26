@@ -23,6 +23,8 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
     private ClickInterface clickInterface;
     private Context context;
     private String TAG="BloodRequestAdapter";
+    private String name,bloodgrp,phone;
+    private int bloodquantity;
     public BloodRequestAdapter(List<Blood> bloods, ClickInterface clickInterface,Context context){
         this.bloods=bloods;
         this.clickInterface= clickInterface;
@@ -38,7 +40,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-        holder.setItems(bloods.get(position).getName(),bloods.get(position).getQuantity(),bloods.get(position).getBlood());
+        holder.setItems(bloods.get(position).getName(),bloods.get(position).getQuantity(),bloods.get(position).getBlood(),bloods.get(position).getPhone());
     }
 
     public interface ClickInterface {
@@ -54,7 +56,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
     public class mViewHolder extends RecyclerView.ViewHolder{
 
         TextView nameTxtView,bloodUnitTxtView,bloodGrpTxtView;
-        ImageView locationTxtView;
+        ImageView locationTxtView,shareImgView;
 
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +69,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
             bloodGrpTxtView=itemView.findViewById(R.id.request_card_blood_group);
             bloodUnitTxtView=itemView.findViewById(R.id.request_card_blood_quantity);
             locationTxtView=itemView.findViewById(R.id.request_card_location);
+            shareImgView=itemView.findViewById(R.id.shareRequest);
 
             locationTxtView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,14 +93,34 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
             });
 
 
+            shareImgView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Blood Request");
+                    i.putExtra(Intent.EXTRA_TEXT, "Hey I found out "+name+" is requesting "+bloodquantity+"units of "+bloodgrp+" blood on Hemo app \n Contact:- "+phone+" if you have any leads \nVisit hemo app for more info.");
+
+                    context.startActivity(Intent.createChooser(i, "Share app"));
+
+
+                }
+            });
+
+
 
 
         }
 
-        public void setItems(String user, Integer quantity, String blood) {
+        public void setItems(String user, Integer quantity, String blood,String phn) {
             nameTxtView.setText(user);
             bloodGrpTxtView.setText(blood);
             bloodUnitTxtView.setText(quantity.toString());
+            name=user;
+            bloodgrp=blood;
+            bloodquantity=quantity;
+            phone=phn;
         }
     }
 }

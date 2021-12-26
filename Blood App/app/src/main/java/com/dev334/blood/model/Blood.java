@@ -18,7 +18,7 @@ public class Blood {
     private String name;
     private String phone;
 
-    private String contact;
+
 
     public Blood(){
         //empty constructor
@@ -32,15 +32,11 @@ public class Blood {
         this.name = name;
     }
 
-    public String getContact() {
-        return contact;
-    }
 
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
 
-    public Blood(String user, Double latitude, Double longitude, String location, Integer quantity, String blood, String file, String contact) {
+
+
+    public Blood(String user, Double latitude, Double longitude, String location, Integer quantity, String blood, String file) {
         this.user = user;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -48,7 +44,7 @@ public class Blood {
         this.quantity = quantity;
         this.blood = blood;
         this.file=file;
-        this.contact=contact;
+
     }
 
     public String getPhone() {

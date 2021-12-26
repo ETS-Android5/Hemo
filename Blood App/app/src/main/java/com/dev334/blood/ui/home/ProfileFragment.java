@@ -45,6 +45,7 @@ public class ProfileFragment extends Fragment {
     private AppConfig appConfig;
     private Blood myRequest;
     private Schedule mySchedule;
+    private AlertDialog loading;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -77,49 +78,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.settingsFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getActivity(), UserFeedback.class);
-                startActivity(i);
-            }
-        });
-
-        binding.settingsAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
-                View view=getLayoutInflater().inflate(R.layout.contact_us_dailog,null);
-                Button contact = view.findViewById(R.id.contact_btn);
-                alert.setView(view);
-                AlertDialog show=alert.show();
-
-                contact.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("plain/text");
-                        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "oneon334@gmail.com" });
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "LiteLo-Contact Us");
-                        startActivity(Intent.createChooser(intent, "Send us email"));
-                    }
-                });
-
-                alert.setCancelable(true);
-                show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
-        });
-
-        binding.settingsShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_SUBJECT, "Download Hemo App");
-                i.putExtra(Intent.EXTRA_TEXT, "Download Hemo App \n https://play.google.com/store/apps/details?id=com.dev334.litelo");
-                startActivity(Intent.createChooser(i, "Share app"));
-            }
-        });
+        LoadingShow();
 
         binding.settingsLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,11 +191,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void getUserRequest(){
+        loading.show();
         Call<Blood> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
                 .getUserRequest(appConfig.getUserID());
         call.enqueue(new Callback<Blood>() {
             @Override
             public void onResponse(Call<Blood> call, Response<Blood> response) {
+                loading.dismiss();
                 if(!response.isSuccessful()){
                     if(response.code()==404){
                         Toast.makeText(getContext(), "No schedule", Toast.LENGTH_SHORT).show();
@@ -256,6 +217,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Blood> call, Throwable t) {
+                loading.dismiss();
                 Log.i(TAG, "onFailure: "+t.getMessage());
                 if(t instanceof NoConnectivityException){
                     showNoInternetDialog();
@@ -318,11 +280,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void getUserSchedule(){
+        loading.show();
         Call<Schedule> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
                 .getUserSchedule(appConfig.getUserID());
         call.enqueue(new Callback<Schedule>() {
             @Override
             public void onResponse(Call<Schedule> call, Response<Schedule> response) {
+                loading.dismiss();
                 if(!response.isSuccessful()){
                     if(response.code()==404){
                         Toast.makeText(getContext(), "No donation Appointment", Toast.LENGTH_SHORT).show();
@@ -335,6 +299,7 @@ public class ProfileFragment extends Fragment {
                 if(response.code()==200){
                     Log.i(TAG, "onResponse: "+response.body());
                     mySchedule=response.body();
+                    loading.dismiss();
                     showDailog();
                 }
 
@@ -342,6 +307,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Schedule> call, Throwable t) {
+                loading.dismiss();
                 Log.i(TAG, "onFailure: "+t.getMessage());
                 if(t instanceof NoConnectivityException){
                     showNoInternetDialog();
@@ -353,11 +319,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void removeUserRequest(){
+        loading.show();
         Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class)
                 .removeRequest(appConfig.getUserID(), myRequest.get_id());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                loading.dismiss();
                 if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.toString());
@@ -374,9 +342,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.getMessage());
+                loading.dismiss();
                 if(t instanceof NoConnectivityException){
                     showNoInternetDialog();
-
                     return;
                 }
             }
@@ -384,11 +352,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void removeUserSchedule(){
+        loading.show();
         Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class)
                 .removeSchedule(appConfig.getUserID(), mySchedule.get_id());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                loading.dismiss();
                 if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.toString());
@@ -396,14 +366,16 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 Log.i(TAG, "onResponse: "+response.body());
-                if(response.body().getStatus()==200){
+                if(response.body().getStatus()==200) {
                     Log.i(TAG, "onResponse: Successful");
                     Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                loading.dismiss();
                 Log.i(TAG, "onFailure: "+t.getMessage());
                 if(t instanceof NoConnectivityException){
                     showNoInternetDialog();
@@ -416,11 +388,13 @@ public class ProfileFragment extends Fragment {
 
 
     private void deleteUser() {
+        loading.show();
         Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class)
                 .deleteUser(appConfig.getUserID());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                loading.dismiss();
                 if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.message());
@@ -442,9 +416,20 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                loading.dismiss();
                 Log.i(TAG, "onFailure: "+t.getMessage());
             }
         });
+    }
+
+    private void LoadingShow(){
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.dialog_loading,null);
+        alert.setView(view);
+        loading=alert.show();
+        alert.setCancelable(false);
+        loading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loading.dismiss();
     }
 
 

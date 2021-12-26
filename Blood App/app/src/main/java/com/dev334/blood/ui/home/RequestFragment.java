@@ -3,6 +3,7 @@ package com.dev334.blood.ui.home;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -66,6 +67,7 @@ public class RequestFragment extends Fragment {
     private static final int CONTACT_PERMISSION_CODE=1;
     private static final int CONTACT_PICK_CODE=2;
     private AppConfig appConfig;
+    private AlertDialog loading;
 
     StorageReference storageReference;
 
@@ -98,6 +100,7 @@ public class RequestFragment extends Fragment {
         storageReference= FirebaseStorage.getInstance().getReference();
 
         disableAllButton();
+        LoadingShow();
 
         binding.button1.setOnClickListener(v->{
             blood=binding.button1.getText().toString();
@@ -262,10 +265,12 @@ public class RequestFragment extends Fragment {
     }
 
     private void reqBlood() {
+        loading.show();
       Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class).reqBlood(mBlood);
       call.enqueue(new Callback<ApiResponse>() {
           @Override
           public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+              loading.dismiss();
               if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.toString());
@@ -289,6 +294,7 @@ public class RequestFragment extends Fragment {
 
           @Override
           public void onFailure(Call<ApiResponse> call, Throwable t) {
+              loading.dismiss();
               if(t instanceof NoConnectivityException){
                   showNoInternetDialog();
 
@@ -449,6 +455,16 @@ public class RequestFragment extends Fragment {
 
         }
 
+    }
+
+    private void LoadingShow(){
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.dialog_loading,null);
+        alert.setView(view);
+        loading=alert.show();
+        alert.setCancelable(false);
+        loading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loading.dismiss();
     }
 
 

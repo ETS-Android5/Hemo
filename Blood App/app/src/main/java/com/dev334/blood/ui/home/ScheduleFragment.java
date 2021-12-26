@@ -1,5 +1,6 @@
 package com.dev334.blood.ui.home;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -45,6 +46,7 @@ public class ScheduleFragment extends Fragment {
     private String time="", dateString="";
     private BloodBank bloodBank;
     private String TAG="scheduleFragmentLog";
+    private AlertDialog loading;
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -70,6 +72,7 @@ public class ScheduleFragment extends Fragment {
         DateTime end = DateTime.now().plusDays(10);
         binding.datePicker.setStartDate(start.getDayOfMonth(), start.getMonthOfYear(), start.getYear());
         binding.datePicker.setEndDate(end.getDayOfMonth(), end.getMonthOfYear(), end.getYear());
+        LoadingShow();
 
         binding.datePicker.getSelectedDate(new OnDateSelectedListener() {
             @Override
@@ -132,7 +135,7 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-
+        loading.show();
         Schedule schedule=new Schedule(((HomeActivity)getActivity()).getUserId(), bloodBank.getId(),
                 bloodBank.getBankName(), dateString, time);
 
@@ -143,6 +146,7 @@ public class ScheduleFragment extends Fragment {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                loading.dismiss();
                 if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.toString());
@@ -163,52 +167,9 @@ public class ScheduleFragment extends Fragment {
                 }
             }
 
-            private void showErrorDialog() {
-                final Dialog dialog=new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_error_404);
-
-                dialog.show();
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
-                Button goToHome=dialog.findViewById(R.id.go_to_home1);
-                goToHome.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        dialog.dismiss();
-                    }
-                });
-
-
-            }
-
-            private void showdialog() {
-
-                final Dialog dialog=new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_appointment_scheduled);
-
-                dialog.show();
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
-                Button goToHome=dialog.findViewById(R.id.go_to_home3);
-                goToHome.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        dialog.dismiss();
-                    }
-                });
-
-            }
-
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                loading.dismiss();
                 Log.i(TAG, "onFailure: "+t.getMessage());
                 if(t instanceof NoConnectivityException){
                     showNoInternetDialog();
@@ -217,6 +178,50 @@ public class ScheduleFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void showErrorDialog() {
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_error_404);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        Button goToHome=dialog.findViewById(R.id.go_to_home1);
+        goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    private void showdialog() {
+
+        final Dialog dialog=new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_appointment_scheduled);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        Button goToHome=dialog.findViewById(R.id.go_to_home3);
+        goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+
     }
 
     private void showNoInternetDialog() {
@@ -243,6 +248,16 @@ public class ScheduleFragment extends Fragment {
         binding.btn11.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
         binding.btn13.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
         binding.btn15.setBackground(getResources().getDrawable(R.drawable.primary_grey_filled));
+    }
+
+    private void LoadingShow(){
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.dialog_loading,null);
+        alert.setView(view);
+        loading=alert.show();
+        alert.setCancelable(false);
+        loading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loading.dismiss();
     }
 
     @Override

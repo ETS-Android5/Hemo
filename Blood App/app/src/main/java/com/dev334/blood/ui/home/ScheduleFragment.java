@@ -159,7 +159,7 @@ public class ScheduleFragment extends Fragment {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
-
+                clearAllfeilds();
             }
 
             @Override
@@ -167,6 +167,11 @@ public class ScheduleFragment extends Fragment {
                 Log.i(TAG, "onFailure: "+t.getMessage());
             }
         });
+    }
+
+    private void clearAllfeilds() {
+        disableAllButton();
+        binding.bloodBank.setText("");
     }
 
     private void disableAllButton() {

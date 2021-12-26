@@ -71,7 +71,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void reqApprovedSchedule() {
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2507","0");
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("719","0");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
@@ -99,7 +99,7 @@ public class AdminActivity extends AppCompatActivity {
 
     private void reqPendingSchedule() {
 
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2507","1");
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("719","1");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {

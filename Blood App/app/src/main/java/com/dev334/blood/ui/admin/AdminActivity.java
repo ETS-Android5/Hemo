@@ -1,8 +1,5 @@
 package com.dev334.blood.ui.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dev334.blood.databinding.ActivityAdminBinding;
 import com.dev334.blood.model.Schedule;
-import com.dev334.blood.ui.admin.ScheduleRequestAdapter;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
 
@@ -69,7 +65,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void reqApprovedSchedule() {
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2507","0");
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2534","0");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {

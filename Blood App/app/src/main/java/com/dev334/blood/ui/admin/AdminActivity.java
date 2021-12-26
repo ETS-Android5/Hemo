@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityAdminBinding;
 import com.dev334.blood.model.Schedule;
 import com.dev334.blood.util.retrofit.ApiClient;
@@ -37,12 +38,14 @@ public class AdminActivity extends AppCompatActivity {
         pendingSchedule = new ArrayList<>();
         reqPendingSchedule();
         reqApprovedSchedule();
-
+        binding.buttonPending.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
 
         binding.buttonPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PENDING=true;
+                clearButtonColor();
+                binding.buttonPending.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
                 scheduleRequestAdapter= new ScheduleRequestAdapter(pendingSchedule,PENDING,getApplicationContext());
                 binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
                 binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -54,6 +57,9 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PENDING=false;
+                clearButtonColor();
+                reqApprovedSchedule();
+                binding.buttonApproved.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
                 scheduleRequestAdapter= new ScheduleRequestAdapter(approvedSchedules,PENDING,getApplicationContext());
                 binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
                 binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -62,6 +68,11 @@ public class AdminActivity extends AppCompatActivity {
         });
 
         setContentView(binding.getRoot());
+    }
+
+    private void clearButtonColor() {
+        binding.buttonApproved.setBackground(getResources().getDrawable(R.drawable.primary_outline_textbox));
+        binding.buttonPending.setBackground(getResources().getDrawable(R.drawable.primary_outline_textbox));
     }
 
     private void reqApprovedSchedule() {

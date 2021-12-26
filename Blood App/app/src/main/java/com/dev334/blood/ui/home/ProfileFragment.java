@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -164,17 +165,57 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.textViewYourAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getUserSchedule();
+            }
+        });
 
         binding.settingsAdminRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent=new Intent(getActivity(), AdminActivityRequest.class);
-               startActivity((intent));
+                Intent intent=new Intent(getActivity(), AdminActivityRequest.class);
+                startActivity((intent));
             }
         });
 
-
+        binding.textViewYourRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getUserRequest();
+            }
+        });
         return binding.getRoot();
+    }
+
+    private void showDailog() {
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.my_appointment_dailog,null);
+        alert.setView(view);
+        AlertDialog show=alert.show();
+
+        TextView name=view.findViewById(R.id.appointmentUserName);
+        TextView hospital=view.findViewById(R.id.appointmentLocation);
+        TextView date=view.findViewById(R.id.appointmentDate);
+        TextView timing=view.findViewById(R.id.appointmentTiming);
+        Button cancel=view.findViewById(R.id.cancel_app_button);
+
+        name.setText(mySchedule.getName());
+        hospital.setText(mySchedule.getBank());
+        date.setText(mySchedule.getDate());
+        timing.setText(mySchedule.getTime());
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeUserSchedule();
+                show.dismiss();
+            }
+        });
+
+        alert.setCancelable(true);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     public void getUserRequest(){
@@ -195,6 +236,7 @@ public class ProfileFragment extends Fragment {
                 if(response.code()==200){
                     Log.i(TAG, "onResponse: "+response.body());
                     myRequest=response.body();
+                    showDailogRequest();
                 }
 
             }
@@ -206,6 +248,37 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void showDailogRequest() {
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.my_request_dailog,null);
+        alert.setView(view);
+        AlertDialog show=alert.show();
+
+        TextView name=view.findViewById(R.id.request_name_dailog);
+        TextView BloodQty=view.findViewById(R.id.blood_dailog_quantity);
+        TextView BloodGrp=view.findViewById(R.id.blood_group_dailog);
+        ImageView file=view.findViewById(R.id.view_doc_icon_dailog);
+        ImageView location=view.findViewById(R.id.view_location_icon_dailog);
+        Button cancelReq=view.findViewById(R.id.btn_cancel_request_dailog);
+
+        name.setText(myRequest.getName());
+        BloodQty.setText(myRequest.getQuantity() + " Units");
+        BloodGrp.setText(myRequest.getBlood());
+
+
+
+        cancelReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeUserRequest();
+                show.dismiss();
+            }
+        });
+
+        alert.setCancelable(true);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
     public void getUserSchedule(){
         Call<Schedule> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
                 .getUserSchedule(appConfig.getUserID());
@@ -214,7 +287,7 @@ public class ProfileFragment extends Fragment {
             public void onResponse(Call<Schedule> call, Response<Schedule> response) {
                 if(!response.isSuccessful()){
                     if(response.code()==404){
-                        Toast.makeText(getContext(), "No blood request", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "No donation Appointment", Toast.LENGTH_SHORT).show();
                     }else{
                         Log.i(TAG, "onResponse:Error "+response.message());
                     }
@@ -224,6 +297,7 @@ public class ProfileFragment extends Fragment {
                 if(response.code()==200){
                     Log.i(TAG, "onResponse: "+response.body());
                     mySchedule=response.body();
+                    showDailog();
                 }
 
             }

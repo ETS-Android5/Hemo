@@ -222,7 +222,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void UpdateUser() {
         AppConfig appConfig=new AppConfig(this);
-        User user = new User(Integer.parseInt(binding.EditYourWeight.getText().toString()),binding.EditYourPhone.getText().toString(),selectedDistrict,1,appConfig.getUserID());
+        User user = new User(Integer.parseInt(binding.EditYourWeight.getText().toString()),selectedDistrict,binding.EditYourPhone.getText().toString(),1,appConfig.getUserID());
         Call<ApiResponse> call = ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).updateUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -237,6 +237,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
                     Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
             }

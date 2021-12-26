@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.FragmentHomeBinding;
+import com.dev334.blood.ui.bank.BloodBankActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -46,30 +47,29 @@ public class HomeFragment extends Fragment {
         binding.HomemakeRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ((HomeActivity)getActivity()).openRequestFragment();
             }
         });
 
         binding.NewAppontment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ((HomeActivity)getActivity()).openScheduleFragment();
             }
         });
 
         binding.BloodBankFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i=new Intent(getActivity(), BloodBankActivity.class);
+                startActivity(i);
             }
         });
 
-        binding.eligiblityText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        binding.donateBlood.setOnClickListener(v->{
+            ((HomeActivity)getActivity()).openNotificationFragment();
         });
+
         return binding.getRoot();
     }
 }

@@ -1,5 +1,6 @@
-package com.dev334.blood.ui.home;
+package com.dev334.blood.ui.admin;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.blood.R;
 import com.dev334.blood.model.ApiResponse;
-import com.dev334.blood.model.Blood;
 import com.dev334.blood.model.Schedule;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
@@ -45,7 +45,7 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ScheduleRequestAdapter.mViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ScheduleRequestAdapter.mViewHolder holder, @SuppressLint("RecyclerView") int position) {
        holder.setItems(schedules.get(position).getUser(),schedules.get(position).getBank(),schedules.get(position).getDate(),schedules.get(position).getTime());
         holder.approvedBtn.setOnClickListener(new View.OnClickListener() {
             @Override

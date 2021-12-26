@@ -19,7 +19,9 @@
         <entry key="..\:/Software Projects/Blood App/app/src/main/res/layout/fragment_phone_auth_fagment.xml" value="0.14" />
         <entry key="..\:/Software Projects/Blood App/app/src/main/res/layout/fragment_signup.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14290540540540542" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/circle_border_white.xml" value="0.20833333333333334" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/email_vector.xml" value="0.14290540540540542" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/home_bottom_curved_background.xml" value="0.20833333333333334" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_app_logo.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.14290540540540542" />
@@ -62,6 +64,7 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_bank_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_bank_map.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_create_profile.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_home.xml" value="0.16" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_login.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_login_home.xml" value="0.12" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_notification.xml" value="0.13243243243243244" />

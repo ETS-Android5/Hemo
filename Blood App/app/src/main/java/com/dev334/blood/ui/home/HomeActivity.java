@@ -73,8 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.bottomNavView.getMenu().setGroupCheckable(0,false, true);
-                replaceFragment(requestFragment);
+                openRequestFragment();
             }
         });
 
@@ -162,6 +161,19 @@ public class HomeActivity extends AppCompatActivity {
 
     public String getUserId() {
         return user.getId();
+    }
+
+    public void openRequestFragment() {
+        binding.bottomNavView.getMenu().setGroupCheckable(0,false, true);
+        replaceFragment(requestFragment);
+    }
+
+    public void openScheduleFragment() {
+        binding.bottomNavView.setSelectedItemId(R.id.nav_donate);
+    }
+
+    public void openNotificationFragment() {
+        binding.bottomNavView.setSelectedItemId(R.id.nav_notification);
     }
 
 }

@@ -222,7 +222,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void UpdateUser() {
         AppConfig appConfig=new AppConfig(this);
-        User user = new User(Integer.parseInt(binding.EditYourWeight.getText().toString()),selectedDistrict,binding.EditYourPhone.getText().toString(),1,appConfig.getUserID());
+        Integer weight = Integer.parseInt(binding.EditYourWeight.getText().toString());
+        String phoneNo = binding.EditYourPhone.getText().toString();
+
+        User user = new User(weight,selectedDistrict,phoneNo,1,appConfig.getUserID());
         Call<ApiResponse> call = ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).updateUser(user);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -236,6 +239,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 Log.i(TAG, "onResponse: "+response.body());
                 if(response.body().getStatus()==200){
                     Log.i(TAG, "onResponse: Successful");
+                    User user = appConfig.getUserInfo();
+                    user.setPhone(phoneNo);
+                    user.setLocation(selectedDistrict);
+                    user.setWeight(weight);
+
+                    appConfig.setUserInfo(user);
+
                     Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
                     finish();
                 }

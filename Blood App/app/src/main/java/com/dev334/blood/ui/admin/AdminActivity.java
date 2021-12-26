@@ -32,8 +32,8 @@ import retrofit2.Response;
 public class AdminActivity extends AppCompatActivity {
 
     private String TAG="AdminActivity";
-    private ScheduleRequestAdapter scheduleRequestAdapter;
-    private List<Schedule> approvedSchedules,pendingSchedule;
+    private ScheduleRequestAdapter pendingAdapter, approvedAdapter;
+    private List<Schedule> approvedSchedules,pendingSchedule, Schedules;
     ActivityAdminBinding binding;
     private boolean PENDING=true;
 
@@ -54,8 +54,7 @@ public class AdminActivity extends AppCompatActivity {
                 PENDING=true;
                 clearButtonColor();
                 binding.buttonPending.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
-                scheduleRequestAdapter= new ScheduleRequestAdapter(pendingSchedule,PENDING,getApplicationContext());
-                binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
+                binding.ScheduleRecyclerView.setAdapter(pendingAdapter);
                 binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 binding.ScheduleRecyclerView.setHasFixedSize(true);
             }
@@ -68,8 +67,7 @@ public class AdminActivity extends AppCompatActivity {
                 clearButtonColor();
                 reqApprovedSchedule();
                 binding.buttonApproved.setBackground(getResources().getDrawable(R.drawable.primary_color_filled));
-                scheduleRequestAdapter= new ScheduleRequestAdapter(approvedSchedules,PENDING,getApplicationContext());
-                binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
+                binding.ScheduleRecyclerView.setAdapter(approvedAdapter);
                 binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 binding.ScheduleRecyclerView.setHasFixedSize(true);
             }
@@ -84,7 +82,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void reqApprovedSchedule() {
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2534","0");
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("719","0");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
@@ -98,6 +96,7 @@ public class AdminActivity extends AppCompatActivity {
                 if(response.code() == 200){
                     Log.i(TAG, "onResponse: Successful");
                     approvedSchedules=response.body();
+                    approvedAdapter=new ScheduleRequestAdapter(approvedSchedules, PENDING, getApplicationContext());
                     Log.i(TAG, "Array of Schedules: "+approvedSchedules);
 
                 }
@@ -139,7 +138,7 @@ public class AdminActivity extends AppCompatActivity {
 
     private void reqPendingSchedule() {
 
-        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("2507","1");
+        Call<List<Schedule>> call= ApiClient.getApiClient(getApplicationContext()).create(ApiInterface.class).getSchedule("719","1");
         call.enqueue(new Callback<List<Schedule>>() {
             @Override
             public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
@@ -154,8 +153,8 @@ public class AdminActivity extends AppCompatActivity {
                     Log.i(TAG, "onResponse: Successful");
                     pendingSchedule=response.body();
                     Log.i(TAG, "Array of Schedules: "+pendingSchedule);
-                    scheduleRequestAdapter= new ScheduleRequestAdapter(pendingSchedule,PENDING,getApplicationContext());
-                    binding.ScheduleRecyclerView.setAdapter(scheduleRequestAdapter);
+                    pendingAdapter= new ScheduleRequestAdapter(pendingSchedule,PENDING,getApplicationContext());
+                    binding.ScheduleRecyclerView.setAdapter(pendingAdapter);
                     binding.ScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     binding.ScheduleRecyclerView.setHasFixedSize(true);
                 }

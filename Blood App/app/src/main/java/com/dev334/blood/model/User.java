@@ -113,4 +113,12 @@ public class User {
     public String getLocation() {
         return location;
     }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

@@ -46,7 +46,7 @@ public class LoginFragment extends Fragment {
     private View view;
     private Button Login;
     private TextView EditEmail, EditPassword;
-    private TextView ForgotPwd, NewUser;
+    private TextView NewUser;
     private String Email,Password;
     private int RC_SIGN_IN=101;
     private ProgressBar loading;
@@ -71,7 +71,6 @@ public class LoginFragment extends Fragment {
         tinyDB=new TinyDB(getContext());
         map=new HashMap<>();
 
-        ForgotPwd=view.findViewById(R.id.ForgetPasswordLogin);
         NewUser=view.findViewById(R.id.LoginTextSignup);
         EditEmail= view.findViewById(R.id.editEmailLogin);
         EditPassword=view.findViewById(R.id.editPasswordLogin);
@@ -101,10 +100,6 @@ public class LoginFragment extends Fragment {
 
         NewUser.setOnClickListener(v->{
             ((LoginActivity)getActivity()).openSignup();
-        });
-
-        ForgotPwd.setOnClickListener(v->{
-
         });
 
         return view;

@@ -77,7 +77,7 @@ public class ScheduleFragment extends Fragment {
         binding.datePicker.getSelectedDate(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@Nullable Date date) {
-                dateString=date.getDay()+"-"+date.getMonth()+"-"+date.getYear();
+                dateString=date.getDate()+"-"+(date.getMonth()+1)+"-"+(date.getYear()+1900);
             }
         });
 

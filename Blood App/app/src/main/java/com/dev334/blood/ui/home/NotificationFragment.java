@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -84,11 +85,19 @@ public class NotificationFragment extends Fragment implements BloodRequestAdapte
 
         Button contact,viewpdf;
         ImageView close;
+        TextView info;
 
 
         contact=view.findViewById(R.id.card_request_contact_btn);
         close=view.findViewById(R.id.card_request_close_btn);
         viewpdf=view.findViewById(R.id.card_request_document_btn);
+        info=view.findViewById(R.id.card_request_info);
+
+        if(bloods.get(position).getInfo().isEmpty()){
+            info.setText("No additional information provided by user");
+        }else{
+            info.setText(bloods.get(position).getInfo());
+        }
 
           contact.setOnClickListener(new View.OnClickListener() {
               @Override

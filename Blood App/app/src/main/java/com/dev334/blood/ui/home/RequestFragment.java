@@ -158,19 +158,6 @@ public class RequestFragment extends Fragment {
              startActivityForResult(chooseFile,REQ_PDF);
         });
 
-        binding.phoneNo.setOnClickListener(v->{
-
-                if(checkContactPermission())
-                {
-                  pickContactIntent();
-                }
-                else
-                {
-                    requestContactPermission();
-                }
-
-        });
-
 
 
         binding.buttonLocationNext.setOnClickListener(v->{
@@ -192,10 +179,6 @@ public class RequestFragment extends Fragment {
             else if(pdfUploadFlag==false)
             {
                binding.verifyFile.setError("Upload a valid document to avoid illegal activities");
-            }
-            else if(CONTACT_UPLOAD_FLAG==false)
-            {
-                binding.phoneNo.setError("please give contact number");
             }
             else{
                 //open location
@@ -351,7 +334,6 @@ public class RequestFragment extends Fragment {
         binding.EditQuantity.setText("");
         binding.editInformation.setText("");
         binding.verifyFile.setText("Upload Valid document");
-        binding.phoneNo.setText("");
     }
 
     private void showDialog() {
@@ -376,40 +358,7 @@ public class RequestFragment extends Fragment {
 
     }
 
-    private boolean checkContactPermission(){
 
-         boolean result= ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)== (PackageManager.PERMISSION_GRANTED);
-
-         return result;
-    }
-
-    private void requestContactPermission(){
-          String[] permission={Manifest.permission.READ_CONTACTS};
-        ActivityCompat.requestPermissions(getActivity(),permission,CONTACT_PERMISSION_CODE);
-    }
-
-    private void pickContactIntent(){
-          Intent intent=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-          startActivityForResult(intent,CONTACT_PICK_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(requestCode==CONTACT_PERMISSION_CODE)
-        {
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
-            {
-                pickContactIntent();
-            }
-            else
-            {
-                Toast.makeText(getContext(),"Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -417,42 +366,6 @@ public class RequestFragment extends Fragment {
         if(requestCode==REQ_PDF && resultCode==RESULT_OK && data!=null)
         {
             uploadToStorage(data.getData(),data);
-        }
-
-        if(requestCode==CONTACT_PICK_CODE && resultCode==RESULT_OK)
-        {
-            binding.phoneNo.setText("");
-
-
-            Cursor c = getActivity().getContentResolver().query(data.getData(), null, null, null, null);
-            String number="";
-            if (c.moveToFirst()) {
-
-
-                String id =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-
-                String hasPhone =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-                //String hasEmail =c.getString(c.getColumnIndex(ContactsContract.Contacts.Data.DATA1.));
-
-
-                if (hasPhone.equalsIgnoreCase("1")) {
-                    Cursor phones = getActivity().getContentResolver().query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id,
-                            null, null);
-                    phones.moveToFirst();
-                    number = phones.getString(phones.getColumnIndexOrThrow("data1"));
-                    binding.phoneNo.setText(number);
-                    mBlood.setPhone(number);
-                    CONTACT_UPLOAD_FLAG=true;
-                    phones.close();
-                }
-
-
-                c.close();
-            }
-
-
         }
 
     }

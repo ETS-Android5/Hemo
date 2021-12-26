@@ -51,7 +51,8 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ScheduleRequestAdapter.mViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ScheduleRequestAdapter.mViewHolder holder, @SuppressLint("RecyclerView") int pos) {
+        int position= holder.getAdapterPosition();
        holder.setItems(schedules.get(position).getName(),schedules.get(position).getBank(),schedules.get(position).getDate(),schedules.get(position).getTime());
         holder.approvedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,17 +76,19 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
         holder.declineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int actualPosition=holder.getAdapterPosition();
-                schedules.remove(actualPosition);
-                notifyItemRemoved(actualPosition);
-                notifyItemRangeChanged(actualPosition,schedules.size());
+
                 if(PENDING){
                     Approval(schedules.get(position).get_id(),"0");
+                    int actualPosition=holder.getAdapterPosition();
+                    schedules.remove(actualPosition);
+                    notifyItemRemoved(actualPosition);
+                    notifyItemRangeChanged(actualPosition,schedules.size());
+                    Toast.makeText(view.getContext(), "Declined",Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    Toast.makeText(view.getContext(), "Success",Toast.LENGTH_SHORT).show();
                     Success(schedules.get(position).get_id(),"0");
                 }
-                Toast.makeText(view.getContext(), "Declined",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:alpha="1"
         android:background="@drawable/primary_color_filled"
@@ -26,7 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_no" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_information" />
 
     <TextView
         android:id="@+id/textView"
@@ -278,30 +278,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/phone_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/primary_grey_outline"
-        android:drawableLeft="@drawable/ic_baseline_local_phone_24"
-        android:drawablePadding="8dp"
-        android:focusableInTouchMode="false"
-        android:fontFamily="@font/poppinsregular"
-        android:hint="Contact no of Care giver"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="12dp"
-        android:textColor="@color/Text"
-        android:textColorHint="@color/hint"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_information" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.ActivityEditProfileBinding;
 

@@ -1,20 +1,15 @@
 package com.dev334.blood.ui.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.dev334.blood.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.dev334.blood.databinding.ActivityAdminBinding;
-import com.dev334.blood.databinding.ActivityHomeBinding;
-import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Schedule;
-import com.dev334.blood.ui.home.BloodRequestAdapter;
-import com.dev334.blood.ui.home.HomeActivity;
 import com.dev334.blood.ui.home.ScheduleRequestAdapter;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;

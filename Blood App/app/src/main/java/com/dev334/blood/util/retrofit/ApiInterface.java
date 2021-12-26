@@ -54,4 +54,7 @@ public interface ApiInterface {
 
     @GET("api/admin/request")
     Call<List<Blood>> getAdminRequests(@Query("location")String location);
+
+    @PATCH("api/admin/request/verify")
+    Call<ApiResponse> markRequest(@Query("id")String id,@Query("verified")String verified);
  }

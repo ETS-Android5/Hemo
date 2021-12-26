@@ -117,7 +117,7 @@ exports.get_all_requests = async (req, res, next) => {
 exports.verify_request = async (req, res, next) => {
   try {
     const _id = req.query.id;
-    const verified = !!parseInt(req.query.id);
+    const verified = !!parseInt(req.query.verified);
     if (!verified) {
       await Blood.updateOne({ _id }, { verified, status: false });
     } else {

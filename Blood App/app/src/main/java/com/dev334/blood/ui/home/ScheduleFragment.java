@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -139,6 +140,7 @@ public class ScheduleFragment extends Fragment {
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.toString());
                     Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    showErrorDialog();
                     return;
                 }
                 Log.i(TAG, "onResponse: "+response.body());
@@ -146,6 +148,28 @@ public class ScheduleFragment extends Fragment {
                     Log.i(TAG, "onResponse: Successful");
                     showdialog();
                 }
+            }
+
+            private void showErrorDialog() {
+                final Dialog dialog=new Dialog(getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_error_404);
+
+                dialog.show();
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                Button goToHome=dialog.findViewById(R.id.go_to_home1);
+                goToHome.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((HomeActivity)getActivity()).openHomeFragment();
+                        dialog.dismiss();
+                    }
+                });
+
+
             }
 
             private void showdialog() {
@@ -159,7 +183,15 @@ public class ScheduleFragment extends Fragment {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimation;
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
-                clearAllfeilds();
+                Button goToHome=dialog.findViewById(R.id.go_to_home3);
+                goToHome.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((HomeActivity)getActivity()).openHomeFragment();
+                        dialog.dismiss();
+                    }
+                });
+
             }
 
             @Override
@@ -167,11 +199,6 @@ public class ScheduleFragment extends Fragment {
                 Log.i(TAG, "onFailure: "+t.getMessage());
             }
         });
-    }
-
-    private void clearAllfeilds() {
-        disableAllButton();
-        binding.bloodBank.setText("");
     }
 
     private void disableAllButton() {

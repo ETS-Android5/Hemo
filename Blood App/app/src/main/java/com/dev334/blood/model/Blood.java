@@ -3,6 +3,9 @@ package com.dev334.blood.model;
 import java.util.Date;
 
 public class Blood {
+    private String _id;
+
+
     private String user;
     private Double latitude;
     private Double longitude;
@@ -59,6 +62,15 @@ public class Blood {
     public String getFile() {
         return file;
     }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
 
     public void setFile(String file) {
         this.file = file;

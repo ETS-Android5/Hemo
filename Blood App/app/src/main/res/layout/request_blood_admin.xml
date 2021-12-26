@@ -108,7 +108,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/buttonMarkApp"
+                    android:id="@+id/btn_verify_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -121,7 +121,7 @@
                     android:textSize="14sp" />
 
                 <Button
-                    android:id="@+id/buttonDecline"
+                    android:id="@+id/btn_decline_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"

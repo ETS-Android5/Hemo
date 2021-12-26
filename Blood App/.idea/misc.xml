@@ -24,6 +24,7 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/home_bottom_curved_background.xml" value="0.20833333333333334" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_app_logo.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.14290540540540542" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.19537037037037036" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_assignment_turned_in_24.xml" value="0.19537037037037036" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.2169230769230769" />
@@ -62,7 +63,9 @@
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_map.xml" value="0.2" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/activity_map_bank.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/blood_bank_card.xml" value="0.20416666666666666" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/blood_request_card.xml" value="0.25" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/card_blood_bank.xml" value="0.20416666666666666" />
+        <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/dialog_blood_requested.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_bank_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_bank_map.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/Hemo/Blood App/app/src/main/res/layout/fragment_create_profile.xml" value="0.13243243243243244" />

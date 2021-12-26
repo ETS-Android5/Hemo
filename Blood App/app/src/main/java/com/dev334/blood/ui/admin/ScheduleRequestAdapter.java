@@ -46,7 +46,7 @@ public class ScheduleRequestAdapter extends RecyclerView.Adapter<ScheduleRequest
 
     @Override
     public void onBindViewHolder(@NonNull ScheduleRequestAdapter.mViewHolder holder, @SuppressLint("RecyclerView") int position) {
-       holder.setItems(schedules.get(position).getUser(),schedules.get(position).getBank(),schedules.get(position).getDate(),schedules.get(position).getTime());
+       holder.setItems(schedules.get(position).getName(),schedules.get(position).getBank(),schedules.get(position).getDate(),schedules.get(position).getTime());
         holder.approvedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

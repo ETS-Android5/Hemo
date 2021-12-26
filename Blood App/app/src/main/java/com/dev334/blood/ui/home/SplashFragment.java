@@ -31,7 +31,6 @@ public class SplashFragment extends Fragment {
     private AppConfig appConfig;
     private final String TAG= "SplashFragmentLog";
     private User user;
-    private List<Blood> blood;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,6 @@ public class SplashFragment extends Fragment {
                     if(response.code()==200){
                         Log.i(TAG, "onResponse: "+response.body());
                         ((HomeActivity)getActivity()).setBloodRequests(response.body());
-                        blood=((HomeActivity)getActivity()).getBloodRequests();
                     }
 
                 }
@@ -85,4 +83,5 @@ public class SplashFragment extends Fragment {
 
         return view;
     }
+
 }

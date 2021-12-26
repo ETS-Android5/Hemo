@@ -5,20 +5,31 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.FragmentProfileBinding;
+import com.dev334.blood.model.ApiResponse;
+import com.dev334.blood.model.Blood;
+import com.dev334.blood.model.Schedule;
 import com.dev334.blood.ui.admin.AdminActivity;
 import com.dev334.blood.ui.admin.AdminActivityRequest;
 import com.dev334.blood.ui.login.LoginActivity;
 import com.dev334.blood.util.app.AppConfig;
+import com.dev334.blood.util.retrofit.ApiClient;
+import com.dev334.blood.util.retrofit.ApiInterface;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -27,6 +38,8 @@ public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
     private String TAG="ProfileFragment";
     private AppConfig appConfig;
+    private Blood myRequest;
+    private Schedule mySchedule;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -163,4 +176,115 @@ public class ProfileFragment extends Fragment {
 
         return binding.getRoot();
     }
+
+    public void getUserRequest(){
+        Call<Blood> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
+                .getUserRequest(appConfig.getUserID());
+        call.enqueue(new Callback<Blood>() {
+            @Override
+            public void onResponse(Call<Blood> call, Response<Blood> response) {
+                if(!response.isSuccessful()){
+                    if(response.code()==404){
+                        Toast.makeText(getContext(), "No schedule", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Log.i(TAG, "onResponse:Error "+response.message());
+                    }
+                    return;
+                }
+
+                if(response.code()==200){
+                    Log.i(TAG, "onResponse: "+response.body());
+                    myRequest=response.body();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Blood> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
+    public void getUserSchedule(){
+        Call<Schedule> call = ApiClient.getApiClient(getContext()).create(ApiInterface.class)
+                .getUserSchedule(appConfig.getUserID());
+        call.enqueue(new Callback<Schedule>() {
+            @Override
+            public void onResponse(Call<Schedule> call, Response<Schedule> response) {
+                if(!response.isSuccessful()){
+                    if(response.code()==404){
+                        Toast.makeText(getContext(), "No blood request", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Log.i(TAG, "onResponse:Error "+response.message());
+                    }
+                    return;
+                }
+
+                if(response.code()==200){
+                    Log.i(TAG, "onResponse: "+response.body());
+                    mySchedule=response.body();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Schedule> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
+    public void removeUserRequest(){
+        Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class)
+                .removeRequest(appConfig.getUserID(), myRequest.get_id());
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
+                    Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
+    public void removeUserSchedule(){
+        Call<ApiResponse> call= ApiClient.getApiClient(getContext()).create(ApiInterface.class)
+                .removeSchedule(appConfig.getUserID(), mySchedule.get_id());
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG, "onResponse: "+response.code());
+                    Log.i(TAG, "onResponse: "+response.toString());
+                    Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "onResponse: "+response.body());
+                if(response.body().getStatus()==200){
+                    Log.i(TAG, "onResponse: Successful");
+                    Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+    }
+
 }

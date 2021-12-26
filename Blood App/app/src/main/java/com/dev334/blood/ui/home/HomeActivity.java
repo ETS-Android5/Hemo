@@ -37,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     private AppConfig appConfig;
     private User user;
     private List<Blood> bloods;
+    private Blood userBlood;
+
     private final String TAG="HomeActivityLog";
 
     @Override
@@ -172,4 +174,8 @@ public class HomeActivity extends AppCompatActivity {
         binding.bottomNavView.setSelectedItemId(R.id.nav_notification);
     }
 
+    public void setUserRequest(Blood body) {
+        Log.i(TAG, "setUserRequest: "+body);
+        userBlood=body;
+    }
 }

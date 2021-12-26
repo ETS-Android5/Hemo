@@ -268,6 +268,12 @@ public class RequestFragment extends Fragment {
               if(!response.isSuccessful()){
                     Log.i(TAG, "onResponse: "+response.code());
                     Log.i(TAG, "onResponse: "+response.toString());
+
+                  if(response.code()==450){
+                      Toast.makeText(getContext(), "You already have an existing request", Toast.LENGTH_SHORT).show();
+                      return;
+                  }
+
                     Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                     showErrorDialog();
                     return;

@@ -78,13 +78,16 @@ exports.blood_save_req = async (req, res, next)=>{
         }
 
         if(user.request){
-            next(createError(400, "Request already open"))
+            next(createError(450, "Request already open"))
             return;
         }
 
         const blood = new Blood(req.body);
         blood.name = user.name;
         blood.phone=user.phone;
+        user.request = true;
+
+        await user.save();
         await blood.save();
 
         res.status(200).send({
@@ -119,13 +122,16 @@ exports.blood_schedule = async (req, res, next)=>{
         }
 
         if(muser.schedule){
-            next(createError(400, "Schedule already open"))
+            next(createError(450, "Schedule already open"))
             return;
         }
 
         const schedule = new Schedule(req.body)
         schedule.name=muser.name;
         schedule.phone=muser.phone;
+
+        muser.schedule=true;
+        await muser.save();
         await schedule.save();
 
         
@@ -205,7 +211,7 @@ exports.remove_schedule = async (req, res, next)=>{
 
 exports.show_user_schedule = async (req, res, next)=>{
     try{
-        const user_id=req.body.user_id;
+        const user_id=req.query.user_id;
         const schedule = await Schedule.findOne({user: user_id, close: false})
         if(schedule){
             res.send(schedule);

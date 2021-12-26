@@ -2,14 +2,12 @@ package com.dev334.blood.util.retrofit;
 
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
-import com.dev334.blood.model.BloodBank;
 import com.dev334.blood.model.GovApiResponse;
 import com.dev334.blood.model.Schedule;
 import com.dev334.blood.model.User;
 
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -54,6 +52,9 @@ public interface ApiInterface {
     @PATCH("api/admin/schedule/approval")
     Call<ApiResponse> setApproval(@Query("id") String id,@Query("approval") String approval);
 
-    @PATCH("api/admin/schedule/status")
-    Call<ApiResponse> setSuccess(@Query("id") String id,@Query("approval") String approval);
+    @GET("api/admin/request")
+    Call<List<Blood>> getAdminRequests(@Query("location")String location);
+
+    @PATCH("api/admin/request/verify")
+    Call<ApiResponse> markRequest(@Query("id")String id,@Query("verified")String verified);
  }

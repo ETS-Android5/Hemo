@@ -5,23 +5,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.dev334.blood.R;
 import com.dev334.blood.databinding.FragmentProfileBinding;
 import com.dev334.blood.ui.admin.AdminActivity;
+import com.dev334.blood.ui.admin.AdminActivityRequest;
 import com.dev334.blood.ui.login.LoginActivity;
-import com.dev334.blood.ui.login.LoginFragment;
 import com.dev334.blood.util.app.AppConfig;
 
 public class ProfileFragment extends Fragment {
@@ -154,6 +150,16 @@ public class ProfileFragment extends Fragment {
                startActivity(intent);
             }
         });
+
+
+        binding.settingsAdminRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent=new Intent(getActivity(), AdminActivityRequest.class);
+               startActivity((intent));
+            }
+        });
+
 
         return binding.getRoot();
     }

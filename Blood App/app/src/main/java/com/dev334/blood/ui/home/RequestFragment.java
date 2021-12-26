@@ -32,6 +32,7 @@ import com.dev334.blood.database.TinyDB;
 import com.dev334.blood.databinding.FragmentRequestBinding;
 import com.dev334.blood.model.ApiResponse;
 import com.dev334.blood.model.Blood;
+import com.dev334.blood.util.app.AppConfig;
 import com.dev334.blood.util.retrofit.ApiClient;
 import com.dev334.blood.util.retrofit.ApiInterface;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +63,7 @@ public class RequestFragment extends Fragment {
     private boolean CONTACT_UPLOAD_FLAG=false;
     private static final int CONTACT_PERMISSION_CODE=1;
     private static final int CONTACT_PICK_CODE=2;
+    private AppConfig appConfig;
 
     StorageReference storageReference;
 
@@ -90,6 +92,7 @@ public class RequestFragment extends Fragment {
 
         mBlood = new Blood();
         tinyDB=new TinyDB(getContext());
+        appConfig=new AppConfig(getContext());
         storageReference= FirebaseStorage.getInstance().getReference();
 
         disableAllButton();
@@ -194,8 +197,8 @@ public class RequestFragment extends Fragment {
                 mBlood.setBlood(blood);
                 mBlood.setQuantity(Integer.parseInt(quantity));
                 mBlood.setInfo(info);
-                mBlood.setLocation("Noida");
-                mBlood.setUser("61bd9323f074c24a7140da57");
+                mBlood.setLocation(appConfig.getUserLocation());
+                mBlood.setUser(appConfig.getUserID());
                 ((HomeActivity)getActivity()).openMapActivity();
             }
 

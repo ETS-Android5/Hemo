@@ -314,6 +314,7 @@ public class RequestFragment extends Fragment {
         binding.EditQuantity.setText("");
         binding.editInformation.setText("");
         binding.verifyFile.setText("Upload Valid document");
+        binding.phoneNo.setText("");
     }
 
     private void showDialog() {
